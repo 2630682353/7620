@@ -1,0 +1,30 @@
+Index: mt7610e_wifi_v3006_dpa_20130613/os/linux/rt_linux.c
+===================================================================
+--- mt7610e_wifi_v3006_dpa_20130613.orig/os/linux/rt_linux.c
++++ mt7610e_wifi_v3006_dpa_20130613/os/linux/rt_linux.c
+@@ -37,8 +37,8 @@
+ #include "rt_os_util.h"
+ 
+ #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
+-#include "../../../../../../net/nat/hw_nat/ra_nat.h"
+-#include "../../../../../../net/nat/hw_nat/frame_engine.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/ra_nat.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/frame_engine.h"
+ #endif
+ 
+ /* TODO */
+Index: mt7610e_wifi_v3006_dpa_20130613/os/linux/rt_profile.c
+===================================================================
+--- mt7610e_wifi_v3006_dpa_20130613.orig/os/linux/rt_profile.c
++++ mt7610e_wifi_v3006_dpa_20130613/os/linux/rt_profile.c
+@@ -25,8 +25,8 @@
+  
+ #include "rt_config.h"
+ #if defined (CONFIG_RA_HW_NAT)  || defined (CONFIG_RA_HW_NAT_MODULE)
+-#include "../../../../../../net/nat/hw_nat/ra_nat.h"
+-#include "../../../../../../net/nat/hw_nat/frame_engine.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/ra_nat.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/frame_engine.h"
+ #endif
+ 
+ #ifdef SYSTEM_LOG_SUPPORT

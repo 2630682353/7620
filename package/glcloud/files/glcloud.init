@@ -1,0 +1,14 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+START=80
+
+start() {
+	glcloud &
+}
+
+stop() {
+	killall glcloud
+}
+
+

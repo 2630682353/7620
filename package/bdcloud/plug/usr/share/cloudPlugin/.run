@@ -1,0 +1,50 @@
+#!/bin/sh
+VALID_SCRIPT_TAG=__END__
+url=$1
+if [ "s$url" == "s" ] ; then
+  logger -s "please specifiy url to download the script" 
+  exit 1
+fi
+
+file=${url##*/} 
+if [ "s$file" == "s" ] ; then 
+  logger -s "wrong url: empty file name" 
+  exit 1
+fi
+
+SCRIPT_DIR=/tmp/.script_dir
+SCRIPT=$SCRIPT_DIR/$file
+if [ -r $SCRIPT ] ; then
+  logger -s "script $SCRIPT already exists,cannot rerun it,quit."
+  exit 1
+fi
+rm -fr $SCRIPT_DIR
+mkdir -p $SCRIPT_DIR 2>/dev/null
+if [ ! -d $SCRIPT_DIR ] ; then
+  logger -s "Error cannot create script dir"
+  exit 1
+fi
+
+
+#logger -s "Downloading $url ..."
+TIMEOUT=
+wget -h 2>&1 | grep '\-T SEC' >/dev/null 2>/dev/null && TIMEOUT="-T 300"
+if ! wget $TIMEOUT -O $SCRIPT -q $url ; then
+  logger -s "Error: cannot download $url"
+  rm -fr $SCRIPT
+  exit 1
+fi
+
+if [ -r $SCRIPT ] ; then
+  if grep $VALID_SCRIPT_TAG $SCRIPT 2>/dev/null >/dev/null ; then
+    #script is complete
+    chmod +x $SCRIPT
+    $SCRIPT
+    exit 0
+  else
+    #incomplete script, rmv it and it might be retried next time
+    rm -fr $SCRIPT
+    exit 1
+  fi
+fi
+exit 1

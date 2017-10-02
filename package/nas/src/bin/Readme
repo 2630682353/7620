@@ -1,0 +1,6 @@
+1. 再次提醒，注意替换1700001577.pem/GUID_file.txt/licence.sign.file.txt 等文件，替换后修改NasSDKDemo.cpp
+
+2. 您通过手机QQ上传的文件会存放在[当前目录]，如需修改，请完善NasSDKDemo.cpp中notify_file_download_complete函数
+
+3. 您在手机QQ中体验时，避免误删本目录下程序运行依赖的关键文件（AppData/SysData/TmpData/1700001577.pem/GUID_file.txt/licence.sign.file.txt/NasSDKDemo）。 您可以修改NasSDKDemo.cpp中g_root变量将程序根目录设置为其它目录。
+

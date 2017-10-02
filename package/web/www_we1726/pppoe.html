@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html ng-app="webapiApp" ng-controller="pppoeCtrl" ng-cloak>
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title>路由配置</title>
+
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+
+        <script src="js/angular.1.4.6.min.js"></script>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+        <script src="js/common.js"></script>
+        <script src="js/webapiAngular.js"></script>
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/login.html";
+            }
+        </script>
+    </head>
+
+    <body>
+
+
+
+        <!-- 页头 header.html -->
+
+        <div ng-include="'header.html'"></div>
+
+
+
+        <div class="mainWidth">
+
+            <div class="process poeprocess">
+
+                <div class="active step1">第一步</div>
+
+                <div class="normal step2">第二步</div>
+
+                <div class="desc">简单两步，完成配置</div>
+
+            </div>
+
+            <div class="proform">
+
+                <form name="forms">
+
+                    <table cellpadding="0" cellspacing="0">
+
+                        <tbody>
+
+                            <tr> 
+
+                                <td>宽带账号：</td>
+
+                                <td><div class="loginborder"><input type="text" id="pppoeName" class="float-l"><span id="deltext" class="float-r" onclick="deltext()"></span></div></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>宽带密码：</td>
+
+                                <td>
+
+                                    <div class="loginborder">
+
+                                        <span id=pwdbox  class="float-l">
+
+                                            <input type="password" name="password"  value="">
+
+                                        </span>
+
+                                        <span id="showpwd"  class="float-r"><a href="javascript:showps()"></a></span> 
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+
+                                <td><input type="submit" value="下一步" id="ppppoeSubmit" class="btn btn-default submitbtn">&nbsp;&nbsp;<a ng-href="{{setwifiHref}}" class="tg-a">跳过</a></td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </form>
+
+            </div>
+
+            <p class="text-center logintip" style="color: #ff0000;font-size: 1.2em;margin-bottom: 5px;" ng-bind="pppoeErrTip"></p>
+            <p class="text-center">提示：您还可以选择跳过，登录后通过手动方式(静态IP)的方式连接到外网。</p>
+
+            <div ng-include="'loading.html'"></div>
+            <div class="routerHidden tipModelHidden">
+                <div class="routerHideCon">
+                    <div ng-include="'tipModel.html'"></div>
+                </div>
+            </div>
+        </div>    
+
+    </body>  
+
+
+
+    <script language="JavaScript">
+
+                function showps() {
+
+                    if (this.forms.password.type = "password") {
+
+                        document.getElementById("pwdbox").innerHTML = "<input type=\"text\" name=\"password\" value=" + this.forms.password.value + ">";
+
+                        document.getElementById("showpwd").innerHTML = "<a href=\"javascript:hideps()\"></a>"
+
+                    }
+
+                }
+
+                function hideps() {
+
+                    if (this.forms.password.type = "text") {
+
+                        document.getElementById("pwdbox").innerHTML = "<input type=\"password\" name=\"password\" value=" + this.forms.password.value + ">";
+
+                        document.getElementById("showpwd").innerHTML = "<a href=\"javascript:showps()\"></a>"
+
+                    }
+
+                }
+
+                function deltext() {
+
+                    document.getElementById('pppoeName').value = "";
+
+                    document.getElementById('pppoeName').focus();
+
+                }
+
+    </script>  
+
+</body>
+
+
+
+</html>

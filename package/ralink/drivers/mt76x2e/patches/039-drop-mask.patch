@@ -1,0 +1,425 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_data.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_data.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_data.c
+@@ -4625,11 +4625,19 @@ VOID APHandleRxDataFrame(RTMP_ADAPTER *p
+ 			/* Trigger frame must be QoS data or QoS Null frame */
+ 	   		UCHAR  OldUP;
+ 
+-			OldUP = (*(pRxBlk->pData+LENGTH_802_11) & 0x07);
+-	    	if (OldPwrMgmt == PWR_SAVE)
+-	    		UAPSD_TriggerFrameHandle(pAd, pEntry, OldUP);
+-		}
++		    OldUP = (*(pRxBlk->pData+LENGTH_802_11) & 0x07);
++            if (OldPwrMgmt == PWR_SAVE)
++            {
++#ifdef DROP_MASK_SUPPORT
++                /* Disable Drop Mask */
++                set_drop_mask_per_client(pAd, pEntry, 2, 0);
++#endif /* DROP_MASK_SUPPORT */
++
++                UAPSD_TriggerFrameHandle(pAd, pEntry, OldUP);
++            }
++        }
+     }
++
+ #endif /* UAPSD_SUPPORT */
+ 
+ 	/* Drop NULL, CF-ACK(no data), CF-POLL(no data), and CF-ACK+CF-POLL(no data) data frame */
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_wpa.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_wpa.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_wpa.c
+@@ -825,7 +825,11 @@ VOID GREKEYPeriodicExec(
+ 						(pEntry->apidx == apidx))
+                 {
+ 					pEntry->GTKState = REKEY_NEGOTIATING;
+-						
++#ifdef DROP_MASK_SUPPORT
++                    /* Disable Drop Mask */
++                    set_drop_mask_per_client(pAd, pEntry, 1, 0);
++                    set_drop_mask_per_client(pAd, pEntry, 2, 0);
++#endif /* DROP_MASK_SUPPORT */
+                 	WPAStart2WayGroupHS(pAd, pEntry);
+                     DBGPRINT(RT_DEBUG_TRACE, ("Rekey interval excess, Update Group Key for  %x %x %x  %x %x %x , DefaultKeyId= %x \n",\
+ 										PRINT_MAC(pEntry->Addr), wdev->DefaultKeyId));
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_asic.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_asic.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_asic.c
+@@ -2592,3 +2592,43 @@ VOID RT28xxAndesWOWDisable(
+ 
+ #endif /* NEW_WOW_SUPPORT */
+ 
++#ifdef DROP_MASK_SUPPORT
++VOID asic_set_drop_mask(
++   PRTMP_ADAPTER ad,
++   USHORT  wcid,
++   BOOLEAN enable)
++{
++   UINT32 mac_reg = 0, reg_id, group_index;
++   UINT32 drop_mask = (1 << (wcid % 32));
++
++   /* each group has 32 entries */
++   group_index = (wcid - (wcid % 32)) >> 5 /* divided by 32 */;
++   reg_id = (TX_WCID_DROP_MASK0 + 4*group_index);
++   
++   RTMP_IO_READ32(ad, reg_id, &mac_reg);
++
++   mac_reg = (enable ? \
++               (mac_reg | drop_mask):(mac_reg & ~drop_mask));
++   RTMP_IO_WRITE32(ad, reg_id, mac_reg);
++   DBGPRINT(RT_DEBUG_TRACE,
++           ("%s(%u):, wcid = %u, reg_id = 0x%08x, mac_reg = 0x%08x, group_index = %u, drop_mask = 0x%08x\n",
++           __FUNCTION__, enable, wcid, reg_id, mac_reg, group_index, drop_mask));
++}
++
++
++VOID asic_drop_mask_reset(
++   PRTMP_ADAPTER ad)
++{
++   UINT32 i, reg_id;
++   
++   for ( i = 0; i < 8 /* num of drop mask group */; i++)
++   {
++       reg_id = (TX_WCID_DROP_MASK0 + i*4);
++       RTMP_IO_WRITE32(ad, reg_id, 0);
++   }
++
++   DBGPRINT(RT_DEBUG_TRACE, ("%s()\n", __FUNCTION__));
++}
++#endif /* DROP_MASK_SUPPORT */
++
++
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_data.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data.c
+@@ -3991,3 +3991,150 @@ BOOLEAN rtmp_rx_done_handle(RTMP_ADAPTER
+ 	return bReschedule;
+ }
+ 
++#ifdef DROP_MASK_SUPPORT
++VOID drop_mask_init_per_client(
++   PRTMP_ADAPTER   ad,
++   PMAC_TABLE_ENTRY entry)
++{
++   BOOLEAN cancelled = 0;
++   
++   if (entry->dropmask_timer.Valid)
++           RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
++   RTMPInitTimer(ad, &entry->dropmask_timer, GET_TIMER_FUNCTION(drop_mask_timer_action), entry, FALSE);
++   
++   NdisAllocateSpinLock(ad, &entry->drop_mask_lock);
++   
++   entry->tx_fail_drop_mask_enabled = 0;
++   entry->ps_drop_mask_enabled = 0;
++   asic_set_drop_mask(ad, entry->Aid, 0);
++
++   if ((ad->ApCfg.EntryClientCount >= 2) && IS_ENTRY_CLIENT(entry))
++       entry->pMbss->WPAREKEY.ReKeyMethod |= MAX_REKEY;
++}
++
++VOID drop_mask_release_per_client(
++   PRTMP_ADAPTER   ad,
++   PMAC_TABLE_ENTRY entry)
++{
++   BOOLEAN cancelled = 0;
++   
++   RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
++   RTMPReleaseTimer(&entry->dropmask_timer, &cancelled);
++   NdisFreeSpinLock(&entry->drop_mask_lock);
++
++   entry->tx_fail_drop_mask_enabled = 0;
++   entry->ps_drop_mask_enabled = 0;
++   asic_set_drop_mask(ad, entry->Aid, 0);
++
++   if (ad->ApCfg.EntryClientCount == 3)
++   {
++       /* clear drop mask before client number fall below to threshold */
++       drop_mask_per_client_reset(ad);
++   }
++}
++
++VOID drop_mask_per_client_reset(
++   PRTMP_ADAPTER   ad)
++{
++   INT i;
++   UINT32 max_wcid_num = MAX_LEN_OF_MAC_TABLE;
++   
++   for ( i = 0; i < max_wcid_num; i++)
++   {
++       PMAC_TABLE_ENTRY entry = &ad->MacTab.Content[i];
++       if (entry && (!IS_ENTRY_NONE(entry)))
++       {
++           NdisAcquireSpinLock(&entry->drop_mask_lock);
++           entry->tx_fail_drop_mask_enabled = 0;
++           entry->ps_drop_mask_enabled = 0;
++           NdisReleaseSpinLock(&entry->drop_mask_lock);
++
++           if (IS_ENTRY_CLIENT(entry))
++               entry->pMbss->WPAREKEY.ReKeyMethod &= (~MAX_REKEY);
++       }
++   }
++
++   asic_drop_mask_reset(ad);
++   
++}
++
++VOID set_drop_mask_per_client(
++   PRTMP_ADAPTER       ad,
++   PMAC_TABLE_ENTRY    entry,
++   UINT8               type,
++   BOOLEAN             enable)
++{
++   BOOLEAN cancelled = 0;
++   BOOLEAN write_to_mac = 0;
++   UINT32 timeout = 0;
++
++   if (ad->ApCfg.EntryClientCount < 3)
++       return;
++
++
++   switch (type)
++   {
++       case 1: /* set drop mask due to tx_fail too high */
++       {
++           write_to_mac = (enable ^ entry->tx_fail_drop_mask_enabled);
++           NdisAcquireSpinLock(&entry->drop_mask_lock);
++           entry->tx_fail_drop_mask_enabled = (enable ? 1:0);
++           NdisReleaseSpinLock(&entry->drop_mask_lock);
++           timeout = 10;
++           break;
++       }
++       case 2: /* set drop mask due to client is in power saving */
++       {
++           write_to_mac = (enable ^ entry->ps_drop_mask_enabled);
++           NdisAcquireSpinLock(&entry->drop_mask_lock);
++           entry->ps_drop_mask_enabled = (enable ? 1:0);
++           NdisReleaseSpinLock(&entry->drop_mask_lock);
++           timeout = 1000;
++           break;
++       }
++       default:
++           break;
++   }
++
++   RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
++
++   if (enable)
++   {       
++       RTMPSetTimer(&entry->dropmask_timer, timeout /* ms */);
++   }
++
++   /* if we don't need to change mac reg, just return */
++   if (!write_to_mac)
++       return;
++
++   if (enable) {
++       asic_set_drop_mask(ad, entry->Aid, enable);
++   } else {
++       if (!entry->tx_fail_drop_mask_enabled &&
++           !entry->ps_drop_mask_enabled)
++       {
++           asic_set_drop_mask(ad, entry->Aid, enable);
++       }
++   }
++}
++
++VOID  drop_mask_timer_action(
++   IN PVOID SystemSpecific1, 
++   IN PVOID FunctionContext, 
++   IN PVOID SystemSpecific2, 
++   IN PVOID SystemSpecific3)
++{
++   PMAC_TABLE_ENTRY     entry = (MAC_TABLE_ENTRY *)FunctionContext;
++   PRTMP_ADAPTER ad = (PRTMP_ADAPTER)entry->pAd;
++
++   /* Disable drop mask */
++   if (entry->tx_fail_drop_mask_enabled)
++       set_drop_mask_per_client(ad, entry, 1, 0);
++
++   if (entry->ps_drop_mask_enabled)
++       set_drop_mask_per_client(ad, entry, 2, 0);
++
++}
++#endif /* DROP_MASK_SUPPORT */
++
++
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/ps.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/ps.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/ps.c
+@@ -145,6 +145,11 @@ VOID RtmpHandleRxPsPoll(RTMP_ADAPTER *pA
+ 	pMacEntry = &pAd->MacTab.Content[wcid];
+ 	if (RTMPEqualMemory(pMacEntry->Addr, pAddr, MAC_ADDR_LEN))
+ 	{
++#ifdef DROP_MASK_SUPPORT
++        /* Disable Drop Mask */
++        set_drop_mask_per_client(pAd, pMacEntry, 2, 0);
++#endif /* DROP_MASK_SUPPORT */
++
+ 		/* Sta is change to Power Active stat. Reset ContinueTxFailCnt */
+ 		pMacEntry->ContinueTxFailCnt = 0;
+ 
+@@ -335,6 +340,10 @@ BOOLEAN RtmpPsIndicate(RTMP_ADAPTER *pAd
+ 
+ 		if ((old_psmode == PWR_SAVE) && (Psm == PWR_ACTIVE))
+ 		{
++#ifdef DROP_MASK_SUPPORT
++            /* Disable Drop Mask */
++            set_drop_mask_per_client(pAd, pEntry, 2, 0);
++#endif /* DROP_MASK_SUPPORT */
+ #ifdef RTMP_MAC_PCI
+ #ifdef DOT11_N_SUPPORT
+ 			/*
+@@ -349,7 +358,14 @@ BOOLEAN RtmpPsIndicate(RTMP_ADAPTER *pAd
+ 			/* sleep station awakes, move all pending frames from PSQ to TXQ if any */
+ 			RtmpHandleRxPsPoll(pAd, pAddr, pEntry->wcid, TRUE);
+ 		}
++#ifdef DROP_MASK_SUPPORT
++       else if ((old_psmode == PWR_ACTIVE) && (Psm == PWR_SAVE)) {
++           /* Enable Drop Mask */
++           set_drop_mask_per_client(pAd, pEntry, 2, 1);
++       }
++#endif /* DROP_MASK_SUPPORT */
+ 	}
++
+ 	return old_psmode;
+ }
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/rtmp_timer.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/rtmp_timer.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/rtmp_timer.c
+@@ -67,6 +67,9 @@ BUILD_TIMER_FUNCTION(APQuickResponeForRa
+ #ifdef IDS_SUPPORT
+ BUILD_TIMER_FUNCTION(RTMPIdsPeriodicExec);
+ #endif /* IDS_SUPPORT */
++#ifdef DROP_MASK_SUPPORT
++BUILD_TIMER_FUNCTION(drop_mask_timer_action);
++#endif /* DROP_MASK_SUPPORT */
+ 
+ #endif /* CONFIG_AP_SUPPORT */
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/mac_ral/rtmp_mac.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/mac_ral/rtmp_mac.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/mac_ral/rtmp_mac.h
+@@ -599,6 +599,7 @@ typedef	union _LED_CFG_STRUC {
+ #define TX_CHAIN_ADDR2_H	0x1058
+ #define TX_CHAIN_ADDR3_L	0x105C
+ #define TX_CHAIN_ADDR3_H	0x1060
++#define TX_WCID_DROP_MASK0  0x106C
+ 
+ #ifdef RT_BIG_ENDIAN
+ typedef union _TX_CHAIN_ADDR0_L_STRUC {
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+@@ -2117,6 +2117,12 @@ typedef struct _MAC_TABLE_ENTRY {
+ 	UCHAR EnqueueEapolStartTimerRunning;	/* Enqueue EAPoL-Start for triggering EAP SM */
+ 	RALINK_TIMER_STRUCT EnqueueStartForPSKTimer;	/* A timer which enqueue EAPoL-Start for triggering PSK SM */
+ 
++#ifdef DROP_MASK_SUPPORT
++    BOOLEAN tx_fail_drop_mask_enabled;
++    NDIS_SPIN_LOCK  drop_mask_lock;
++    BOOLEAN ps_drop_mask_enabled;
++    RALINK_TIMER_STRUCT dropmask_timer;
++#endif /* DROP_MASK_SUPPORT */
+ 
+ 	/* record which entry revoke MIC Failure , if it leaves the BSS itself, AP won't update aMICFailTime MIB */
+ 	UCHAR CMTimerRunning;
+@@ -8671,6 +8677,39 @@ INT set_rx_rts_cts(RTMP_ADAPTER *pAd, PS
+ 
+ 
+ 
++#ifdef DROP_MASK_SUPPORT
++VOID asic_set_drop_mask(
++   RTMP_ADAPTER *ad,
++   USHORT  wcid,
++   BOOLEAN enable);
++
++VOID asic_drop_mask_reset(
++   RTMP_ADAPTER *ad);
++
++VOID drop_mask_init_per_client(
++   RTMP_ADAPTER *ad,
++   MAC_TABLE_ENTRY *entry);
++
++VOID drop_mask_release_per_client(
++   RTMP_ADAPTER *ad,
++   MAC_TABLE_ENTRY *entry);
++
++VOID drop_mask_per_client_reset(
++   RTMP_ADAPTER *ad);
++
++VOID set_drop_mask_per_client(
++   RTMP_ADAPTER *ad,
++   MAC_TABLE_ENTRY *entry,
++   UINT8 type,
++   BOOLEAN enable);
++
++VOID drop_mask_timer_action(
++   PVOID SystemSpecific1, 
++   PVOID FunctionContext, 
++   PVOID SystemSpecific2, 
++   PVOID SystemSpecific3);
++#endif /* DROP_MASK_SUPPORT */
++
+ #ifdef PEER_DELBA_TX_ADAPT
+ VOID Peer_DelBA_Tx_Adapt_Init(
+ 	IN PRTMP_ADAPTER pAd,
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp_timer.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp_timer.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp_timer.h
+@@ -140,6 +140,10 @@ DECLARE_TIMER_FUNCTION(APQuickResponeFor
+ DECLARE_TIMER_FUNCTION(RTMPIdsPeriodicExec);
+ #endif /* IDS_SUPPORT */
+ 
++#ifdef DROP_MASK_SUPPORT
++DECLARE_TIMER_FUNCTION(drop_mask_timer_action);
++#endif /* DROP_MASK_SUPPORT */
++
+ #endif /* CONFIG_AP_SUPPORT */
+ 
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mgmt/mgmt_entrytb.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/mgmt/mgmt_entrytb.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mgmt/mgmt_entrytb.c
+@@ -393,6 +393,10 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
+ 			Peer_DelBA_Tx_Adapt_Init(pAd, pEntry);
+ #endif /* PEER_DELBA_TX_ADAPT */
+ 
++#ifdef DROP_MASK_SUPPORT
++            drop_mask_init_per_client(pAd, pEntry);
++#endif /* DROP_MASK_SUPPORT */
++
+ #ifdef CONFIG_AP_SUPPORT
+ 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+ 			{
+@@ -653,6 +657,9 @@ BOOLEAN MacTableDeleteEntry(
+ #endif /* WSC_AP_SUPPORT */
+ #endif /* CONFIG_AP_SUPPORT */
+ 
++#ifdef DROP_MASK_SUPPORT
++            drop_mask_release_per_client(pAd, pEntry);
++#endif /* DROP_MASK_SUPPORT */
+ 
+ //   			NdisZeroMemory(pEntry, sizeof(MAC_TABLE_ENTRY));
+ 			NdisZeroMemory(pEntry->Addr, MAC_ADDR_LEN);
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi_ap/Makefile
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi_ap/Makefile
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi_ap/Makefile
+@@ -524,6 +524,7 @@ EXTRA_CFLAGS += -DENHANCED_STAT_DISPLAY 
+ EXTRA_CFLAGS += -DRELEASE_EXCLUDE -DFIFO_EXT_SUPPORT
+ EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DPEER_DELBA_TX_ADAPT 
+ EXTRA_CFLAGS += -DSPECIFIC_TX_POWER_SUPPORT
++EXTRA_CFLAGS += -DDROP_MASK_SUPPORT
+ 
+ chip_objs += $(RT_WIFI_DIR)/phy/rt_rf.o\
+             $(RT_WIFI_DIR)/phy/mt_rf.o\

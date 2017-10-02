@@ -1,0 +1,60 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap.c	2014-01-03 15:53:33.000000000 +0800
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap.c	2014-03-12 11:17:12.936343747 +0800
+@@ -345,6 +345,17 @@
+ 		else
+ 			wdev->WpaMixPairCipher = MIX_CIPHER_NOTUSE;
+ 
++       if (wdev->WepStatus == Ndis802_11Encryption2Enabled ||
++           wdev->WepStatus == Ndis802_11Encryption3Enabled ||
++           wdev->WepStatus == Ndis802_11Encryption4Enabled)
++       {
++           RT_CfgSetWPAPSKKey(pAd, pMbss->WPAKeyString,
++                               strlen(pMbss->WPAKeyString),
++                               (PUCHAR)pAd->ApCfg.MBSSID[idx].Ssid,
++                               pAd->ApCfg.MBSSID[idx].SsidLen,
++                               pAd->ApCfg.MBSSID[idx].PMK);
++       }
++
+ 		/* Generate the corresponding RSNIE */
+ 		RTMPMakeRSNIE(pAd, wdev->AuthMode, wdev->WepStatus, idx);
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_cfg.c	2014-01-03 15:53:33.000000000 +0800
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c	2014-03-12 11:17:12.940343747 +0800
+@@ -6748,6 +6748,9 @@
+ 	if (retval == FALSE)
+ 		return FALSE;
+ 
++    /* Keep this key string */
++    strcpy(pAd->ApCfg.MBSSID[apidx].WPAKeyString, arg);
++
+ #ifdef WSC_AP_SUPPORT
+     NdisZeroMemory(pMBSSStruct->WscControl.WpaPsk, 64);
+     pMBSSStruct->WscControl.WpaPskLen = 0;
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h	2014-01-03 15:53:37.000000000 +0800
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h	2014-03-12 11:17:12.944343747 +0800
+@@ -1448,6 +1448,7 @@
+ 	UCHAR RSN_IE[2][MAX_LEN_OF_RSNIE];
+ 	
+ 	/* WPA */
++	UCHAR WPAKeyString[65];
+ 	UCHAR GMK[32];
+ 	UCHAR PMK[32];
+ 	UCHAR GTK[32];
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_profile.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_profile.c	2014-01-03 15:53:41.000000000 +0800
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_profile.c	2014-03-12 11:19:39.128341450 +0800
+@@ -1563,6 +1563,7 @@
+ 	ret = RT_CfgSetWPAPSKKey(pAd, tmpbuf, len, (PUCHAR)pAd->ApCfg.MBSSID[i].Ssid, pAd->ApCfg.MBSSID[i].SsidLen, pAd->ApCfg.MBSSID[i].PMK);
+ 	if (ret == FALSE)
+ 		return FALSE;
++	strcpy(pAd->ApCfg.MBSSID[i].WPAKeyString, tmpbuf);
+ 
+ #ifdef WSC_AP_SUPPORT
+ 	NdisZeroMemory(pAd->ApCfg.MBSSID[i].WscControl.WpaPsk, 64);

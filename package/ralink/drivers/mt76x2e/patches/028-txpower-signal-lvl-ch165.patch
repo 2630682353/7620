@@ -1,0 +1,128 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_cfg.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+@@ -13410,7 +13410,9 @@ INT RTMP_AP_IoctlHandle(
+ 			break;
+ 		case CMD_RTPRIV_IOCTL_AP_SIOCGIWTXPOW:
+ 		{
+-			UINT tmp = pAd->ApCfg.RssiSample.LastRssi0 - pAd->BbpRssiToDbmDelta;
++			//UINT tmp = pAd->ApCfg.RssiSample.LastRssi0 - pAd->BbpRssiToDbmDelta;
++			UINT tmp = pAd->CommonCfg.TxPowerShow;
++			DBGPRINT(RT_DEBUG_INFO, ("-->CMD_RTPRIV_IOCTL_AP_SIOCGIWTXPOW\n"));
+ 			NdisCopyMemory(pData, &tmp, 4);
+ 			//(UINT)*(pData) =  pAd->ApCfg.RssiSample.LastRssi0 - pAd->BbpRssiToDbmDelta;
+ 			break;
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/mt76x2.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+@@ -1096,7 +1096,7 @@ static void mt76x2_switch_channel(RTMP_A
+ 
+ 	/* per-rate power delta */
+ 	mt76x2_adjust_per_rate_pwr_delta(ad, channel, 0);
+-			
++	ad->CommonCfg.TxPowerShow= 16 + (cap->tx_pwr_a_band_ofdm_48_54);
+ 	andes_switch_channel(ad, channel, scan, bw, tx_rx_setting, bbp_ch_idx);
+ 
+ 	UINT32 eLNA_gain_from_e2p = 0;
+@@ -3505,11 +3505,20 @@ void percentage_delta_pwr(RTMP_ADAPTER *
+ 	}
+ 
+ 	if (bbp_drop_pwr == -6)
++	{
++		ad->CommonCfg.TxPowerShow += bbp_drop_pwr;
+ 		mdsm_drop_pwr = 0x01;
++	}
+ 	else if (bbp_drop_pwr == -12)
++	{
++		ad->CommonCfg.TxPowerShow += bbp_drop_pwr;
+ 		mdsm_drop_pwr = 0x02;
++	}
+ 	else
++	{
++		ad->CommonCfg.TxPowerShow += 6;
+ 		mdsm_drop_pwr = 0x00;
++	}
+ 	
+ 	DBGPRINT(RT_DEBUG_INFO, ("%s::drop the BBP transmit power by %d dBm!\n",
+ 		__FUNCTION__, 
+@@ -3520,6 +3529,8 @@ void percentage_delta_pwr(RTMP_ADAPTER *
+ 	bbp_val &= (~0x3);
+ 	bbp_val |= mdsm_drop_pwr;
+ 	RTMP_BBP_IO_WRITE32(ad, TXBE_R4, bbp_val);
++
++	ad->CommonCfg.TxPowerShow += mac_drop_pwr;
+ 	DBGPRINT(RT_DEBUG_INFO, ("%s::<After> total drop power = %d dBm, TXBE_R4 = 0x%0x\n",
+ 		__FUNCTION__, (mac_drop_pwr + bbp_drop_pwr), bbp_val));
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_cfg.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_cfg.c
+@@ -1912,11 +1912,18 @@ INT RTMP_COM_IoctlHandle(
+ #ifdef CONFIG_AP_SUPPORT
+ 			if (CurOpMode == OPMODE_AP)
+ 			{
++				//pStats->level = ConvertToRssi(pAd, pAd->CommonCfg.TxPowerShow, RSSI_0);
++#if 0
+ 				if (pMacEntry != NULL)
+ 					pStats->level =
+ 						RTMPMaxRssi(pAd, pMacEntry->RssiSample.AvgRssi0,
+ 										pMacEntry->RssiSample.AvgRssi1,
+ 										pMacEntry->RssiSample.AvgRssi2);
++#endif
++				pStats->level = RTMPMaxRssi(pAd, pAd->ApCfg.RssiSample.AvgRssi0,
++											pAd->ApCfg.RssiSample.AvgRssi1,
++											pAd->ApCfg.RssiSample.AvgRssi2);
++
+ 			}
+ #endif /* CONFIG_AP_SUPPORT */
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/rtmp_init.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/rtmp_init.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/rtmp_init.c
+@@ -2442,6 +2442,7 @@ VOID UserCfgInit(RTMP_ADAPTER *pAd)
+ 	pAd->CommonCfg.PhyMode = 0xff;     /* unknown*/
+ 	pAd->CommonCfg.SavedPhyMode = pAd->CommonCfg.PhyMode;
+ 	pAd->CommonCfg.BandState = UNKNOWN_BAND;
++	pAd->CommonCfg.TxPowerShow = 0; /* mw */
+ 
+ 	pAd->wmm_cw_min = 4;
+ 	switch (pAd->OpMode)
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+@@ -1965,7 +1965,7 @@ typedef struct _COMMON_CONFIG {
+ 	UINT	AckNOTimeout;
+ 	UINT	TcpAck[TCP_ACK_BURST_LEVEL+1];	/* 0~TCP_ACK_BURST_LEVEL */
+ #endif /* DELAYED_TCP_ACK */
+-
++	UCHAR   TxPowerShow;
+ } COMMON_CONFIG, *PCOMMON_CONFIG;
+ 
+ #ifdef DBG_CTRL_SUPPORT
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/ap_ioctl.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/os/linux/ap_ioctl.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/ap_ioctl.c
+@@ -333,7 +333,7 @@ INT rt28xx_ap_ioctl(struct net_device *n
+ 			break;
+ 		case SIOCGIWTXPOW:  /*get transmit power (dBm) */
+ 		{
+-			//DBGPRINT(RT_DEBUG_ERROR,("SIOCGIWTXPOW\n"));
++			DBGPRINT(RT_DEBUG_TRACE,("SIOCGIWTXPOW\n"));
+ 			int len;
+ 			UINT power;
+ 	              wrqin->u.txpower.value = 0;
+@@ -570,7 +570,7 @@ INT rt28xx_ap_ioctl(struct net_device *n
+ #endif
+ 
+ 				INT a_channel[]={36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 149, 153, 157, 161, 165};
+-				INT a_freq[] = {5180, 5200, 5220, 5240, 5260,5280,5300, 5320, 5500, 5520, 5540,5560,5580, 5600, 5620, 5640, 5660, 5680, 5700, 5745, 5765, 5785,5825};
++				INT a_freq[] = {5180, 5200, 5220, 5240, 5260,5280,5300, 5320, 5500, 5520, 5540,5560,5580, 5600, 5620, 5640, 5660, 5680, 5700, 5745, 5765, 5785, 5805, 5825};
+ 
+ 			        i = 0;
+ 			        {

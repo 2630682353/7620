@@ -1,0 +1,36 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, p, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{
+margin:0; padding:0; border:0; outline:0; }
+table {border-collapse: collapse;	border-spacing: 0;}
+body {font-family:"微软雅黑",Helvetica,Arial,sans-serif,"宋体"; font-size:14px;color:#505050; line-height:200%; background:#5fc0f2;} 
+
+ul, li{ list-style-type:none;}
+em, i{ font-style:normal;}
+img{zoom:1; vertical-align: middle;}
+.clear{clear:both;height:0px; font-size:0px; line-height:0px;display: block;}
+a{color:#4c84df;text-decoration: none; cursor:pointer!important;}
+a:hover{color:#4c84df;text-decoration:underline; outline:none;blr:expression(this.onFocus=this.blur());}
+input{ outline:none;}
+.cl_silver{color: #a7a7a7!important;}
+.cl_silver a{color: #a7a7a7!important;}
+.cl_silver a:hover{color: #a7a7a7!important;}
+.cl_green{color: #6dbe7c!important;}
+.cl_green a{color: #6dbe7c!important;}
+.cl_green a:hover{color: #6dbe7c!important;}
+.btn_silver a{ border: 1px solid #dedede;background: #f3f3f3;border-radius:5px; display: inline-block; padding: 0 15px; color:#505050; height: 28px; line-height: 28px; margin-left:14px;cursor: pointer;}
+.btn_silver a:hover{background: #f8f8f8;}
+
+.main{margin:0 auto 0 auto;}
+.main .box{ margin:2.5%;background: #ffffff;border-radius:8px; }
+.header{background: #f3f5f6;border-radius:8px 8px 0 0; height: 80px;border-bottom: 1px solid #d8e1e6; }
+.con{padding:40px 50px 60px 50px;*padding:0px;*margin:40px 50px 60px 54px;}
+
+.dl{}
+.dl_1{ border-bottom: 1px solid #e7e7e7;padding:0 0 20px 0;margin-bottom: 20px;}
+.dt{color: #000000;font-weight: bolder; margin-bottom:15px;}
+.dl_2{border-bottom: 1px solid #e7e7e7;padding:0 0 20px 0;margin-bottom: 20px; }
+.dl_3{}
+.dd_1{margin-bottom: 20px;}
+.dd_2{}
+.ddt{margin-bottom: 6px;}

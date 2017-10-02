@@ -1,0 +1,14 @@
+Index: procd-2013-10-09/watchdog.c
+===================================================================
+--- procd-2013-10-09.orig/watchdog.c
++++ procd-2013-10-09/watchdog.c
+@@ -95,6 +95,9 @@ void watchdog_init(int preinit)
+ {
+ 	char *env = getenv("WDTFD");
+ 
++	LOG("- skip procd watchdog -\n");
++    return; 
++
+ 	if (wdt_fd >= 0)
+ 		return;
+ 

@@ -1,0 +1,13 @@
+Index: libubox-2013-10-30/uloop.c
+===================================================================
+--- libubox-2013-10-30.orig/uloop.c
++++ libubox-2013-10-30/uloop.c
+@@ -650,7 +650,7 @@ void uloop_run(void)
+ 		if (uloop_cancelled)
+ 			break;
+ 
+-		if (do_sigchld)
++	//	if (do_sigchld)
+ 			uloop_handle_processes();
+ 		uloop_gettime(&tv);
+ 		uloop_run_events(uloop_get_next_timeout(&tv));

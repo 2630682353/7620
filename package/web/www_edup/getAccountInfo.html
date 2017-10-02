@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>Smart Wireless Router</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/config.js"></script>
+        <script type="text/javascript" src="js/layer/layer.js"></script>
+        <script type="text/javascript" src="js/router.js"></script>
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+    </head>
+
+    <body>
+        <!--
+        <div class="top">
+                <div class="wrap">
+                <div class="logo"></div>
+            </div>	
+        </div>
+        -->
+        <div class="wrap">
+            <h1>Internet / get account and password on the PPPoE.</h1>
+            <div class="guid">
+                <div class="guid-con">
+                    <div class="guid-img"><img src="images/help.png"></div>
+                    <div class="text">
+                        <h2>Get user name and password</h2>
+                        <p>Please plug power for two routers at the same time.It’s use original router WAN connect to routor LAN.</p>
+                        <p>
+                            <a href="javascript:;" class="btn layer-btn" id="goGet">Go Get</a>
+                            <a href="index.html" class="btn layer-btn cannel">Back</a>
+                        </p>
+                    </div>
+                </div>
+            </div>        
+        </div>
+
+
+
+        <!-- 获取宽带账号密码 -->
+        <div class="wifiConnectLayer" style="width: auto;height: 300px;" id="accountLayer">
+            <div class="bg"></div>
+            <div class="con">
+                <p>Get user name and password</p>
+                <div class="layer-t">
+                    <span class="dot d1"></span>
+                    <span class="dot d2 error"></span>
+                    <span class="dot d3"></span>
+                </div>
+                <p class="txt hide">getting...</p>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn cannel" id="cannel">Cancel</a>
+                    <input type="button" class="btn layer-btn inptBtn" id="getAccount" onclick="javascript:getPPPOEAccount();" value="Get">
+                </div>
+            </div>
+        </div>
+        <!-- 获取宽带账号密码 end-->
+
+        <!-- 获取成功 -->
+        <div class="wifiConnectLayer" style="height:auto;" id="sucLayer">
+            <div class="bg"></div>
+            <div class="con con2">
+                <div class="layer-suc"></div>
+                <p>Success</p>
+                <p>User Name：<em id="account_get"></em></p>
+                <p>Password：<em id="pwd_get"></em></p>
+                <div class="box">
+                    <a id="net_work" class="btn layer-btn">PPPOE</a>
+                </div>
+            </div>
+        </div>
+        <!-- 获取成功 end-->
+
+    </body>
+</html>

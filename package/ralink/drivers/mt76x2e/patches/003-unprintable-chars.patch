@@ -1,0 +1,54 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mcu/mcu_and.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/mcu/mcu_and.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mcu/mcu_and.c
+@@ -93,10 +93,10 @@ loadfw_protect:
+ 	}
+ 
+ 	/* get rom patch information */
+-	DBGPRINT(RT_DEBUG_OFF, ("build time = \n")); 
+-	
++	DBGPRINT(RT_DEBUG_OFF, ("build time = ["));
+ 	for (loop = 0; loop < 16; loop++)
+ 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + loop)));
++	DBGPRINT(RT_DEBUG_OFF, ("]\n"));
+ 
+ 	if (IS_MT76x2(ad)) {
+ 		if (((strncmp(cap->rom_patch, "20130809", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
+@@ -114,28 +114,26 @@ loadfw_protect:
+ 		}
+ 	}
+ 	
+-	DBGPRINT(RT_DEBUG_OFF, ("\n"));
+-
+-	DBGPRINT(RT_DEBUG_OFF, ("platform = \n"));
++	DBGPRINT(RT_DEBUG_OFF, ("platform = ["));
+ 
+ 	for (loop = 0; loop < 4; loop++)
+ 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 16 + loop)));
+ 	
+-	DBGPRINT(RT_DEBUG_OFF, ("\n"));
++	DBGPRINT(RT_DEBUG_OFF, ("]\n"));
+ 
+-	DBGPRINT(RT_DEBUG_OFF, ("hw/sw version = \n"));
++	DBGPRINT(RT_DEBUG_OFF, ("hw/sw version = ["));
+ 
+ 	for (loop = 0; loop < 4; loop++)
+-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 20 + loop)));
++		DBGPRINT(RT_DEBUG_OFF, ("%02x ", *(cap->rom_patch + 20 + loop)));
+ 	
+-	DBGPRINT(RT_DEBUG_OFF, ("\n"));
++	DBGPRINT(RT_DEBUG_OFF, ("]\n"));
+ 
+-	DBGPRINT(RT_DEBUG_OFF, ("patch version = \n"));
++	DBGPRINT(RT_DEBUG_OFF, ("patch version = ["));
+ 
+ 	for (loop = 0; loop < 4; loop++)
+-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 24 + loop)));
++		DBGPRINT(RT_DEBUG_OFF, ("%02x", *(cap->rom_patch + 24 + loop)));
+ 
+-	DBGPRINT(RT_DEBUG_OFF, ("\n"));
++	DBGPRINT(RT_DEBUG_OFF, ("]\n"));
+ 		
+ 
+ 	RTMP_IO_WRITE32(ad, PCIE_REMAP_BASE4, cap->rom_patch_offset - 10000);

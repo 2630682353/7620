@@ -1,0 +1,25 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/nfc.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/nfc.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/nfc.c
+@@ -22,6 +22,19 @@
+ #include    "rt_config.h"
+ 
+ #ifdef WSC_NFC_SUPPORT
++ #ifdef WSC_INCLUDED
++BOOLEAN WscProcessCredential(
++	IN PRTMP_ADAPTER pAdapter,
++	IN PUCHAR pPlainData,
++	IN INT PlainLength,
++	IN PWSC_CTRL pWscControl);
++INT RtmpOSNotifyRawData(
++     IN PNET_DEV pNetDev,
++     IN PUCHAR buff,
++     IN INT len,
++     IN ULONG type,
++     IN USHORT protocol);
++#endif/*WSC_INCLUDED*/
+ 
+ extern UINT8 WPS_DH_G_VALUE[1];
+ extern UINT8 WPS_DH_P_VALUE[192];
+

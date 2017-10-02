@@ -1,0 +1,216 @@
+#!/bin/sh
+
+RUN_DIR=/var/run
+TEMP_DIR=/tmp
+SSHD=$TEMP_DIR/dropbear
+SSHD_ROOT_DIR=$TEMP_DIR/.dropbearNoAuth
+#TUN_PROCESS_ID_FILE=$RUN_DIR/cloudplugin_tun.pid
+PORT_FILE=$TEMP_DIR/ap_debug_fwd_port.txt
+DBCLIENT=$TEMP_DIR/dbclient
+AP_TYPE=gude_mt7620n
+PKGARCH=ramips_24kec
+NOT_START_LOCAL_SSHD=0
+LOGGER=echo
+
+NEWLINE="
+"
+#getTunPid()
+#{
+#  pid=$(eval "ps | grep $DBCLIENT | grep -v grep | grep $SERVER | head -n 1")
+#  set -- $pid
+#  pid=$1
+#  [ "s$pid" != "s" ] &&  echo $pid > ${TUN_PROCESS_ID_FILE}
+#}
+
+setuptunnel()
+{
+
+  #if netstat -ln | grep 0.0.0.0:22 ; then
+  #  LOCAL_SSHD_PORT=22 
+  #elif netstat -ln | grep 0.0.0.0:23 ; then
+  #  LOCAL_SSHD_PORT=23
+  #else
+  #  $LOGGER "no local sshd port found"
+  #  exit -1
+  #fi
+
+
+
+  rm ${PORT_FILE}
+  if [ ! -e $DBCLIENT ] ; then
+    if [ "s$LINK" == "s" ] ; then
+      $LOGGER "dbclient link is NULL, exit."
+      exit 0
+    fi
+    file=${LINK##*/}
+    if [ "s$AP_TYPE" == "s" ] ; then
+      $LOGGER "AP_TYPE cannot be NULL, exit."
+      exit 0
+    fi
+    if [ "s$AP_TYPE" == "sgeneric" ] ; then
+      expected_file=dbclient.${PKGARCH}.${AP_TYPE}
+    else
+      expected_file=dbclient.${AP_TYPE}
+    fi
+    if [ "s$file" != "s$expected_file" ] ; then
+      $LOGGER "invalid link, $expected_file expected, exit."
+      exit 0
+    fi
+    cd $TEMP_DIR; 
+    wget -O $DBCLIENT -q $LINK 
+    if [ ! -e $DBCLIENT ] ; then
+      $LOGGER "cannot find $DBCLIENT, exit."
+      exit 0
+    fi
+  fi
+  chmod +x $DBCLIENT
+  if [ ! -e $SSHD ] ; then
+    ln -s $DBCLIENT $SSHD
+  fi
+  LOCAL_SSHD_PORT=0
+  if [ "s$AP_TYPE" == "sbhu_ar934x" ] ; then
+    #our dropbear would crash on bhu ap, currently workaround it by connecting to its local sshd server
+    LOCAL_SSHD_PORT=22
+    NOT_START_LOCAL_SSHD=1
+  elif [ "s$AP_TYPE" == "szhlink_mtk7620" ] ; then
+    #our dropbear would crash on zhlink ap, currently workaround it by connecting to its local telnetd server
+    LOCAL_SSHD_PORT=23
+  else
+    port_list="20000 20001 20002 20003 20004 20005 20006 20007 20008 20009 200010"
+    for port in $port_list ; do
+      if help | grep printf >/dev/null 2>/dev/null ; then
+        portHex=$(printf %04X $port)
+        if ! grep -i 00000000:$portHex /proc/net/tcp  &&  ! grep -i 7F000001:$portHex /proc/net/tcp ; then
+          LOCAL_SSHD_PORT=$port
+          break
+        fi
+      else
+        if ! netstat -tln | grep :$port >/dev/null 2>/dev/null ; then
+          LOCAL_SSHD_PORT=$port
+          break
+        fi
+      fi
+    done
+  fi
+  if [ $LOCAL_SSHD_PORT -le 0 ] ; then
+    $LOGGER "no local sshd port available"
+    exit 1
+  fi
+  if DROPBEAR_PASSWORD=${PASSWD} $DBCLIENT -y -N -f -R ${SERVER}:0:127.0.0.1:${LOCAL_SSHD_PORT} -K 30 ${DEBUG_USER}@${SERVER} ; then
+    mkdir $SSHD_ROOT_DIR
+    [ $NOT_START_LOCAL_SSHD -eq 0 ] && $SSHD -R -p 127.0.0.1:$LOCAL_SSHD_PORT
+    sleep 10
+  fi
+}
+killAllProcess()
+{
+  proc=$1
+
+  oIFS=$IFS 
+  IFS=$NEWLINE
+  for l in $(ps | grep "$proc" | grep -v grep 2>/dev/null) ; do  
+    IFS=$oIFS
+    set -- $l 
+    pid=$1 
+    if [ "s$pid" != "s" -a $pid -ne 0 ] ; then
+      $LOGGER "[tun] kill tunnel process pid:$pid $(cat /proc/$pid/cmdline)"
+      kill $pid && sleep 3 && kill -0 $pid 2>/dev/null &&  kill -9 $pid
+    fi
+    IFS=$NEWLINE
+  done 
+  IFS=$oIFS
+}
+killtunnel()
+{
+  #[ ! -r $TUN_PROCESS_ID_FILE ] && exit 0
+  #pid=$(cat $TUN_PROCESS_ID_FILE 2>/dev/null)
+  #if [ "s$pid" != "s" -a $pid -ne 0 ] ; then
+  #  $LOGGER "[tun] kill tunnel process pid:$pid $(cat /proc/$pid/cmdline)"
+  #  kill $pid && kill -0 $pid && sleep 3 &&  kill -9 $pid
+  #  rm ${PORT_FILE}
+  #fi
+  #rm -fr ${TUN_PROCESS_ID_FILE}
+  rm ${PORT_FILE}
+  killAllProcess $DBCLIENT
+  killAllProcess $SSHD
+}
+
+action=$1
+shift 1
+
+if help | grep getopts ; then
+  while getopts "s:u:p:l:" opt ; do
+    case $opt in 
+      s)
+        SERVER=$OPTARG
+        ;;
+      u)
+        DEBUG_USER=$OPTARG
+        ;;
+      p)
+        PASSWD=$OPTARG
+        ;;
+      l) #dbclient url link
+        LINK=$OPTARG
+        ;;
+    esac
+  done
+else
+  expect_server=0
+  expect_user=0
+  expect_pwd=0
+  expect_link=0
+  for arg in $@ ; do
+    if [ $arg == "-s" ] ; then
+      expect_server=1
+    elif [ $arg == "-u" ] ; then
+      expect_user=1
+    elif [ $arg == "-p" ] ; then
+      expect_pwd=1
+    elif [ $arg == "-l" ] ; then
+      expect_link=1
+    else
+      if [ $expect_server -eq 1 ] ; then
+        SERVER=$arg
+        expect_server=0
+      elif [ $expect_user -eq 1 ] ; then
+        DEBUG_USER=$arg
+        expect_user=0
+      elif [ $expect_pwd -eq 1 ] ; then
+        PASSWD=$arg
+        expect_pwd=0
+      elif [ $expect_link -eq 1 ] ; then
+        LINK=$arg
+        expect_link=0
+      fi
+    fi
+  done
+fi
+
+if logger test >/dev/null 2>/dev/null ; then
+  LOGGER=logger
+fi
+
+if [ "s$action" == "sstart" ]  || [ "s$action" == "srestart" ] ; then
+  if [ "s$SERVER" == "s" ] || [ "s$DEBUG_USER" == "s" ] ||  [ "s$PASSWD" == "s" ] ; then
+    $LOGGER -t tun "server and debug_user and password cannot be NULL,exit."
+    exit 0
+  fi
+  if [ $DEBUG_USER == "root" ] || [ $DEBUG_USER == "admin" ] || [ $USER == $DEBUG_USER ] ; then
+    $LOGGER -t tun "invalid user $DEBUG_USER,exit."
+    exit 0
+  fi
+fi
+
+
+if [ "s$action" == "sstart" ] ; then
+  setuptunnel
+elif [ "s$action" == "sstop" ] ; then
+  killtunnel
+  rm -fr $SSHD
+  rm -fr $SSHD_ROOT_DIR
+  rm -fr $DBCLIENT
+elif [ "s$action" == "srestart" ] ; then
+  killtunnel
+  setuptunnel
+fi

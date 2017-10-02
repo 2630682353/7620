@@ -1,0 +1,9 @@
+CPU:90
+MEM:90
+PROC:mu,0,6000
+PROC:dnsmasq,0,6000
+PROC:cloud_client,0,6000
+PROC:ioos,0,6000
+PROC:lighttpd,0,6000
+CONNECT:3000
+WIFINUM:50

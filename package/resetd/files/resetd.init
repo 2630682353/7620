@@ -1,0 +1,22 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+
+START=1
+
+RESET_FLAG=`cat /etc/firmware | grep RESET= | cut -b  7-`
+
+start() {
+	/usr/bin/resetd $RESET_FLAG
+}
+
+stop() {
+	killall -KILL resetd
+}
+
+
+restart() {
+	stop
+	start
+}

@@ -1,0 +1,34 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_profile.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/os/linux/rt_profile.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_profile.c
+@@ -47,12 +47,12 @@ struct dev_type_name_map{
+ #define xdef_to_str(s)   def_to_str(s) 
+ #define def_to_str(s)    #s
+ 
+-#define FIRST_EEPROM_FILE_PATH	"/etc_ro/Wireless/RT2860/"
+-#define FIRST_AP_PROFILE_PATH		"/etc/Wireless/RT2860/RT2860.dat"
++#define FIRST_EEPROM_FILE_PATH	"/etc_ro/Wireless/mt7602/"
++#define FIRST_AP_PROFILE_PATH		"/etc/Wireless/mt7602/mt7602.dat"
+ #define FIRST_CHIP_ID	xdef_to_str(CONFIG_RT_FIRST_CARD)
+ 
+-#define SECOND_EEPROM_FILE_PATH	"/etc_ro/Wireless/iNIC/"
+-#define SECOND_AP_PROFILE_PATH	"/etc/Wireless/iNIC/iNIC_ap.dat"
++#define SECOND_EEPROM_FILE_PATH	"/etc_ro/Wireless/mt7612/"
++#define SECOND_AP_PROFILE_PATH	"/etc/Wireless/mt7612/mt7612.dat"
+ #define SECOND_CHIP_ID	xdef_to_str(CONFIG_RT_SECOND_CARD)
+ 
+ static struct dev_type_name_map prefix_map[] =
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/os/rt_linux.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/os/rt_linux.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/os/rt_linux.h
+@@ -122,7 +122,7 @@ typedef struct usb_ctrlrequest devctrlre
+ #ifdef CONFIG_AP_SUPPORT
+ #ifdef RTMP_MAC_PCI
+ #if CONFIG_RT_SECOND_IF_RF_OFFSET == 0x48000
+-#define AP_PROFILE_PATH			"/etc/Wireless/iNIC/iNIC_ap.dat"
++#define AP_PROFILE_PATH			"/etc/Wireless/mt7612/mt7612.dat"
+ #define AP_RTMP_FIRMWARE_FILE_NAME "/etc_ro/Wireless/iNIC/RT2860AP.bin"
+ #ifdef SINGLE_SKU_V2
+ #define SINGLE_SKU_TABLE_FILE_NAME	"/etc_ro/Wireless/iNIC/SingleSKU.dat"

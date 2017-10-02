@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>触云智能路由器</title>
+<meta name="Keywords"  content="" />
+<meta name="Description" content="" />
+<link href="css/css.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/jLayout.js"></script>
+<script language="javascript" type="text/javascript" src="js/jcall.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+</head>
+<script>
+
+	function toGetPPPOEUrl(){
+		document.location = "getinfo_ing.html";
+	}
+	
+</script>
+<body>
+	<div class="main" id="mainDiv" style="width:390px;margin:54px auto ;"><!-- 此处phone端需判断并修改 style="margin-top:0px;width:auto;" -->
+		<div class="box height_same" id="mainBoxDiv" style="margin:0;"><!-- 此处phone端需判断并修改 style="margin:6%;height:auto;" -->
+			<div class="header header_other">
+				<div class="back cl_blue"><a href="admin.html">返回</a></div>
+				<div class="ali_c">获取宽带账号密码</div>
+			</div>
+			
+			 
+				<div class="con con3">
+					<div><img src="images/pic_get.gif"/></div>
+					<div class="inp_box">
+						<dl class="ddl">
+							<dd><input class="inp_enter" id="enter" type="submit" onclick="javascript:toGetPPPOEUrl();" value="去获取"></dd>
+						</dl>
+					</div>
+				</div>
+			 
+				
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</body>
+
+</html>
+<script>
+if(browser.versions.mobile){
+	$("#mainDiv").css("margin-top", "0px");
+	$("#mainDiv").css("width", "auto");
+	$("#mainBoxDiv").css("margin", "6%");
+	$("#mainBoxDiv").css("height", "auto");
+}
+</script>

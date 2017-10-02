@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0,minimal-ui" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>访客模式</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/router.js"></script>
+        <script>
+            if (!ap_router.getCookie('lstatus')) {
+                document.location = 'login.html';
+            }
+        </script>
+        <!--[if lte IE 6]> 
+        <div id="ie6-warning">您正在使用 Internet Explorer 6，在本页面的显示效果可能有差异。建议您升级到现代浏览器： <a href="http://www.google.com/chrome/?hl=zh-CN">Chrome</a> / <a href="http://www.mozillaonline.com/">Firefox</a> / <a href="http://www.apple.com.cn/safari/">Safari</a> / <a href="http://www.operachina.com/">Opera</a></div> 
+        <![endif]--> 
+    </head>
+
+    <body>
+        <div class="wrap" id="wrap">
+            <div class="menu">
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="client.html">拓展器连接终端</a></li>
+                    <li class="selected"><a href="visiter.html">访客模式</a></li>
+                    <li><a href="changeApName.html">更改拓展网络名称</a></li>
+                    <li><a href="system.html">系统管理</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <!-- 手机端头部 -->
+                <div class="m-top">
+                    <div class="nav-toggle" id="nav_toggle" onclick="ap_router.sliderBarToggle();">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <h1></h1>
+                </div>
+                <div id="nav">
+                    <ul>
+                        <li class="current"><a href="index.html">首页</a></li>
+                        <li><a href="client.html">拓展器连接终端</a></li>
+                        <li><a href="visiter.html">访客模式</a></li>
+                        <li><a href="changeApName.html">更改拓展网络名称</a></li>
+                        <li><a href="system.html">系统管理</a></li>
+                    </ul>
+                </div>
+                <!-- 手机端头部 end-->
+                <div class="ap-con">
+                    <div class="con-box">
+                        <h1 class="title">访客模式</h1>
+                        <div class="panel">
+                            <div class="tips">开启访客模式可授权免密码上网（开启时无线名称后辍为Guest）</div>
+                            <div class="visit-nav" id="visit_mode">
+                                <span class="nav_tit">访客模式：</span>
+                                <a href="javascript:;" id="guest_on" onclick="wifiGuestGet('set', 1, '', '', '')">开启</a>
+                                <a href="javascript:;" id="guest_off" onclick="wifiGuestGet('set', 0, '', '', '')" class="selected">关闭</a>
+                            </div>
+                            <div id="vset" class="reGuestList">
+                                <ul class="list v-list">
+                                    <li>
+                                        <span class="sp-l">WIFI名称</span>
+                                        <span class="sp-r">
+                                            <input type="text" class="inpt" id="wf_vnameset">
+                                        </span>
+
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">WIFI密码</span>
+                                        <span class="sp-r">
+                                            <input type="text" class="inpt"   id="wf_vpwdset">
+                                        </span>
+                                    </li>
+                                    <li class="nobd" style="margin:0;text-align:right"><input type="checkbox" id="hidden_vssid" class="chk">是否隐藏</li>
+                                    <li class="nobd"><a href="javascript:;" id="vwifi_set_confirm" onclick="vwifi_set_confirm();" class="btn visit-btn">确定</a></li>
+                                </ul>
+<!--                                <div class="client-list" id="visit_mode_div">
+                                    <ul class="visit-list visit-hd">
+                                        <li class="v-name">终端名称</li>
+                                        <li class="v-oper">未授权/授权</li>
+                                    </ul>
+                                    <ul class="visit-list visit-bd" id="guestList">
+                                    </ul>
+                                     <table class="visit-tb">
+                                        <thead>
+                                            <tr>
+                                                <td>终端名称</td>
+                                                <td>未授权/授权</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="guestList">
+
+                                        </tbody>
+                                    </table> 
+                                    <div class="btn-box"><a href="javascript:;" onclick="wifiGuestList('get')" class="btn s-btn">刷新</a></div>
+                                </div>-->
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+<script type="text/javascript">
+wifiGuestGet('get');
+</script>

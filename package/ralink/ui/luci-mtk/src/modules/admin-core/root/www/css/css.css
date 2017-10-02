@@ -1,0 +1,85 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, p, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{
+margin:0; padding:0; border:0; outline:0; }
+table {border-collapse: collapse;	border-spacing: 0;}
+body {font-family:"微软雅黑",Helvetica,Arial,sans-serif,"宋体"; font-size:14px;color:#505050; line-height:160%; background:#5fc0f2;} 
+
+ul, li{ list-style-type:none;}
+em, i{ font-style:normal;}
+img{zoom:1; vertical-align: middle;}
+.clear{clear:both;height:0px; font-size:0px; line-height:0px;display: block;}
+a{color:#505050;text-decoration: none; cursor:pointer!important;}
+a:hover{color:#4c84df;outline:none;blr:expression(this.onFocus=this.blur());text-decoration: underline;}
+input{ outline:none;}
+.cl_silver{color: #a7a7a7!important;}
+.cl_silver a{color: #a7a7a7!important;}
+.cl_silver a:hover{color: #a7a7a7!important;}
+.cl_green{color: #6dbe7c!important;}
+.cl_green a{color: #6dbe7c!important;}
+.cl_green a:hover{color: #6dbe7c!important;}
+.btn_silver a{ border: 1px solid #dedede;background: #f3f3f3;border-radius:5px; display: inline-block; padding: 0 15px; color:#505050; height: 28px; line-height: 28px; margin-left:14px;cursor: pointer;}
+.btn_silver a:hover{background: #f8f8f8;}
+.cl_blue{color: #3998de;}
+.cl_blue a{color: #3998de;}
+.ali_c{text-align: center;}
+
+.main{width:390px;margin:0 auto 0 auto;}
+.main .box{background: #ffffff;border-radius:8px; }
+.header{background: #f3f5f6;border-radius:8px 8px 0 0; height: 70px;border-bottom: 1px solid #d8e1e6;padding:0 22px;line-height: 70px;}
+.header .l{float: left;}
+.header .r{float: right;font-size: 18px;}
+.header_other{position: relative;font-size: 18px;}
+.header_other .back{position: absolute;left:22px;top:0; }
+
+.bar{ border-bottom: 1px solid #3998de; font-size: 16px;height: 62px; }
+.bar li{float: left;width: 33.33%;text-align: center;line-height:64px; height: 60px;overflow: hidden;}
+.bar li a{display: block;}
+.bar .tb_on{color: #3998de;border-bottom: 3px solid #3998de;}
+.bar .tb_on a{color: #3998de;}
+
+.con{padding:15px 20px;}
+.con2{padding:35px 20px 15px 20px;}
+.con3{padding:0 0 15px 0;text-align: center;}
+.con3 img{width: 100%;}
+.con4{padding:100px 0 40px 0;text-align: center;}
+.tip_txt{padding-bottom:15px;}
+
+.inp_box{}
+.inp_box .dl{ border:1px solid #e3e3e3;border-radius:4px;height: 34px;line-height: 34px;margin-bottom: 10px;padding-right:6px;clear: both;}
+.inp_box .sub_dl{padding-right: 0px;}
+.inp_box .dl dt{float: left;width:80px;border-right: 1px solid #e3e3e3;text-align: center;}
+.inp_box .dl dd{margin-left: 82px;}
+.inp_box .dl .dd_center{margin-right:45px;}
+.inp_box .dl .dd_tip{float: right;margin:0px;color: #d2d2d2!important; }
+.inp_box input{font-size: 14px;font-family:"微软雅黑",Helvetica,Arial,sans-serif,"宋体"; }
+.inp_text{border: 0px; height: 32px;color: #d2d2d2;background:none;text-indent:10px;float: left;*line-height: 32px;_line-height: 32px;width: 100%; }
+.inp_box .sub_dl{border: 0px;clear: both;height: auto;line-height:24px;}
+.inp_box .dl .sub_dt{border-right: 0px;float: none;margin-bottom: 10px;border:1px solid #e3e3e3;border-radius:4px; }
+.inp_box .dl .sub_dd{margin-left: 0px;margin-bottom: 10px;clear: both;}
+ 
+.inp_enter{background: #0091db;height: 34px; width: 116px;color: #ffffff;font-size: 14px;border-radius:4px;border: 0px;cursor: pointer; }
+.inp_enter:hover{background: #0088cd;}
+.inp_box .ddl{text-align:center;margin:30px 0 30px 0;} 
+.height_same{position: relative;}
+.btm{position: absolute;bottom: 20px;left:0px;width: 100%;}
+.btm .l{float:left;padding-left: 20px;}
+.btm .r{float:right;padding-right: 20px;}
+.ico{vertical-align: middle;margin-right: 5px;}
+
+.dl_text{margin:20px 30px 12px 30px;color: #3998de;border-bottom: 1px solid #dedede;padding-bottom: 12px; }
+.dl_text dt{font-size: 24px;margin: 0 0 5px 0; }
+.dl_text_2{padding:0 30px 10px 80px;text-align: left;color: #3998de;}
+
+.mac_copy{display: none;}
+.mac_copy_on{display: block;}
+.sub_dt .s1{display: block;cursor: pointer;}
+.sub_dt .s2{display: none;cursor: pointer;}
+.sub_dt_on .s1{display: none;}
+.sub_dt_on .s2{display: block;}
+
+.tbw{display: none;}
+.tbw_on{display: block;}
+
+
+ 

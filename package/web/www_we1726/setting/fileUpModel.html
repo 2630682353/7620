@@ -1,0 +1,35 @@
+<div class="fileUpModel"> <!-- MAC控制开始 -->
+
+    <div class="routerSetTit">
+
+        <a href="javascript:;" class="routerClose" onclick="closeSetDialog()"><img src="images/routerClose.png" ></a>
+
+        <span>上传固件</span>&nbsp;&nbsp;
+
+    </div>
+
+        <div class="wifiSet stateTop">
+
+            <form>
+
+                <div class="macdiv">
+                    <div class="fileName">文件名字：<span id="fileName" class="devDesc"></span></div>
+                </div>
+                <div class="macdiv">
+                    <div class="fileState">
+                        <span><img src="images/updataOk.png">上传成功，是否更新固件？</span>
+                        <!-- <span><img src="images/updataErr.png">上传失败，请重新选择文件！</span> -->
+                    </div>
+                </div>
+                <div class="macdiv">
+                    <p class="fileTip text-center"><span class="devDesc">提醒：升级过程将会持续一段时间，在此期间不能关闭设备电源，否则将导致设备损坏而不能使用。升级结束后，设备会自动重新重启，请稍后。</span></p>
+                </div>
+                <div class="SetWifiSub">
+                    　&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-default" value=" 更 新 "  ng-click="doUpload()">&nbsp;&nbsp;
+                    <input type="reset" class="btn" value=" 取 消 " onclick="closeSetDialog()">
+                </div>
+
+            </form>
+
+        </div>
+</div> <!-- 结束 -->

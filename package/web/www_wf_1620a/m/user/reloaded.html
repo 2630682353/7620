@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>定时重启-路由器设置</title>
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/mobiscroll.custom-2.14.4.min.css">
+        <link rel="stylesheet" href="../../css/m_router.css">
+        <script type="text/javascript" src="../../js/jquery.js"></script>
+        <script type="text/javascript" src="../../js/mobiscroll-2.14.4-crack.js"></script>
+        <script type="text/javascript" src="../../js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="../../js/layer.m/layer.m.js"></script>
+        <script type="text/javascript" src="../../js/jquery.md5.js"></script>
+        <script type="text/javascript" src="../../js/common.js"></script>
+        <script type="text/javascript" src="../../js/config.js"></script>
+        <script type="text/javascript" src="../../js/router.js"></script>
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+    </head>
+
+    <body>
+        <style>
+            .layermbtn span:first-child{ background-color:#056b9c;}
+        </style>
+        <div class="wrap">
+            <div class="top"><a href="manage.html" class="goback"><i></i></a>路由器定时重启</div>
+
+            <div class="swichBox nomg"><span class="fl">定时重启</span><a href="javascript:;" id="reload" class="swichBtn"></a></div>
+
+            <!-- 2.4G无线设置 -->	
+            <div class="sub" style="margin-top:1rem;display:none;" id="retime">
+                
+                <!-- WIFI时间设置 -->	
+                <div style="margin-top:1rem;">
+                	<p class="d-title nobd">循环<a href="javascript:;" id="creload" class="swichBtn"></a></p>
+
+                    <p class="d-title">时间</p>
+                    <div class="time-choose">
+                        <ul class="time-box nobd">
+                            <li style="width:100%"><input type="text" data-role="timebox" class="timeinpt"  id="rtime" name="start" value="00:00"/><span>选择时间</span></li>  
+                        </ul>
+                    </div>
+                    <p class="d-title nobd">重复</p>
+                    <div class="day-choose">
+                        <a href="javascript:;">日</a>
+                        <a href="javascript:;">一</a>
+                        <a href="javascript:;">二</a>
+                        <a href="javascript:;">三</a>
+                        <a href="javascript:;">四</a>
+                        <a href="javascript:;">五</a>
+                        <a href="javascript:;">六</a>
+                    </div>   
+                    <div class="btn-box"><a href="javascript:;" class="btn" id="rsaveBtn">保存</a></div> 
+                </div>
+                <!-- WIFI时间设置 end-->
+            </div> 
+            <!-- 2.4G无线设置 end-->	
+        </div>
+
+    </body>
+</html>
+
+<script type="text/javascript">
+	getTimeRe_m();
+    $(function () {
+        var opt = {
+            preset: 'time', //日期
+            setText: '确定', //确认按钮名称
+            cancelText: '取消', //取消按钮名称
+            timeFormat: 'HH:ii',
+            timeWheels: 'HHii'
+        };
+        $('#rtime').mobiscroll(opt);
+
+        $(".day-choose a").click(function () {
+            $(this).toggleClass("selected");
+        });
+
+        $("#reload").click(function () {
+            if ($(this).hasClass("close-btn")) {
+                $(this).parent().next().hide();
+                setretime(0);
+            } else {
+                $(this).parent().next().show();
+            }
+        });
+
+        $("#rsaveBtn").click(function() {
+	        setretime(1);
+	    });
+    });
+
+function setretime(swich){
+    var startTime = $('#rtime').val().split(':');
+    var startHour = startTime[0];
+    var startMin = startTime[1];
+    var week = '';
+    var loop = 1;
+    var i=0;
+    $(".day-choose a").each(function (index) {
+        if ($(this).hasClass('selected')) {
+            week += '1';
+        	i++;
+        } else {
+            week += '0';
+        }
+    });
+
+    if ($("#creload").hasClass('close-btn')) {
+        loop = 0;
+    }
+
+    if ((i > 1 || week == '1111111') && loop == 0 && swich == 1) {
+        getMsg('循环重启关闭,只能选择一天');
+        return;
+    }
+
+    if (week == '0000000' && swich == 1) {
+        getMsg('请勾选星期');
+        return;
+    }
+
+    setTimeRe(swich, loop, week, startHour, startMin);
+}
+
+</script>

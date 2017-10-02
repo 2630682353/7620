@@ -1,0 +1,1261 @@
+/*前匹配项,备注名,后匹配项,备注名起始字节,备注名结束符,备注名字节数,厂商ID*/
+/********************华为********************/
+#HUAWEI A199,A199
+HUAWEI A199,A199,,,,0,1
+
+#HUAWEI G750-T01 Build,荣耀3X
+#HUAWEI G750-T20 Build,荣耀3X
+#HUAWEI G750-T00 Build,荣耀3X
+#HUAWEI G750-T01 Build,荣耀3X
+HUAWEI G750-T,荣耀3X, Build,,,0,1
+
+#HUAWEI HN3-U01 Build,荣耀3
+HUAWEI HN3-U01 Build,荣耀3,,,,0,1
+
+#HUAWEI G7-TL00 Build,荣耀6
+HUAWEI G7-TL00 Build,荣耀6,,,,0,1
+
+#HUAWEI P6-T00V,P6
+#HUAWEI P6-C00 Build,P6
+#HUAWEI P6-T00 Build,P6
+#HUAWEI P6-U06 Build,P6
+#HUAWEI P7-L05 Build,P7
+#HUAWEI P7-L07 Build,P7
+#HUAWEI P7-L09 Build,P7
+HUAWEI P,, Build,7,-,2,1
+
+#HUAWEI MT1-T00 Build,Mate1
+#HUAWEI MT1-U06 Build,Mate1
+#HUAWEI MT7-TL00 Build,Mate7
+#HUAWEI MT2-C00 Build,Mate2
+#HUAWEI MT2-L05 Build,Mate2
+#HUAWEI MT7-TL10 Build,Mate7
+#HUAWEI MT7-CL00 Build,Mate7
+#HUAWEI MT7-TL00 Build,Mate7
+HUAWEI MT,, Build,7,-,3,1
+
+#HUAWEI B199 Build,B199
+#HUAWEI C8813 Build,C8813
+#HUAWEI C8813D Build,C8813D
+#HUAWEI C8815 Build,C8815
+#HUAWEI C8816 Build,C8816
+#HUAWEI C199 Build,C199
+#HUAWEI C8813Q Build,C8813Q
+#HUAWEI C8825D Build,C8825D
+#HUAWEI C8950D Build,C8950D
+#HUAWEI C8812 Build,C8812
+#HUAWEI D2-0082 Build,D2-0082
+#HUAWEI G610-T11 Build,G610-T11
+#HUAWEI G730-T00 Build,G730-T00
+#HUAWEI G730-U00 Build,G730-U00
+#HUAWEI G521-L076 Build,G521-L076
+#HUAWEI G510-0010 Build,G510-0010
+#HUAWEI G660-L075 Build,G660-L075
+#HUAWEI G520-0000 Build,G520-0000
+#HUAWEI G700-U00 Build,G700-U00
+#HUAWEI G520-5000 Build,G520-5000
+#HUAWEI G718 Build,G718
+#HUAWEI G730-C00 Build,G730-C00
+#HUAWEI G7-UL20 Build,G7-UL20
+#HUAWEI C8816D Build,C8816D
+#HUAWEI G620-L72 Build,G620-L72
+#HUAWEI G6-T00 Build,G6-T00
+#HUAWEI T8951 Build,T8951
+#HUAWEI U9508 Build,U9508
+#HUAWEI U8950D Build,U8950D
+#HUAWEI Y511-T00 Build,Y511-T00
+#HUAWEI Y330-C00 Build,Y330-C00
+#HUAWEI Y321-C00 Build,Y321-C00
+#HUAWEI Y320-C00 Build,Y320-C00
+#HUAWEI Y320-T00 Build,Y320-T00
+#HUAWEI Y600D-C00 Build,Y600D-C00
+#HUAWEI Y618-T00 Build,Y618-T00
+#HUAWEI Y610-U00 Build,Y610-U00
+#HUAWEI Y200 Build,Y200
+#HUAWEI Y220T Build,Y220T
+#HUAWEI Y518-T00 Build,Y518-T00
+HUAWEI ,, Build,7, ,0,1
+
+#HONOR H30-L01 Build,荣耀3C
+#HONOR H30-L01M Build,荣耀3C
+#HONOR H30-L02 Build,荣耀3C
+HONOR H30-L0,荣耀3C, Build,,,0,1
+
+#H30-T00 Build,荣耀3C
+H30-T00 Build,荣耀3C,,,,0,1
+
+#H30-U10 Build,荣耀3C
+H30-U10 Build,荣耀3C,,,,0,1
+
+#H60-L01 Build,L01
+#H60-L03 Build,L03
+#H60-L12 Build,L12
+#H60-L02 Build,荣耀6
+#H60-L21 Build,荣耀6
+H60-L,荣耀6, Build,,,0,1
+
+#PE-CL00 Build,荣耀6 Plus
+PE-CL00 Build,荣耀6 Plus,,,,0,1
+
+#PE-UL00 Build,荣耀6 Plus
+PE-UL00 Build,荣耀6 Plus,,,,0,1
+
+#G621-TL00 Build,荣耀畅玩4
+#G621-TL00M Build,荣耀畅玩4
+G621-TL00,荣耀畅玩4, Build,,,0,1
+
+#Che2-TL00M Build,Che2-TL00M
+#Che2-TL00 Build,荣耀畅玩4X
+Che2-TL00,荣耀畅玩4X, Build,,,0,1
+
+#Che2-UL00 Build,Che2-UL00
+Che2-UL00,荣耀畅玩4X, Build,,,0,1
+
+#Che1-CL20 Build,荣耀畅玩4X
+#Che1-CL10 Build,Che1-CL10
+Che1-CL,荣耀畅玩4X, Build,,,0,1
+
+#G620-L75 Build,G620-L75
+
+#MediaPad X1 7.0 Build,X1
+MediaPad,, Build,9, ,0,1
+
+/********************小米********************/
+#MI PAD MIUI,Pad
+MI PAD MIUI,,,3, ,0,2
+
+#MiTV2 Build,MiTV2
+
+#MiBOX_mini Build,盒子
+#MiBOX_iCNTV Build,盒子
+#MiBOX2 Build,盒子
+#MiBOX1S Build,盒子
+MiBOX,盒子, Build,,,0,2
+
+#MI 1SC MIUI,1S
+#MI 1S MIUI,1S
+MI 1S,, MIUI,3, ,0,2
+
+#MI-ONE MIUI,1
+#MI-ONE Plus MIUI,1
+MI-ONE ,, MIUI,3, ,3,2
+
+#MI 2 MIUI,2
+#MI 2A MIUI,2A
+#MI 2SC MIUI,2S
+#MI 2S MIUI,2S
+#MI 3C MIUI,3
+#MI 3 MIUI,3
+#MI 3W MIUI,3
+#MI 4C MIUI,4
+#MI 4LTE MIUI,4
+#MI 4W MIUI,MI4
+#MI NOTE LTE MIUI,NOTE
+MI ,, MIUI,3, ,0,2
+
+#2013023 MIUI,红米1
+2013023 MIUI,红米1,,,,0,2
+
+#2013022 MIUI,红米1
+2013022 MIUI,红米1,,,,0,2
+
+#2014011 MIUI,红米1S
+2014011 MIUI,红米1S,,,,0,2
+
+#2014501 MIUI,红米1S
+2014501 MIUI,红米1S,,,,0,2
+
+#2014812 MIUI,红米2
+2014812 MIUI,红米2,,,,0,2
+
+#2014112 MIUI,红米2
+2014112 MIUI,红米2,,,,0,2
+
+#2014811 MIUI,红米2
+2014811 MIUI,红米2,,,,0,2
+
+#2014813 MIUI,红米2
+2014813 MIUI,红米2,,,,0,2
+
+#HM 1SC MIUI,红米1S
+#HM 1SW MIUI,红米1S
+HM 1S,红米1S, MIUI,,,0,2
+
+#HM NOTE 1S MIUI,红米NOTE
+#HM NOTE 1TD MIUI,红米NOTE
+#HM NOTE 1W MIUI,红米NOTE
+#HM NOTE 1LTETD MIUI,红米NOTE
+#HM NOTE 1LTEW MIUI,红米NOTE
+#HM NOTE 1LTE MIUI,红米NOTE
+HM NOTE 1,红米NOTE, MIUI,,,0,2
+
+#HM 2A MIUI,2A
+HM 2A MIUI,红米2A,,,,0,2
+
+#HM 2LTE-CMCC MIUI,红米2
+HM 2LTE-CMCC MIUI,红米2,,,,0,2
+
+/********************魅族********************/
+#M040 Build,MX2
+M040 Build,MX2,,,,0,3
+
+#M353 Build,MX3
+M353 Build,MX3,,,,0,3
+
+#MX4 Build,MX4
+MX4 Build,MX4,,,,0,3
+
+#MX4 Pro Build,MX4 Pro
+MX4 Pro Build,MX4 Pro,,,,0,3
+
+#m1 note Build
+m1 note Build,魅蓝note,,,,0,3
+
+#M356 Build,M356
+#M032 Build,M032
+#M045 Build,M045
+#M355 Build,M355
+#M351 Build,M351
+#M300 Build,M300
+#M512 Build,M512
+#M601 Build,M601
+#M701 Build,M701
+#M7007 Build,M7007
+#M463C Build,M463C
+#M030 Build,M030
+#M1 Build,M1
+#M3 Build,M3
+#M5 Build,M5
+#M6 Build,M6
+#M9 Build,M9
+
+/********************HTC火腿肠********************/
+#HTC J One Build,J One
+HTC J One Build,One,,,,0,7
+
+#HTC S720e Build,S720e
+#HTC T329t Build,T329t
+#HTC 8088 Build,8088
+#HTC D816w Build,D816w
+#HTC T329d Build,T329d
+#HTC T528t Build,T528t
+#HTC X920e Build,X920e
+#HTC 609d Build,609d
+#HTC M8t Build,M8t
+#HTC 809d Build,809d
+#HTC D816d Build,D816d
+#HTC D816t Build,D816t
+#HTC T327t Build,T327t
+#HTC T328t Build,T328t
+#HTC One X Build,S720e
+#HTC One Build,One
+#HTC Desire S Build,Desire S
+#HTC Desire HD A9191 Build,Desire HD A9191
+#HTC D820t Build,D820t
+#HTC D820u Build,D820u
+#HTC D820ts Build,D820ts
+#HTC 802t Build,802t
+#HTC 802t 16GB Build,802t
+#HTC 802d Build,802d
+#HTC 802w Build,802w
+HTC ,, Build,4, ,0,7
+
+/********************三星********************/
+#SM-N9005 Build,NOTEⅢ
+#SM-N9002 Build,NOTEⅢ
+#SM-N9007 Build,NOTEⅢ
+#SM-N9008 Build,NOTEⅢ
+#SM-N9008V Build,NOTEⅢ
+#SM-N9009 Build,NOTEⅢ
+#SM-N9006 Build,NOTEⅢ
+#SM-N900 Build,NOTEⅢ
+SM-N900,NOTEⅢ, Build,,,0,9
+
+#SM-G9006V Build,GALAXY S5
+#SM-G9008V Build,GALAXY S5
+#SM-G9009D Build,GALAXY S5
+SM-G900,GALAXY S5, Build,,,0,9
+
+#SM-G7108V Build,GALAXY GRAND 2
+SM-G7108V Build,GALAXY GRAND 2,,,,0,9
+
+#SM-N9100 Build,Note4
+SM-N9100 Build,Note4,,,,0,9
+
+#SM-N7506V Build,N7506V
+#SM-G3502 Build,SM-G3502
+#SM-G3508I Build,G3508I
+#SM-G7106 Build,G7106
+#SM-G7108 Build,G7108
+#SM-P600 Build,P600
+#SM-T231 Build,T231
+#SM-T321 Build,T321
+#SM-G5108 Build,G5108
+#SM-T705C Build,T705C
+#SM-A3009 Build,A3009
+#SM-A5000 Build,A5000
+#SM-A7000 Build,A7000
+#SM-G3608 Build,G3608
+#SM-G7200 Build,G7200
+#SM-G7508Q Build,G7508Q
+#SM-N9108V Build,N9108V
+#SM-G3568V Build,G3568V
+#SM-G9008W Build,G9008W
+#SM-G900F Build,G900F
+#SM-N900V Build,N900V
+#SM-G3139D Build,G3139D
+#SM-G3502I Build,G3502I
+#SM-G3509I Build,G3509I
+#SM-G3588V Build,G3588V
+#SM-G7109 Build,G7109
+#SM-N7508V Build,N7508V
+#SM-C101 Build,C101
+#SM-G3502U Build,G3502U
+#SM-G3812 Build,G3812
+#SM-G3818 Build,G3818
+#SM-T311 Build,T311
+#SM-G3819D Build,G3819D
+#SM-T211 Build,T211
+SM-,, Build,0, ,0,9
+
+#SCH-I959 Build,GALAXY S4
+SCH-I959 Build,GALAXY S4,,,,0,9
+
+#SCH-N719 Build,SCH-N719
+#SCH-N719 Build,SCH-N719
+#SCH-P709E Build,SCH-P709E
+#SCH-I879 Build,SCH-I879
+#SCH-I939D Build,SCH-I939D
+#SCH-I739 Build,SCH-I739
+#SCH-I739 Build,SCH-I739
+#SCH-I869 Build,SCH-I869
+#SCH-I939 Build,SCH-I939
+#SCH-i929 Build,SCH-i929
+SCH-,, Build,0, ,0,9
+
+#SHV-E250L Build,SHV-E250L
+#SHV-E120S Build,E120S
+#SHV-E300L Build,E300L
+SHV-,, Build,0, ,0,9
+
+#GT-N7100 Build,NOTEⅡ
+GT-N7100 Build,NOTEⅡ,,,,0,9
+
+#GT-I9300 Build,Galaxy S3
+GT-I9300 Build,Galaxy S3,,,,0,9
+
+#GT-I9128E Build,GALAXY Grand
+GT-I9128E Build,GALAXY Grand,,,,0,9
+
+#GT-S7898 Build,GT-S7898
+#GT-S7562C Build,GT-S7562C
+#GT-I9500 Build,GT-I9500
+#GT-I9082i Build,GT-I9082i
+#GT-I9505 Build,GT-I9505
+#GT-I9300I Build,GT-I9300I
+#GT-I9305 Build,GT-I9305
+#GT-I8268 Build,GT-I8268
+#GT-I5508 Build,GT-I5508
+#GT-I8258 Build,GT-I8258
+#GT-S7562i Build,GT-S7562i
+#GT-S7568 Build,GT-S7568
+#GT-I8262D Build,GT-I8262D
+#GT-I8552 Build,GT-I8552
+#GT-I9100 Build,GT-I9100
+#GT-I9268 Build,GT-I9268
+#GT-N7105 Build,GT-N7105
+#GT-N7108 Build,GT-N7108
+#GT-I8558 Build,GT-I8558
+#GT-I9152 Build,GT-I9152
+#GT-I9200 Build,GT-I9200
+#GT-I9500 Build,GT-I9500
+#GT-I9508 Build,GT-I9508
+#GT-N7000 Build,GT-N7000
+#GT-I8160 Build,GT-I8160
+#GT-I9003 Build,GT-I9003
+#GT-S5830i Build,GT-S5830i
+#GT-I9220 Build,GT-I9220
+#GT-I8262 Build,GT-I8262
+#GT-P3100 Build,GT-P3100
+#GT-S6818 Build,GT-S6818
+#GT-I9300I Build,GT-I9300I
+#GT-I9152P Build,GT-I9152P
+#GT-I9308 Build,GT-I9308
+#GT-N7102 Build,GT-N7102
+#GT-I9508V Build,GT-I9508V
+#GT-I9507V Build,GT-I9507V
+#GT-I9502 Build,GT-I9502
+#GT-I9158 Build,GT-I9158
+#GT-I9082 Build,GT-I9082
+#GT-I9105P Build,GT-I9105P
+#GT-N8000 Build,GT-N8000
+#GT-S7568I Build,GT-S7568I
+#GT-S7572 Build,GT-S7572
+#GT-I9100G Build,GT-I9100G
+#GT-S7562 Build,GT-S7562
+#GT-I9082L Build,GT-I9082L
+GT-,, Build,0, ,0,9
+
+#Galaxy Nexus Build,Galaxy Nexus
+Galaxy Nexus Build,Galaxy Nexus,,,,0,9
+
+#Galaxy Series 8 Build
+Galaxy Series 8 Build,Galaxy Series 8,,,,0,9
+
+/********************联想********************/
+#LenovoTV 40S9 Build,LenovoTV 40S9
+LenovoTV ,, Build,0, ,0,5
+
+#Lenovo K30-T Build,乐檬
+Lenovo K30-T Build,乐檬,,,,0,5
+
+#Lenovo A788t Build,A788t
+#Lenovo A828t Build,A828t
+#Lenovo A3000-H Build,A3000
+#Lenovo A396 Build,A396
+#Lenovo S868t Build,S868t
+#Lenovo A388t Build,A388t
+#Lenovo S658t Build,S658t
+#Lenovo A238t Build,A238t
+#Lenovo P700 Build,P700
+#Lenovo S810t Build,S810t
+#Lenovo A378t Build,A378t
+#Lenovo S6000L-F Build,S6000L-F
+#Lenovo S898t Build,S898t
+#Lenovo S968t Build,S968t
+#Lenovo A368t Build,A368t
+#Lenovo A808t Build,A808t
+#Lenovo A820 Build,A820
+#Lenovo A820t Build,A820t
+#Lenovo A590 Build,A590
+#Lenovo S890 Build,S890
+#Lenovo A278t Build,A278t
+#Lenovo A396_TY Build,A396_TY
+#Lenovo A360e Build,A360e
+#Lenovo A366t Build,A366t
+#Lenovo A5800-D Build,A5800-D
+#Lenovo A858t Build,A858t
+#Lenovo A938t Build,A938t
+#Lenovo K30-W Build,K30-W
+#Lenovo K50-t5 Build,K50-t5
+#Lenovo A320t Build,A320t
+#Lenovo A3800-d Build,A3800-d
+#Lenovo A380t Build,A380t
+#Lenovo S850t Build,S850t
+#Lenovo A628t Build,A628t
+#Lenovo A678t Build,A678t
+#Lenovo A708t Build,A708t
+#Lenovo K900 Build,K900
+#Lenovo S898t+ Build,S898t+
+#Lenovo A656 Build,A656
+#Lenovo K860i Build,K860i
+#Lenovo S920 Build,S920
+#Lenovo A760 Build,A760
+#Lenovo A658t Build,A658t
+#Lenovo A890e Build,A890e
+#Lenovo A660 Build,A660
+Lenovo ,, Build,7, ,0,5
+
+#LNV-Lenovo A375e Build
+#LNV-Lenovo A790e Build
+LNV-Lenovo ,, Build,11, ,0,5
+
+#IdeaTabA1000-T Build,TabA1000
+#IdeaTabA2109A Build,TabA2109A
+IdeaTab,, Build,0, ,0,5
+
+#ideatv A21 Build
+ideatv ,, Build,0, ,0,5
+
+/********************酷派********************/
+#Coolpad 5952 Build,5952
+#Coolpad 5216S Build,5216S
+#Coolpad 5891 Build,5891
+#Coolpad 7296 Build,7296
+#Coolpad 8297 Build,8297
+#Coolpad 8670 Build,8670
+#Coolpad 5879 Build,5879
+#Coolpad 7295+ Build,7295+
+#Coolpad 8297-C00 Build,8297-C00
+#Coolpad 5109 Build,5109
+#Coolpad 7232 Build,7232
+#Coolpad 8122 Build,8122
+#Coolpad 8705 Build,8705
+#Coolpad 8729 Build,8729
+#Coolpad 8675 Build,8675
+#Coolpad 9190L Build,S6
+#Coolpad 8089 Build,8089
+#Coolpad 9150W Build,9150W
+#Coolpad 5216D Build,5216D
+#Coolpad 5930 Build,5930
+#Coolpad 8297-W01 Build,8297-W01
+#Coolpad 8675-A Build,8675-A
+#Coolpad 8675-FHD Build,8675-FHD
+#Coolpad 8675-W00 Build,8675-W00
+#Coolpad Y80D Build,Y80D
+#Coolpad 8297_4.4 Build,8297
+#Coolpad 8732 Build,8732
+#Coolpad T1 Build,T1
+#Coolpad 5311 Build,5311
+#Coolpad 5892 Build,5892
+#Coolpad 7620L Build,7620L
+#Coolpad 8702 Build,8702
+#Coolpad 8720L Build,8720L
+#Coolpad 7295C Build,7295C
+#Coolpad 8297W Build,8297W
+Coolpad ,, Build,8, ,0,12
+
+#Coolpad7295 Build,7295
+#Coolpad8085Q Build,8085Q
+#Coolpad8198T Build,8198T
+#Coolpad8720Q Build,8720Q
+#CoolPad8020+ Build,8020+
+#CoolPad8070 Build,8070
+#Coolpad8750 Build,8750
+Coolpad,, Build,7, ,0,12
+
+#CoolPad8012 Build
+CoolPad,, Build,7, ,0,12
+
+/********************VIVO********************/
+#vivo Y27 Build,Y27
+#vivo S12 Build,S12
+#vivo Y19t Build,Y19t
+#vivo Y13T Build,Y13T
+#vivo Y17T Build,Y17T
+#vivo Y22 Build,Y22
+#vivo X710L Build,X710L
+#vivo X5S L Build,X5S
+#vivo Y13L Build,Y13L
+#vivo V2 Build,V2
+#vivo X3L Build,X3L
+#vivo Xplay3S Build,Xplay3S
+#vivo X1St Build,X1St
+#vivo X3t Build,X3t
+#vivo X3S W Build,X3S
+#vivo Y11 Build,Y11
+#vivo Y11i T Build,Y11i
+#vivo Y13 Build,Y13
+#vivo Y15T Build,Y15T
+#vivo S7 Build,S7
+#vivo S9 Build,S9
+#vivo X1 Build,X1
+#vivo X5V Build,X5V
+#vivo Y23L Build,Y23L
+#vivo Y28L Build,Y28L
+#vivo Y29L Build,Y29L
+#vivo Y628 Build,Y628
+#vivo Y928 Build,Y928
+#vivo X3V Build,X3V
+#vivo X5L Build,X5L
+#vivo Y22iL Build,Y22iL
+#vivo Y18L Build,Y18L
+#vivo X510t Build,X510t
+#vivo X1S Build,X1S
+vivo ,, Build,5, ,0,16
+
+/********************中兴********************/
+#ZTE U809 Build,U809
+#ZTE U879 Build,U879
+#ZTE N855D Build,N855D
+#ZTE U930HD Build,U930HD
+#ZTE Q802T Build,Q802T
+#ZTE U817 Build,U817
+#ZTE V956 Build,V956
+#ZTE N986 Build,N986
+#ZTE M901C Build,M901C
+#ZTE U5S Build,U5S
+#ZTE Q802T Build,Q802T
+#ZTE N818 Build,N818
+#ZTE N909D Build,N909D
+#ZTE N919 Build,N919
+#ZTE N919D Build,N919D
+#ZTE U5 Build,U5
+#ZTE N881E Build,N881E
+#ZTE U795+ Build,U795+
+#ZTE U807 Build,U807
+#ZTE U950 Build,U950
+#ZTE U985 Build,U985
+#ZTE A880 Build,A880
+#ZTE Q509T Build,Q509T
+#ZTE Q301C Build,Q301C
+#ZTE Q505T Build,Q505T
+#ZTE Q805T Build,Q805T
+#ZTE U968 Build,U968
+#ZTE V975 Build,V975
+#ZTE V967S Build,V967S
+#ZTE G718C Build,G718C
+#ZTE U930 Build,U930
+ZTE ,, Build,4, ,0,15
+
+#ZTE-T U880 Build,U880
+#ZTE-C N780 Build,N780
+ZTE-,, Build,6, ,0,15
+
+/********************莱蒙********************/
+#Lemoon_N10 Build,莱蒙N10
+#lemoon_N10S Build,莱蒙N10S
+lemoon_,, Build,7, ,0,70
+
+#LemoonN10S Build,莱蒙N10S
+LemoonN10S Build,N10S,,,,0,70
+
+/********************TCL********************/
+#TCL S720T Build,S720T
+#TCL J926T Build,J926T
+TCL ,, Build,4, ,0,20
+
+#TCL-P306C Build,P306C
+TCL-,, Build,4, ,0,20
+
+/********************LG********************/
+#LG-D802 Build,D802
+#LG-D857 Build,D857
+#LG-D859 Build,D859
+LG-D8,, Build,3, ,0,14
+
+/********************高科********************/
+#GETEK-V8 Build,GETEK-V8
+#GETEK-A3 Build,A3
+#GETEK-X5 Build,X5
+GETEK-,, Build,6, ,0,71
+
+/********************金立********************/
+#GN708T Build,GN708T
+#GN708W Build,GN708W
+#GN100 Build,GN100
+#GN9000 Build,GN9000
+#GN700W Build,GN700W
+#GN151 Build,GN151
+#GN706L Build,GN706L
+#GN9000L Build,GN9000L
+#GN305 Build,GN305
+#GN700T Build,GN700T
+#E3T Build,E3T
+
+#GiONEE-V188S/V188S Build,V188S
+GiONEE-,, Build,7,/,0,18
+
+#GiONEE GN600 Build
+GiONEE ,, Build,7, ,0,18
+
+/********************谷歌********************/
+#Nexus 5 Build,Nexus 5
+#Nexus 7 Build,Nexus 7
+#Nexus 4 Build,Nexus 4
+#Nexus 6 Build,Nexus 6
+Nexus ,, Build,6, ,0,72
+
+/********************创维********************/
+#Skyworth 8S26 14U Build,8S26
+#Skyworth 8S61 14A43 Build,8S61
+#Skyworth 8S61 14K Build,8S61
+#Skyworth 8A16 K1 Build,8A16
+#Skyworth 8S50 E510E Build,8S50
+Skyworth ,, Build,9, ,0,35
+
+/********************朵唯********************/
+#DOOV_D50 Build,D50
+#DOOV_D9 Build,D9
+DOOV_,, Build,5, ,0,73
+
+#DOOV D360 Build,D360
+#DOOV T90 Build,T90
+#DOOV D8 Build,D8
+#DOOV S1 Build,S1
+#DOOV S2L Build,S2L
+#DOOV D350 Build,D350
+#DOOV S2 Build,S2
+#DOOV T20 Build,T20
+DOOV ,, Build,5, ,0,73
+
+/********************锤子********************/
+#SM705 Build,T1
+SM705 Build,T1,,,,0,31
+
+#SM701 Build,T1
+SM701 Build,T1,,,,0,31
+
+/********************努比亚********************/
+#NX511J Build,NX511J
+#NX40X Build,NX40X
+#NX505J Build,NX505J
+#NX507J Build,NX507J
+
+/********************小辣椒********************/
+#LA2-E Build,LA2-E
+#LA2-T1 Build,LA2-T1
+#LA2-W1 Build,LA2-W1
+LA2-,, Build,0, ,0,74
+
+#LA-M1 Build
+#LA-M2 Build
+LA-M,, Build,3, ,0,74
+
+#HLA NOTE1-L Build
+HLA ,, Build,4, ,0,74
+
+/********************天语********************/
+#K-Touch E8 Build,E8
+#K-Touch Tou ch 2 Build,Tou ch 2
+K-Touch,, Build,8, ,0,19
+
+#TY-K Touch E80 Build
+#TY-K Touch E88 Build
+TY-K Touch ,, Build,11, ,0,19
+
+/********************长虹********************/
+#ChanghongA898 Build,A898
+Changhong,, Build,9, ,0,6
+
+#Changhong H5018 Build,H5018
+Changhong ,, Build,10, ,0,6
+
+/********************糖葫芦********************/
+#ThL T3 Build,T3
+#ThL V12 Build,V12
+#ThL W5 Build,W5
+ThL ,, Build,4, ,0,50
+
+/********************语信********************/
+#YUSUN T22 Build,T22
+YUSUN ,, Build,6, ,0,75
+
+/********************欧博信********************/
+#OPSSON IDO 5322 Build,IDO
+#OPSSON Q1 Build,Q1
+OPSSON ,, Build,7, ,0,76
+
+#IUSAI US8 Build
+IUSAI ,, Build,6, ,0,76
+
+/********************天猫魔盒********************/
+#MagicBox1s_Pro Build,MagicBox1s Pro
+#MagicBox2 Build,MagicBox2
+#MagicBox Build,MagicBox
+MagicBox,, Build,0, ,0,67
+
+/********************海信********************/
+#Hisense E100T Build,E100T
+Hisense ,, Build,8, ,0,27
+
+#HS-E820 Build
+#HS-EG901 Build
+#HS-T96 Build
+#HS-EG950 Build
+#HS-E912S Build
+#HS-E968 Build
+#HS-EG929 Build
+#HS-EG939 Build
+#HS-T970 Build
+#HS-U980 Build
+#HS-T928 Build
+#HS-U966 Build
+#HS-U978 Build
+#HS-V102-S Build
+#HS-E260T Build
+#HS-E600M Build
+#HS-E620M Build
+#HS-EG978 Build
+HS-,, Build,3, ,0,27
+
+/********************乐视********************/
+#LeTVX60 Build,X60
+LeTV,, Build,4, ,0,37
+
+#Letv C1 Build
+#Letv C1S Build
+Letv ,, Build,5, ,0,37
+
+/********************爱立顺********************/
+#AOSON M82T Build,M82T
+AOSON ,, Build,6, ,0,77
+
+/********************蓝魔********************/
+#Ramos X10 Build,X10
+Ramos,, Build,6, ,0,78
+
+/********************海美迪********************/
+#HIMEDIA H9 Build,H9
+HIMEDIA,, Build,8, ,0,79
+
+/********************优尔得********************/
+#YOORD Build,YOORD
+
+/********************夏新********************/
+#AMOI N821 Build,AMOI N821
+AMOI ,, Build,5, ,0,81
+
+/********************金讯宏盛********************/
+#BOHP P5E Build,BOHP P5E
+BOHP ,, Build,5, ,0,82
+
+/********************E派********************/
+#EBEST V8 Build,EBEST V8
+EBEST ,, Build,6, ,0,83
+
+/********************同洲********************/
+#Coship F1 Build,Coship F1
+#COSHIP F2 Build
+Coship ,, Build,7, ,0,84
+COSHIP ,, Build,7, ,0,84
+
+/********************索尼********************/
+#SonyS36h Build,S36h
+SonyS36h Build,S36h,,,,0,11
+
+/********************海客********************/
+#HIKe 868 Build,868
+HIKe,, Build,5, ,0,85
+
+/********************一加手机********************/
+#A0001 Build,A0001
+
+/********************天迈通讯********************/
+#T-smart D28 Build,D28
+T-smart ,, Build,8, ,0,86
+
+/********************尚锋********************/
+#SUNVAN S899B Build,S899B
+SUNVAN ,, Build,7, ,0,87
+
+/********************索爱********************/
+#soaiy Build,soaiy
+
+/********************聆韵********************/
+#Lingwin Build,Lingwin
+
+/********************蓝博兴********************/
+#Laaboo T1 Build,T1
+Laaboo ,, Build,7, ,0,88
+
+/********************斐讯********************/
+#PHICOMM C230v Build,C230v
+PHICOMM ,, Build,8, ,0,89
+
+/********************七彩虹********************/
+#Colorfly E708 Q1 Build,Colorfly E708 Q1
+Colorfly ,, Build,9, ,0,90
+
+/********************酷鸽********************/
+#Coolgen E72 Note8 Build,Coolgen E72 Note8
+Coolgen ,, Build,8, ,0,91
+
+/********************欧新********************/
+#HOSIN V5 Build,HOSIN V5
+HOSIN ,, Build,6, ,0,92
+
+/********************佳域********************/
+#JIAYU  S3S Build,S3S
+JIAYU ,, Build,6, ,0,93
+
+/********************艾优尼********************/
+#IUNI U810 Build,IUNI U810
+IUNI ,, Build,5, ,0,94
+
+/********************亿通********************/
+#ETON T890 Build,ETON T890
+#ETON D520 Build
+#ETON T860 Build
+ETON ,, Build,5, ,0,95
+
+/********************唯乐********************/
+#vollo Vi80 Build
+vollo ,, Build,6, ,0,96
+
+/********************大成********************/
+#DCT T5e Build
+DCT ,, Build,4, ,0,97
+
+/********************酷比魔方********************/
+#CUBE U9GT 2 Build
+CUBE ,, Build,5, ,0,98
+
+/********************本为********************/
+#BenWee 5100D Build
+#BenWee N9S Build
+BenWee ,, Build,7, ,0,99
+
+/********************国虹********************/
+#GHONG T618 Build
+GHONG ,, Build,6, ,0,100
+
+/********************VINUS********************/
+#VINUS V6 Build
+VINUS ,, Build,6, ,0,101
+
+/********************强者********************/
+#QIANGZHE_P6 Build
+#QIANGZHE_P8 Build
+QIANGZHE_,, Build,9, ,0,102
+
+/********************爱可视********************/
+#ARCHOS 101G9 Build
+ARCHOS ,, Build,7, ,0,103
+
+/********************迈乐********************/
+#Mele HTPC Build
+Mele ,, Build,5, ,0,104
+
+#MeLE M8 Build
+MeLE ,, Build,5, ,0,104
+
+/********************汇科********************/
+#HKC Quest Build
+HKC ,, Build,4, ,0,105
+
+/********************海尔********************/
+#HT-I857 Build
+#HT-I860 Build
+HT-I,, Build,3, ,0,38
+
+/********************富可视********************/
+#InFocus M310 Build
+InFocus ,, Build,8, ,0,106
+
+/********************先锋********************/
+#Pioneer S90w Build
+Pioneer ,, Build,8, ,0,107
+
+/********************奥克斯********************/
+#AUX T5001 Build
+AUX ,, Build,4, ,0,108
+
+/********************波导********************/
+#Bird i900 Build
+Bird ,, Build,5, ,0,109
+
+#BIRD L108 Build
+BIRD ,, Build,5, ,0,109
+
+/********************邦华********************/
+#BOWAY V70 Build
+#BOWAY V7A Build
+BOWAY ,, Build,6, ,0,110
+
+/********************神舟********************/
+#Hasee E50 T1 Build
+#Hasee H45 T3 Build
+Hasee ,, Build,6, ,0,111
+
+/********************宏为********************/
+#HOOW-A8 Build
+HOOW-,, Build,5, ,0,112
+
+/********************英特奇********************/
+#intki E85 Build
+intki ,, Build,6, ,0,113
+
+/********************酷宝********************/
+#kubao-Z450 Build
+kubao-,, Build,6, ,0,114
+
+/********************欧比********************/
+#OBEE V10 Build
+#OBEE V11 Build
+OBEE ,, Build,5, ,0,115
+
+/********************昂达********************/
+#ONDA MID Build
+ONDA ,, Build,5, ,0,116
+
+#V811 Core4 Build
+V811 ,, Build,5, ,0,116
+
+/********************卓酷********************/
+#ZUOKU K2 Build
+ZUOKU ,, Build,6, ,0,117
+
+/********************高新奇********************/
+#GXQ T11 Build
+GXQ ,, Build,4, ,0,118
+
+/********************广信********************/
+#KINGSUN-S5 Build
+KINGSUN-,, Build,8, ,0,119
+
+/********************酷比********************/
+#koobee M2 Build
+koobee ,, Build,7, ,0,120
+
+/********************酷博********************/
+#KOPO L8 Build
+KOPO ,, Build,5, ,0,121
+
+/********************维图********************/
+#VOTO VT888 Build
+VOTO ,, Build,5, ,0,122
+
+/********************飞秒********************/
+#FMEE TL500 Build
+FMEE ,, Build,5, ,0,123
+
+/********************果米********************/
+#GUOMI M8S Build
+GUOMI ,, Build,6, ,0,124
+
+/********************米歌********************/
+#MEEG 103X Build
+MEEG ,, Build,5, ,0,125
+
+/********************米蓝********************/
+#MILLED M4_R1S Build
+MILLED ,, Build,7, ,0,126
+
+#MLLED_M8S Build
+MLLED_,, Build,7, ,0,126
+
+/********************诺亚信********************/
+#NOAIN M11 Build
+NOAIN ,, Build,6, ,0,127
+
+/********************糯米********************/
+#NOMI L003 Build
+NOMI ,, Build,5, ,0,128
+
+/********************腾信时代********************/
+#Tensent TD9600 Build
+Tensent ,, Build,8, ,0,129
+
+/********************小霸王********************/
+#SUBOR S3 Build
+SUBOR ,, Build,6, ,0,130
+
+/********************华星********************/
+#Huaexl M4 Build
+Huaexl ,, Build,7, ,0,131
+
+/********************UBTEL********************/
+#UBTEL U8 Build
+UBTEL ,, Build,6, ,0,132
+
+/********************neken********************/
+#neken NX Build
+neken ,, Build,6, ,0,133
+
+/********************真米********************/
+#ZEEMI M8 Build
+ZEEMI ,, Build,6, ,0,134
+
+/********************其它********************/
+#m1 Build,m1
+#m1 note Build,m1 note
+#HS-E600M Build,HS-E600M
+#HS-E912S Build,HS-E912S
+#N958St Build,N958St
+#N958St Build,N958St
+#MStar Android TV Build,MStar Android TV
+#MStar Google TV Build,MStar Google TV
+#Android STB on MStar Amber3 Build,Amber3
+#Android TV on MStar Amber3 Build,Amber3
+#Android TV on Haier 6A600 Build,6A600
+#Full AOSP on godbox Build,godbox
+#Full AOSP on Haier Amber3 Build,Amber3
+#Full AOSP on Leopard SOC Build,SOC
+#HS-E968 Build,HS-E968
+#HS-I630T Build,HS-I630T
+#MC002 Build,2
+#MC003 Build,3
+#MC003X Build,3
+#R831T Build,R831T
+#R6007 Build,R6007
+#R8007 Build,R8007
+#R801 Build,R801
+#R807 Build,R807
+#R811 Build,R811
+#R813T Build,R813T
+#R817 Build,R817
+#R8207 Build,R8207
+#R820 Build,R820
+#R831S Build,R831S
+#R850 Build,R850
+#X817 Build
+#X909 Build
+#X9180 Build
+#L35h Build,L35h
+#L39h Build,L39h
+#L55t Build,L55t
+#L823 Build,L823
+#6607 Build,6607
+#7230 Build,7230
+#8190 Build,8190
+#8720 Build,8720
+#8950 Build,8950
+#MT25i Build,MT25i
+#HMI_A5 Build,A5
+#R7007 Build,R3
+#A200 Build,A200
+#MOT-XT788 Build,MOT-XT788
+#LT22i Build,LT22i
+#SOL21 Build,SOL21
+#X907 Build,X907
+#V820 CORE4 Build,V820
+#K012 Build,K012
+#ST18i Build,ST18i
+#XT882 Build,XT882
+#CHIVA V9 Build,CHIVA V9
+#HEDY_H712 Build,HEDY_H712
+#R805 Build,R805
+#N8 Build,N8
+#SGIFE_N899 Build,N899
+#U51GT-W Build,U51GT-W
+#WP W16A Build,W16A
+#Y511-U00 Build,Y511-U00
+#N5117 Build,N5117
+#H60-L01 Build,H60-L01
+#X9007 Build,X9007
+#X9077 Build,X9077
+#Z75-B Build,Z75-B
+#m1 note Build,m1 note
+#Q8E Build,Q8E
+#X2E Build,X2E
+#i-mobile IQ5.1 Pro Build,IQ5.1 Pro
+#LT26i Build,LT26i
+#LT29i Build,LT29i
+#E6000 Build,E6000
+#GK-A6 Build,A6
+#GK-I5 Build,I5
+#R815T Build,R815T
+#R819T Build,R819T
+#R829T Build,R829T
+#R821T Build,R821T
+#R827T Build,R827T
+#R830 Build,R830
+#R833T Build,R833T
+#R817 Build,R817
+#U707T Build,U707T
+#100C Build,100C
+#B135 Build,B135
+#B-202 Build,B-202
+#DM1001 Build,DM1001
+#H30-T10 Build,H30-T10
+#Hol-T00 Build,T00
+#HS-T959S1 Build,T959S1
+#i71C Build,i71C
+#M20 Build,M20
+#M20_win8 Build,M20_win8
+#N1T Build,N1T
+#Q1 Build,Q1
+#X909T Build,X909T
+#A1001 Build,A1001
+#H30-C00 Build,C00
+#M811 Build,M811
+#R2017 Build,R2017
+#X9077 Build,X9077
+#A-ONEX Build,A-ONEX
+#E601M Build,E601M
+#F7mini Build,F7mini
+#i71S Build,i71S
+#K220 Build,K220
+#M321 Build,M321
+#M812C Build,M812C
+#NX503A Build,NX503A
+#S55t Build,S55t
+#TM5Q Build,TM5Q
+#V188 Build,V188
+#X9007 Build,X9007
+#X9077 Build,X9077
+#Z75-B Build,Z75-B
+#L5 Build,L5
+#1105 Build,1105
+#1107 Build,1107
+#L36h Build,L36h
+#XL39h Build,XL39h
+#WX2S Build,WX2S
+#XT1079 Build,XT1079
+#INPHIC_I6X Build,INPHIC_I6X
+#IDER_BBA22 Build,IDER_BBA22
+#MERCURY_M1 Build,MERCURY_M1
+#HMD_TVBOX Build,HMD_TVBOX
+#XT882 Build,XT882
+#SHW-M110S Build,SHW-M110S
+#5910 Build,5910
+#R1 Build,R1
+#V188S Build,V188S
+#en-us; Nexus One Build,Nexus One
+#SGP312 Build,SGP312
+#S36h Build,S36h
+#SoftwinerEvb Build,SoftwinerEvb
+#10MOONS_ELF5 Build,10MOONS_ELF5
+#1105 Build,1105
+#306SH Build,306SH
+#97718A_HAIER Build,97718A_HAIER
+#A001-NP Build,A001-NP
+#A1-830 Build,A1-830
+#A500 Build,A500
+#A78 Build,A78
+#A800 Build,A800
+#AMLOGIC8726MX Build,AMLOGIC8726MX
+#B1-710 Build,B1-710
+#B-303 Build,B-303
+#BBA22 Build,BBA22
+#BST2R04B Build,BST2R04B
+#C6902 Build,C6902
+#C8817D Build,C8817D
+#CX_810S Build,CX_810S
+#D6503 Build,D6503
+#DAQ Q5321 Build,DAQ Q5321
+#DKL01 Build,DKL01
+#Droid4X-WIN Build,Droid4X-WIN
+#E6 Build,E6
+#EC6108V8 Build,EC6108V8
+#epade_i5 Build,epade_i5
+#F5 Build,F5
+#GEM-703L Build,GEM-703L
+#GO N1-Y Build,GO N1-Y
+#H9 Build,H9
+#HIMEDIA_Q2II Build,HIMEDIA_Q2II
+#HIVE H9 Build,HIVE H9
+#HP3700E Build,HP3700E
+#HT-I619 Build,HT-I619
+#HW-W919 Build,HW-W919
+#IM-A870S Build,IM-A870S
+#INPHIC_I9 Build,INPHIC_I9
+#intki F007 Build,intki F007
+#J666 Build,J666
+#K1 Build,K1
+#K208+ Build,K208+
+#K220 Build,K220
+#K4321 Build,K4321
+#K5 Build,K5
+#KBE_AW31S_M Build,KBE_AW31S_M
+#k-free F8 Build,F8
+#KIUI_Q2 Build,KIUI_Q2
+#LNV-Lenovo A375e Build,A375e
+#LTE4G Build,LTE4G
+#ME865 Build,ME865
+#MM1104 Build,MM1104
+#N1 Build,N1
+#N1T Build,N1T
+#Nokia_XL_4G Build,XL_4G
+#OKA18 Build,OKA18
+#OZZO-128A Build,128A
+#P8100 Build,P8100
+#P89s mini(F8A2) Build,P89s mini
+#PULIER_A31S Build,PULIER_A31S
+#S600 Build,S600
+#S800 Build,S800
+#S96 Build,S96
+#SH8128U Build,SH8128U
+#SH8298U Build,SH8298U
+#Symphony W160 Build,W160
+#T61 Build,T61
+#T9108 Build,T9108
+#TD506 Build,TD506
+#tvbox Build,tvbox
+#U3 Build,U3
+#U65GT Build,U65GT
+#U705T Build,U705T
+#U8860 Build,U8860
+#UIMI3 Build,UIMI3
+#V811 Core4 Build,V811 Core4
+#V983 Build,V983
+#we20s Build,we20s
+#X130va Build,X130va
+#X5 R1 Build,R1
+#XL39h Build,XL39h
+#XM50t Build,XM50t
+#XT1079 Build,XT1079
+#ZP950 Build,ZP950
+#E708 3G Build,E708 3G
+#X1 7.0 Build,X1

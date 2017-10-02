@@ -1,0 +1,40 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ate/common/rt_ate.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ate/common/rt_ate.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ate/common/rt_ate.c
+@@ -237,6 +237,15 @@ CHAR ATEConvertToRssi(
+ #ifdef RT65xx
+ 	if (IS_RT65XX(pAd)) {
+ 		if (IS_MT76x2(pAd)) {
++            if (LNAGain & 0x80) {
++                if (LNAGain == 0xFF)
++                    LNAGain = 0;
++                else
++                    LNAGain &= 0x7F;
++            }
++            else
++                LNAGain =(UCHAR)(0 - (CHAR)LNAGain);
++
+ 			if (is_external_lna_mode(pAd, pAd->LatchRfRegs.Channel) == TRUE)
+ 				LNAGain = 0;
+ 		
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_sync.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_sync.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_sync.c
+@@ -422,6 +422,15 @@ CHAR ConvertToRssi(RTMP_ADAPTER *pAd, CH
+ 		return (Rssi + (CHAR)RssiOffset - (CHAR)LNAGain);
+ 
+ 	if (IS_MT76x2(pAd)) {
++        if (LNAGain & 0x80) {
++            if (LNAGain == 0xFF)
++                LNAGain = 0;
++            else
++                LNAGain &= 0x7F;
++        }
++        else
++            LNAGain =(UCHAR)(0 - (CHAR)LNAGain);
++
+ 		if (is_external_lna_mode(pAd, pAd->CommonCfg.Channel) == TRUE)
+ 			LNAGain = 0;
+ 		

@@ -1,0 +1,15 @@
+--- a/signal.c
++++ b/signal.c
+@@ -40,6 +40,12 @@ static void signal_shutdown(int signal,
+ 	if (preinit)
+ 		do_reboot();
+ 
++	if (fork() == 0)
++	{
++		sleep(5);
++		do_reboot();
++	}
++
+ 	switch(signal) {
+ 	case SIGTERM:
+ 		event = RB_AUTOBOOT;

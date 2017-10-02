@@ -1,0 +1,30 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_linux.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/os/linux/rt_linux.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_linux.c
+@@ -36,8 +36,8 @@
+ #include "rt_os_util.h"
+ 
+ #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
+-#include "../../../../../../net/nat/hw_nat/ra_nat.h"
+-#include "../../../../../../net/nat/hw_nat/frame_engine.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/ra_nat.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/frame_engine.h"
+ #endif
+ 
+ /* TODO */
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_profile.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/os/linux/rt_profile.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_profile.c
+@@ -26,8 +26,8 @@
+ #include "rt_config.h"
+ 
+ #if defined (CONFIG_RA_HW_NAT)  || defined (CONFIG_RA_HW_NAT_MODULE)
+-#include "../../../../../../net/nat/hw_nat/ra_nat.h"
+-#include "../../../../../../net/nat/hw_nat/frame_engine.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/ra_nat.h"
++#include "../../../linux-2.6.36/net/nat/hw_nat/frame_engine.h"
+ #endif
+ 
+ 

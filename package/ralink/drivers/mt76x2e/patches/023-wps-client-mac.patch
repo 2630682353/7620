@@ -1,0 +1,66 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+@@ -1863,6 +1863,7 @@ typedef struct _COMMON_CONFIG {
+ #ifdef WSC_INCLUDED
+ 	/* WSC hardware push button function 0811 */
+ 	UINT8 WscHdrPshBtnCheckCount;
++	UCHAR LatestWSCMacAddr[MAC_ADDR_LEN];
+ #endif /* WSC_INCLUDED */
+ 
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/wsc.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/wsc.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/wsc.c
+@@ -5375,7 +5375,7 @@ VOID WscInit(
+ 	pWscControl->bRegenPublicKey = FALSE;
+ 	NdisZeroMemory(&pWscControl->NfcPasswd[0], NFC_DEV_PASSWD_LEN);
+ #endif /* WSC_NFC_SUPPORT */
+-
++	NdisZeroMemory(pAd->CommonCfg.LatestWSCMacAddr,MAC_ADDR_LEN);
+ }
+ 
+ USHORT WscGetAuthType(
+@@ -6957,9 +6957,11 @@ VOID	WscCreateProfileFromCfg(
+     
+ #ifdef WSC_V2_SUPPORT
+ 	if (pWscControl->WscV2Info.bEnableWpsV2 && (OpMode & REGISTRAR_ACTION))
+-		NdisMoveMemory(pCredential->MacAddr, pWscControl->EntryAddr, 6);
++		NdisMoveMemory(pCredential->MacAddr, pWscControl->EntryAddr, MAC_ADDR_LEN);
+ #endif /* WSC_V2_SUPPORT */
+     
++	NdisMoveMemory(pAd->CommonCfg.LatestWSCMacAddr, pWscControl->EntryAddr, MAC_ADDR_LEN);
++
+     DBGPRINT(RT_DEBUG_TRACE, ("<----- WscCreateProfileFromCfg\n"));
+ 
+ }
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_cfg.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+@@ -7386,11 +7386,13 @@ INT	Show_Sat_Proc(
+ 					"\tWscConfStatus=%d\n"
+ 					"\tWscPinCode=%d\n"
+ 					"\tWscState=0x%x\n"
+-					"\tWscStatus=0x%x\n",
++					"\tWscStatus=0x%x\n"
++					"\ttWscLatestMacAddr=%s\n",
+ 					pWscCtrl->WscConfMode, 
+ 					((pWscCtrl->WscMode == WSC_PIN_MODE) ? "PIN" : "PBC"),
+ 					pWscCtrl->WscConfStatus, pWscCtrl->WscEnrolleePinCode, 
+-					pWscCtrl->WscState, pWscCtrl->WscStatus);	
++					pWscCtrl->WscState, pWscCtrl->WscStatus,
++					PRINT_MAC(pAd->CommonCfg.LatestWSCMacAddr));
+ 		}
+ #endif /* WSC_INCLUDED */
+ 
+@@ -9614,6 +9616,7 @@ VOID RTMPIoctlStatistics(RTMP_ADAPTER *p
+     }
+     sprintf(msg+strlen(msg), "\n");
+ #endif /* APCLI_SUPPORT */
++	sprintf(msg+strlen(msg), "WscLatestMacAddr=%02x:%02x:%02x:%02x:%02x:%02x\n", PRINT_MAC(pAd->CommonCfg.LatestWSCMacAddr));
+ #endif /* WSC_AP_SUPPORT */
+ 
+ #if /*TCSUPPORT_COMPILE*/ defined(TCSUPPORT_SCHEDULE)

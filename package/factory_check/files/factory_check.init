@@ -1,0 +1,14 @@
+SERVICE_USE_PID=1
+
+START=98
+
+start() {
+
+	factory_check &
+
+	
+}
+
+stop() {
+	killall factory_check
+}

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>路由器设置</title>
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/m_router.css">
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="../js/layer.m/layer.m.js"></script>
+        <script type="text/javascript" src="../js/jquery.md5.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="text/javascript" src="../js/config.js"></script>
+        <script type="text/javascript" src="../js/router.js"></script>
+    </head>
+
+    <body>
+        <div class="indexWrap wap-content" id="account_login">
+            <!--<div class="img-box user-box"><img src="/images/logo-s.png"></div>-->
+            <p class="index_text">欢迎使用智能路由器</p>
+            <div class="con" style="background:none;">
+                <ul class="list">
+                    <li>
+                        <span class="sp-l">管理密码</span>
+                        <span class="sp-r">
+                            <label for="login_pwd" id="login_pwd_label">管理密码(默认admin)</label>
+                            <input type="password" name="login_pwd" class="inpt" id="login_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box" style="margin-top:10px;">
+                    <a href="javascript:;" class="btn" id="user_login">确认</a>
+                </div>
+            </div> 
+        </div>
+
+        <!-- 未设置过密码的主页面 end-->
+        <div class="wrap"  style="display:none;" id="netWorkSet">
+            <div class="top"><a href="index.html" class="goback"><i></i></a>网络设置</div>	
+            <div class="nav" id="connectNav">
+                <a data-id="t_1" id="t_1" href="javascript:;">宽带拨号</a>
+                <a data-id="t_2" id="t_2" href="javascript:;">静态IP</a>
+                <a data-id="t_3" id="t_3" href="javascript:;">动态IP</a>
+                <a data-id="t_4" id="t_4" href="javascript:;">无线中继</a>
+            </div>
+            <div class="sub">
+                <!-- 宽带拨号 -->
+                <div class="sub-box" id="t_1_box">
+                    <p>请输入运营商给您的宽带上网账号及密码，如有遗忘，可拨打运营商电话找回。</p>
+                    <ul class="list">
+                        <li>
+                            <span class="sp-l">宽带账号</span>
+                            <span class="sp-r">
+                                <label for="acc">请输入宽带账号</label>
+                                <input type="text" name="acc" class="inpt" id="acc" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">宽带密码</span>
+                            <span class="sp-r">
+                                <label for="pwd">请输入宽带密码</label>
+                                <input type="text" name="pwd" class="inpt" id="pwd" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">服务器名</span>
+                            <span class="sp-r">
+                                <label for="pppoe_server">仅供特殊地区用户填写</label>
+                                <input type="text" name="pppoe_server" class="inpt" id="pppoe_server" autocomplete="off">
+                            </span>
+                        </li>                                              
+                        <li style="display: none">
+                            <span class="sp-l">DNS(首选)</span>
+                            <span class="sp-r">
+                                <label for="pp_dns">请输入您的DNS(选填)</label>
+                                <input type="text" name="dns" class="inpt" id="pp_dns" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">DNS(备用)</span>
+                            <span class="sp-r">
+                                <label for="pp_dns1">请输入您的DNS(选填)</label>
+                                <input type="text" name="dns" class="inpt" id="pp_dns1" autocomplete="off">
+                            </span>
+                        </li>                                    
+                        <li style="display: none">
+                            <span class="sp-l">MTU</span>
+                            <span class="sp-r">
+                                <label for="pp_mtu">请输入MTU 默认1480(选填)</label>
+                                <input type="text" name="mtu" class="inpt" id="pp_mtu" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">克隆MAC</span>
+                            <span style="margin-left: 6px;">
+                                <select name="mac" style="width: 80px;" class="userInpt index-inpt macChoose" id="macChoose1">
+                                    <option value="1">手动MAC</option>
+                                    <option value="2">本地主机MAC</option>
+                                    <option value="3" selected="selected">出厂MAC</option>
+                                </select>
+                                <em id="mac_box1" style="margin-left:6px;"></em>
+                            </span>
+                            <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter1" style="width: 125px;" class="userInpt index-inpt" value=""></span>
+                        </li>                                    
+                    </ul>
+                    <div class="bot">
+                        <a class="fl" href="getAccountInfo.html">获取宽带账号密码</a>
+                        <a class="fr setBtn" id="PpoeHightSet" href="javascript:;">高级配置</a>
+                    </div>
+                    <div class="btn-box"><input type="button" class="btn" id="btn_1" value="开始拨号">&nbsp;&nbsp;<span id="pppoe_message"></div>
+                </div>
+                <!-- 宽带拨号 end-->
+
+                <!-- 静态IP -->
+                <div class="sub-box" id="t_2_box">
+                    <p>请输入运营商给您的IP、子网掩码等信息。如有遗忘，可拨打运营商电话找回。</p>
+                    <ul class="list">
+                        <li>
+                            <span class="sp-l">IP地址</span>
+                            <span class="sp-r">
+                                <label for="static_ip">请输入您的IP地址</label>
+                                <input type="text" name="ip_addr" class="inpt" id="static_ip" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">子网掩码</span>
+                            <span class="sp-r">
+                                <label for="static_mask">请输入您的子网掩码</label>
+                                <input type="text" name="subnet" class="inpt" id="static_mask" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">默认网关</span>
+                            <span class="sp-r">
+                                <label for="static_gw">请输入您的默认网关</label>
+                                <input type="text" name="wg" class="inpt" id="static_gw" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">DNS(首选)</span>
+                            <span class="sp-r">
+                                <label for="static_dns">请输入您的DNS(选填)</label>
+                                <input type="text" name="dns" class="inpt" id="static_dns" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">DNS(备用)</span>
+                            <span class="sp-r">
+                                <label for="static_dns1">请输入您的DNS(选填)</label>
+                                <input type="text" name="dns" class="inpt" id="static_dns1" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">MTU</span>
+                            <span class="sp-r">
+                                <label for="static_mtu">请输入MTU 默认1500(选填)</label>
+                                <input type="text" name="mtu" class="inpt" id="static_mtu" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">克隆MAC</span>
+                            <span style="margin-left: 6px;">
+                                <select name="mac" style="width: 80px;" class="userInpt index-inpt macChoose" id="macChoose2">
+                                    <option value="1">手动MAC</option>
+                                    <option value="2">本地主机MAC</option>
+                                    <option value="3" selected="selected">出厂MAC</option>
+                                </select>
+                                <em id="mac_box2" style="margin-left:6px;"></em>
+                            </span>
+                            <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter2" style="width: 125px;" class="userInpt index-inpt" value=""></span>
+                        </li> 
+                    </ul>
+                    <div class="bot"><a class="fr setBtn" id="StaticHightSet" href="javascript:;">高级配置</a></div>                                    
+                    <div class="btn-box"><input type="button" class="btn" id="btn_2" value="确 认">&nbsp;&nbsp;<span id="static_message"></span></div>
+                </div>
+                <!-- 静态IP end-->
+
+                <!-- 动态IP -->
+                <div class="sub-box" id="t_3_box">
+                    <p>动态IP一般适用于内部网络，连上路由器后就可以直接上网。</p>
+                    <ul class="list">
+                        <li style="display: none">
+                            <span class="sp-l">DNS(首选)</span>
+                            <span class="sp-r">
+                                <label for="dhcp_dns">请输入您的DNS(选填)</label>
+                                <input type="text" name="dns" class="inpt" id="dhcp_dns" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">DNS(备用)</span>
+                            <span class="sp-r">
+                                <label for="dhcp_dns1">请输入您的DNS(选填)</label>
+                                <input type="text" name="dns" class="inpt" id="dhcp_dns1" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">MTU</span>
+                            <span class="sp-r">
+                                <label for="dhcp_mtu">请输入MTU 默认1500(选填)</label>
+                                <input type="text" name="mtu" class="inpt" id="dhcp_mtu" autocomplete="off">
+                            </span>
+                        </li>
+                        <li style="display: none">
+                            <span class="sp-l">克隆MAC</span>
+                            <span style="margin-left: 6px;">
+                                <select name="mac" style="width: 80px;" class="userInpt index-inpt macChoose" id="macChoose3">
+                                    <option value="1">手动MAC</option>
+                                    <option value="2">本地主机MAC</option>
+                                    <option value="3" selected="selected">出厂MAC</option>
+                                </select>
+                                <em id="mac_box3" style="margin-left:6px;"></em>
+                            </span>
+                            <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter3" style="width: 125px;" class="userInpt index-inpt" value=""></span>
+                        </li>
+                    </ul>
+                    <div class="bot"><a class="fr setBtn" id="DhcpHightSet" href="javascript:;">高级配置</a></div>                                
+                    <div class="btn-box"><input type="button" class="btn" id="btn_3" value="开始启用">&nbsp;&nbsp;<span id="dhcp_message"></span></div>
+                </div>
+                <!-- 动态IP end-->
+
+                <!-- 无线中继 -->
+                <div class="sub-box" id="t_4_box">
+                    <div class="wifi-box">
+                        <ul class="wifi-list list-title">
+                            <li>
+                                <a href="javascript:;">
+                                    <span class="fl name">WIFI名称</span>
+                                    <span class="fr">信号强度</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="wifi-list" id="getWifiList">
+
+                        </ul>
+                    </div>
+                    <div class="bot wifi greybg">
+                        <a class="fl" href="javascript:;" id="ssid_add">添加隐藏网络</a>
+                        <a class="fr" href="javascript:;" onclick="getWifiList(1);" style="margin-right:10px;">刷新</a>
+                    </div>
+                </div>
+                <!-- 无线中继 end-->
+            </div>
+
+        </div>
+
+
+        <!-- 未插网线 -->
+        <!--        <div class="wifiConnectLayer" id="lineOff">
+                    <div class="con con2">        
+                        <div class="img1"><img src="../images/img-1.png"></div>
+                        <p>检测到WAN口未插网线</p>
+                        <div class="img2"><img id="go_on" src="../images/img-2.png"></div>
+                        <div class="box">
+                            <a id="lineOffSet" class="btn layer-btn">离线配置</a>
+                            <a id="lineOffConnect" class="btn layer-btn">无线中继</a>
+                        </div>
+                    </div>
+                </div>-->
+        <!-- 未插网线 end-->
+
+        <!-- wifi连接密码输入 -->
+<!--        <div class="wifiConnectLayer" id="wifi_zj">
+            <div class="con">
+                <p id="cyname"></p>
+                <ul class="list" id="have_pwd">
+                    <li>
+                        <span class="sp-l">WIFI密码</span>
+                        <span class="sp-r">
+                            <label for="wifi_pwd">请输入WIFI密码</label>
+                            <input type="password" name="wifi_pwd" class="inpt" id="wifi_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn cannel">取消</a>
+                    <a href="javascript:;" class="btn layer-btn" id="connect">连接</a>
+                </div>
+            </div>
+        </div>-->
+        <!-- wifi连接密码输入 end-->
+    </body>
+</html>
+<script type="text/javascript">
+    checkConfig();
+    $(function () {
+        $("#getWifiList li a").live("click", function () {
+            var lock = $(this, 'span div').find('i').hasClass('lock');
+
+            var ssid = $(this).parent('li').attr('ssid');
+            var channel = $(this).parent('li').attr("channel");
+            var sec = $(this).parent('li').attr('sec');
+
+            layer.open({
+                type: 1,
+                shadeClose: false,
+                content: '<div class="wifiConnectLayer" id="wifi_zj" style="display:block;"><div class="con"><p id="cyname"></p><ul class="list" id="have_pwd"><li><span class="sp-l">WIFI密码</span><span class="sp-r"><label for="wifi_pwd">请输入WIFI密码</label><input type="password" name="wf_pwd" class="inpt" id="wf_pwd" autocomplete="off"></span></li></ul><div class="box"><input type="hidden" id="channel"><input type="hidden" id="data_sec"><a href="javascript:;" class="btn layer-btn cannel">取消</a> <a href="javascript:;" class="btn layer-btn" id="connect">连接</a></div></div></div>',
+                style: 'width:90%;background-color: transparent;  box-shadow: none;'
+            });
+            if (lock != true) {
+                $("#have_pwd").addClass("hide");
+            } else {
+                $("#have_pwd").removeClass("hide");
+            }
+            $("#wf_name").text(ssid);
+            $("#cyname").text(ssid);
+            $("#channel").val(channel);
+            $("#data_sec").val(sec);
+        });
+
+        $("#connect").live("click", function () {
+            var ssid = $("#cyname").text();
+            var wf_pwd = $("#wf_pwd").val();
+            var sec = $("#data_sec").val();
+            var channel = $("#channel").val();
+            var mac = myMac;
+            ssid = encodeURIComponent(ssid);
+            if (!$("#have_pwd").hasClass("hide")) {
+                if (wf_pwd == '') {
+                    getMsg('请输入无线密码！', 1, '#wf_pwd');
+                    return;
+                }
+
+                if (wf_pwd.length > 0 && wf_pwd.length < 6) {
+                    getMsg('无线密码不能少于6位！', 1, '#wf_pwd');
+                    return;
+                }
+            }
+            wf_pwd = encodeURIComponent(wf_pwd);
+            if (wf_pwd == null || wf_pwd == '') {
+                wf_pwd = 'NONE';
+                sec = 'NONE';
+            }
+            layer.closeAll();
+            connectWisp(ssid, wf_pwd, mac, channel, sec);
+            setTimeout(function () {
+                layer.closeAll();
+            }, 120000);
+        });
+
+
+        //添加隐藏ssid
+        $("#ssid_add").live("click", function () {
+            layer.open({
+                type: 1,
+                shadeClose: false,
+                content: '<div class="wifiConnectLayer" id="ssid_connect" style="display:block;"><div class="con"></div><div class="con"><p>添加隐藏网络</p><ul class="list"><li><span class="sp-l">无线名称</span><span class="sp-r"><label for="ssid">请输入无线名称</label><input type="text" name="ssid" class="inpt" id="ssid" autocomplete="off"></span></li><li><span class="sp-l">安全性</span><span class="sp-r"><select id="check_wpa" class="check_channel"><option value="1" selected="selected">开放</option><option value="WPAPSK">WPA PSK</option><option value="WPA2PSK">WPA2 PSK</option><option value="WPAPSKWPA2PSK">WPA/WPA2 PSK</option></select></span></li><li><span class="sp-l">信道</span><span class="sp-r"><select id="check_channel" class="check_channel"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option></select></span></li><li id="pwd_li" class="hide"><span class="sp-l">密码</span><span class="sp-r"><label for="ssid_pwd">请输入密码</label><input type="text" name="ssid_pwd" class="inpt" id="ssid_pwd" autocomplete="off"></span></li></ul><div class="box"><a href="javascript:;" class="btn layer-btn cannel">取消</a> <a href="javascript:;" class="btn layer-btn" id="ssid_confirm">确认</a></div></div></div>',
+                style: 'width:90%;background-color: transparent;  box-shadow: none;'
+            });
+        });
+    });
+</script>

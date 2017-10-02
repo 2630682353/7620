@@ -1,0 +1,269 @@
+#!/bin/sh
+app_name="ccapp"
+pdnsd_conf="pdnsd_ccapp.conf"
+ccapp_domain_cfg="ccapp_domain_cfg.conf"
+app_conf_root="/etc/app_conf/"
+app_conf_dir=${app_conf_root}${app_name}"/"
+dnsmasq_conf="/etc/dnsmasq.conf"
+cur_dir="/tmp/ccapp_chuyun"
+nginx_port="8081"
+size=950
+
+random() {
+    min=$1
+    max=`expr $2 - $1`
+    num=$(date +%s)
+    retnum=`expr $num % $max + $min`
+	echo $retnum
+}
+stop() {
+    echo 'stop'
+	sed -i '/add_iptables.sh/d' /etc/rc.local
+	sed -i '/check_ccapp_crontab.sh/d' /etc/crontabs/root
+	sed -i '/ftp_log.sh/d' /etc/crontabs/root
+	sed -i '/ccapp_domain_speedup.lua/d' /etc/crontabs/root
+	sed -i '/add_iptables.sh/d' /etc/rc.local
+	sed -i '/check_ccapp_crontab.sh/d' /etc/crontabs/root
+	sed -i '/ftp_log.sh/d' /etc/crontabs/root
+	sed -i '/ccapp_domain_speedup.lua/d' /etc/crontabs/root
+
+	#remove dnsmasq self define config
+	sed -i '/conf-dir=\/tmp\/dnsmasq.d/d' $dnsmasq_conf
+	sed -i '/conf-dir=\/tmp\/dnsmasq.d/d' $dnsmasq_conf
+    kill `ps | grep dnsmasq | grep -v grep | awk '{print $1}'`
+	dnsmasq -C /tmp/dnsmasq.conf -8 /tmp/dnsmasq_log -q
+
+	#kill self define pdnsd process
+	pdnsd_pid=`ps|grep pdnsd|grep $app_name|awk '{print $1}'`
+	[ -n $pdnsd_pid  ] && kill $pdnsd_pid
+	
+	# stop_nginx
+	sed -i '/logformat.ccapp_nginx.conf;/d'  /etc/nginx/nginx.conf
+	sed -i '/vh.ccapp.traffic.conf;/d'  /etc/nginx/nginx.conf
+	sed -i '/server_names_hash_bucket_size   128;/d'  /etc/nginx/nginx.conf 
+	sed -i '/map_hash_bucket_size            128;/d'  /etc/nginx/nginx.conf
+	sed -i '/logformat.ccapp_nginx.conf;/d'  /etc/nginx/nginx.conf
+	sed -i '/vh.ccapp.traffic.conf;/d'  /etc/nginx/nginx.conf
+	sed -i '/server_names_hash_bucket_size   128;/d'  /etc/nginx/nginx.conf 
+	sed -i '/map_hash_bucket_size            128;/d'  /etc/nginx/nginx.conf
+	nginx -s stop
+	/usr/bin/lua /etc/app_conf/ccapp/src/cy_proxy.lua -D -A all
+	echo "stop done"
+	return 0
+}
+rmfile() {
+    [ -d "/tmp/dnsmasq.d" ] && rm -rf /tmp/dnsmasq.d
+	rm -rf /etc/nginx/vh.ccapp.*.conf
+	[ -f "/etc/nginx/logformat.ccapp_nginx.conf" ] && rm -rf /etc/nginx/logformat.ccapp_nginx.conf
+	[ -f "/etc/nginx/info.ccapp.conf" ] && rm -rf /etc/nginx/info.ccapp.conf
+
+    echo "uninstall ..."
+    if
+        grep "in_curl;" /etc/app_conf/ccapp/cctxt
+	then
+	    [ -f "/usr/bin/curl" ] && rm /usr/bin/curl
+	fi
+    if
+        grep "libcurl.so.4.3.0;" /etc/app_conf/ccapp/cctxt
+	then
+	    [ -f "/usr/lib/libcurl.so.4.3.0" ] && rm /usr/lib/libcurl.so.4*
+	fi
+    if
+        grep "libpolarssl.so.1.2.9" /etc/app_conf/ccapp/cctxt
+	then
+	    [ -f "/usr/lib/libpolarssl.so.1.2.9" ] && rm /usr/lib/libpolarssl.so*
+	fi
+	[ -d $app_conf_dir ] && rm -rf $app_conf_dir
+	[ -d "/var/log/ccapp" ] && rm -rf /var/log/ccapp
+}
+cpfile() {
+    mkdir -p /tmp/dnsmasq.d
+	mkdir -p /etc/app_conf/ccapp
+	mkdir -p /var/log/ccapp
+	touch /var/log/ccapp/ccapp_probe.log
+
+    cp -a -f /tmp/ccapp_chuyun/ccapp/* /etc/app_conf/ccapp/
+	sed -i '/listen/{s/\t81;/\t8081;/}{s/ 81;/ 8081;/}' /etc/app_conf/ccapp/nginx/vh.ccapp.traffic.conf
+	cp -a -f /etc/app_conf/ccapp/nginx/* /etc/nginx/
+
+	sed -i '/exit/i\[ -f /etc/app_conf/ccapp/src/add_iptables.sh ] && sh /etc/app_conf/ccapp/src/add_iptables.sh &' /etc/rc.local
+	sed -i '/listen/{s/\t80;/\t8080;/}{s/ 80;/ 8080;/}' /etc/nginx/nginx.conf
+	sed -i '/    server {/i\    server_names_hash_bucket_size   128;'  /etc/nginx/nginx.conf
+	sed -i '/    server {/i\    map_hash_bucket_size            128;'  /etc/nginx/nginx.conf
+	sed -i '/    server {/i\    include logformat.ccapp_nginx.conf;'  /etc/nginx/nginx.conf
+	sed -i '/    server {/i\    include vh.ccapp.traffic.conf;'  /etc/nginx/nginx.conf
+
+    echo set \$local_mac `ifconfig eth0|grep HWaddr |awk '{print $5}'|tr -d ":"`";">/etc/nginx/info.ccapp.conf
+	echo "conf-dir=/tmp/dnsmasq.d" >>/etc/dnsmasq.conf
+	local start_time=$(random 1 16)
+    echo "$start_time-59/15 * * * * sh /etc/app_conf/ccapp/src/check_ccapp_crontab.sh > /dev/null 2>&1" >> /etc/crontabs/root
+	echo "2-58/6 * * * * lua /etc/app_conf/ccapp/src/ccapp_domain_speedup.lua log > /dev/null &" >> /etc/crontabs/root
+    echo "*/1 * * * * sh /etc/app_conf/ccapp/src/ftp_log.sh &" >> /etc/crontabs/root
+    local cpid=`ps|grep -v grep|grep crond|awk '{print $1}'`
+	if [ -n "$cpid" ]; then
+	    kill -9 $cpid
+	fi
+    /usr/sbin/crond -f -c /etc/crontabs -l 5 &
+}
+start() {
+    pid=`ps|grep -v grep|grep "pdnsd"|awk '{print $1}'`
+	if [ ! -n "$pid" ]; then
+	    echo "start pdnsd"
+        /usr/sbin/pdnsd -c /etc/app_conf/ccapp/conf/pdnsd_ccapp.conf --daemon
+	fi
+    
+    local nginx_pid=`ps|grep nginx|grep -v grep|awk '{print $1}'|tr -d "\n"`
+	[ -d /var/log/nginx ] || {
+	    mkdir /var/log/nginx
+	}
+	[ -f /var/log/nginx/error.log ] || {
+        touch /var/log/nginx/error.log
+    }
+    [ -d /var/lib/ ] || {
+        mkdir /var/lib/
+	}
+	[ -d /var/lib/nginx ] || {
+	    mkdir /var/lib/nginx/
+	}
+	if [ -z "$nginx_pid" ]; then
+		nginx
+		echo "start nginx"
+	else
+	    nginx -s reload
+		echo "reload nginx..."
+	fi
+
+	local cc_proxy=`iptables -t nat -L|grep "1.1.1.1"`
+	if [ -z "$cc_proxy" ]; then
+	    ipaddr=`ifconfig  br-lan | grep 'inet addr:'| grep -v '127.0.0.1' |cut -d: -f2 | awk '{ print $1}'`
+	    /usr/bin/lua /etc/app_conf/ccapp/src/cy_proxy.lua -A -A $ipaddr:$nginx_port
+	fi
+
+	echo "dnsmasq_dir=/tmp/dnsmasq.d/" >> ${app_conf_dir}system.cfg  
+    echo "pdnsd_conf=${app_conf_dir}conf/${pdnsd_conf}" >> ${app_conf_dir}system.cfg
+    echo "ccapp_domain_cfg=${app_conf_dir}conf/${ccapp_domain_cfg}" >> ${app_conf_dir}system.cfg
+	echo "has_TF=0" >> ${app_conf_dir}system.cfg
+
+	[  -f /tmp/dnsmasq.d/ccapp_dnsmasq.conf ] || {
+	    lua  ${app_conf_dir}src/ccapp_update_dnscfg.lua  ${app_conf_dir}system.cfg
+	}
+	## check dnsmasq process
+	local tempstr=`ps|grep dnsmasq|grep -v grep|awk '{print $1}'|tr -d "\n"`
+    if [[ -z "$tempstr" ]] ; then
+        /usr/sbin/dnsmasq -C /tmp/dnsmasq.conf -8 /tmp/dnsmasq_log -q &
+	fi
+}
+lua_so() {
+    for file in $(ls $cur_dir/lua/)
+	do
+	    if [ $file = "luci" ] || [ $file = "md5" ] || [ $file = "mime" ] || [ $file = "socket" ]; then
+	        [ ! -d /usr/lib/lua/$file ] && {
+			    cp -a -f $cur_dir/lua/$file /usr/lib/lua/
+			    echo "lua_$file;">>/etc/app_conf/ccapp/cctxt
+			}
+		else
+		    [ ! -f /usr/lib/lua/$file ] && {
+			    cp $cur_dir/lua/$file /usr/lib/lua/
+			    echo "lua_$file;">>/etc/app_conf/ccapp/cctxt
+			}
+		fi
+	done
+}
+curl_install() {
+    if [ -f "/usr/bin/curl" ]; then
+        return 0
+	fi
+	echo "in_curl;">>/etc/app_conf/ccapp/cctxt
+	cp -a -f $cur_dir/curl_file/curl /usr/bin/
+	chmod +x /usr/bin/curl
+    if [ ! -f "/usr/lib/libcurl.so.4.3.0" ] && [ ! -f "/usr/lib/libcurl.so.4" ]; then
+	    echo "libcurl.so.4.3.0;">>/etc/app_conf/ccapp/cctxt
+	    cp -a -f $cur_dir/curl_file/libcurl.so.4.3.0 /usr/lib/
+	    chmod +x /usr/lib/libcurl.so.4.3.0
+		ln -s /usr/lib/libcurl.so.4.3.0 /usr/lib/libcurl.so.4
+	fi
+    if [ ! -f "/usr/lib/libpolarssl.so.1.2.9" ] && [ ! -f "/usr/lib/libpolarssl.so" ]; then
+	    echo "libpolarssl.so.1.2.9;">>/etc/app_conf/ccapp/cctxt
+	    cp -a -f $cur_dir/curl_file/libpolarssl.so.1.2.9 /usr/lib/
+	    chmod +x /usr/lib/libpolarssl.so.1.2.9
+        ln -s /usr/lib/libpolarssl.so.1.2.9 /usr/lib/libpolarssl.so.3
+		ln -s /usr/lib/libpolarssl.so.3 /usr/lib/libpolarssl.so
+	fi
+}
+size_check() {
+    [ -d /usr/lib/lua/socket ] && size=`expr ${size} - 80`
+    [ -f /usr/lib/lua/nixio.so ] && size=`expr ${size} - 76`
+    [ -d /usr/lib/lua/luci ] && size=`expr ${size} - 52`
+    [ -f /usr/lib/lua/cjson.so ] && size=`expr ${size} - 28`
+    [ $size -eq 674 ] && size=`expr ${size} - 56`
+    [ -f /usr/bin/curl ] && size=`expr ${size} - 528`
+    [ ! -f /usr/bin/curl ] && [ -f /usr/lib/libcurl.so.4.3.0 ] && size=`expr ${size} - 220`
+    [ ! -f /usr/bin/curl ] && [ -f /usr/lib/libpolarssl.so.1.2.9 ] && size=`expr ${size} - 220`
+}
+check() {
+    local er=0
+    [ -f /etc/app_conf/ccapp/cctxt ] && {
+        echo "The ccapp_chuyun has Already installed!"
+	    er=2
+	}
+	if [ $er -eq 2 ]; then
+	    echo "Install exit..."
+	    rm -rf $cur_dir
+		exit 0
+	fi
+    [ ! -f /usr/bin/lua ] && {
+        echo "The lua is not find!"
+		er=1
+	}
+    [ ! -f /usr/sbin/dnsmasq ] && {
+        echo "The dnsmasq is not find!"
+		er=1
+	}
+    [ ! -f /usr/sbin/nginx ] && {
+        echo "The nginx is not find!"
+		er=1
+	}
+    [ ! -f /usr/sbin/pdnsd ] && {
+        echo "The pdnsd is not find!"
+		er=1
+	}
+	size_check
+	local vspace=`df /root | awk '{print $4}' | grep -E '[0-9]'`
+	[ $size -gt $vspace ] && {
+	    echo "No enough space to install ccapp!install size $size"
+		er=1
+	}
+	if [ $er -eq 1 ]; then
+	    echo "Install exit..."
+	    rm -rf $cur_dir
+	    rm /etc/app_conf/script
+		exit 0
+	fi
+}
+
+install() {
+    check
+    cpfile
+	lua_so
+	curl_install
+    start
+    echo "install_OK;">>/etc/app_conf/ccapp/cctxt
+	echo "install OK!"
+	rm -rf $cur_dir
+	exit 0
+}
+uninstall() {
+    [ ! -d /etc/app_conf/ccapp ] && {
+        echo "The ccapp is not find!exit..."
+		exit 0
+	}
+    stop
+	rmfile
+	echo "uninstall over!"
+	rm -rf $cur_dir
+	rm /etc/app_conf/script
+	exit 0
+}
+echo 'begin to install....'
+#echo "sh $cur_dir/script install     ##install ccapp"
+#echo "sh $cur_dir/script uninstall   ##uninstall ccapp"

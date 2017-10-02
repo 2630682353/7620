@@ -1,0 +1,19 @@
+Index: ubox-2013-10-27/block.c
+===================================================================
+--- ubox-2013-10-27.orig/block.c
++++ ubox-2013-10-27/block.c
+@@ -375,6 +376,14 @@ static struct mount* find_block(const ch
+ 			return m;
+ 		if (m->device && device && !strcmp(m->device, device))
+ 			return m;
++
++		/* try wildcard match */
++		if (m->device && device && strchr(m->device, '*'))
++		{
++			char * p = strchr(m->device, '*');
++			if (0 == strncmp(device, m->device, p - m->device))
++				return m;
++		}
+ 	}
+ 
+ 	return NULL;

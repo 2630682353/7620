@@ -1,0 +1,413 @@
+Index: mt7610e_wifi_v3006_dpa_20130613/Makefile
+===================================================================
+--- mt7610e_wifi_v3006_dpa_20130613.orig/Makefile
++++ mt7610e_wifi_v3006_dpa_20130613/Makefile
+@@ -1,103 +1,103 @@
+-EXTRA_CFLAGS = -Idrivers/net/wireless/MT7610_ap/include #-Idrivers/net/wireless/MT7610_ap/ate/include
++EXTRA_CFLAGS = -I$(src)/include -I$(src)/ate/include
+ 
+-obj-$(CONFIG_MT7610_AP) += MT7610_ap.o
++obj-m += mt7610.o
+ 
+-MT7610_ap-objs += rate_ctrl/ra_ctrl.o
+-MT7610_ap-objs += rate_ctrl/alg_grp.o
+-MT7610_ap-objs += rate_ctrl/alg_legacy.o
+-MT7610_ap-objs += mgmt/mgmt_entrytb.o
+-MT7610_ap-objs += mgmt/mgmt_hw.o
+-MT7610_ap-objs += mgmt/mgmt_vht.o
+-MT7610_ap-objs += mgmt/mgmt_ht.o
+-MT7610_ap-objs += os/linux/ap_ioctl.o
+-MT7610_ap-objs += os/linux/rt_rbus_pci_drv.o
+-MT7610_ap-objs += os/linux/rt_pci_rbus.o
+-MT7610_ap-objs += os/linux/rt_rbus_pci_util.o
+-#MT7610_ap-objs += os/linux/br_ftph.o
+-MT7610_ap-objs += os/linux/pci_main_dev.o
+-MT7610_ap-objs += os/linux/rt_profile.o
+-MT7610_ap-objs += os/linux/rt_linux.o
+-MT7610_ap-objs += os/linux/rt_proc.o
+-MT7610_ap-objs += os/linux/rt_main_dev.o
+-#MT7610_ap-objs += mcu/rtmp_and.o
+-MT7610_ap-objs += mcu/mcu.o
+-MT7610_ap-objs += mcu/mcu_and.o
+-MT7610_ap-objs += common/cmm_data_pci.o
+-MT7610_ap-objs += common/eeprom.o
+-MT7610_ap-objs += common/cmm_profile.o
+-MT7610_ap-objs += common/cmm_sync.o
+-MT7610_ap-objs += common/rtmp_init_inf.o
+-MT7610_ap-objs += common/cmm_cfg.o
+-MT7610_ap-objs += common/rt_rf.o
+-MT7610_ap-objs += common/action.o
+-MT7610_ap-objs += common/rtmp_init.o
+-MT7610_ap-objs += common/txpower.o
+-MT7610_ap-objs += common/cmm_cmd.o
+-MT7610_ap-objs += common/rtmp_timer.o
+-MT7610_ap-objs += common/cmm_info.o
+-MT7610_ap-objs += common/ba_action.o
+-MT7610_ap-objs += common/cmm_mac_pci.o
+-MT7610_ap-objs += common/cmm_tkip.o
+-MT7610_ap-objs += common/cmm_asic.o
+-MT7610_ap-objs += common/vht.o
+-MT7610_ap-objs += common/cmm_aes.o
+-MT7610_ap-objs += common/crypt_md5.o
+-MT7610_ap-objs += common/cmm_wep.o
+-MT7610_ap-objs += common/crypt_arc4.o
+-MT7610_ap-objs += common/crypt_hmac.o
+-MT7610_ap-objs += common/cmm_wpa.o
+-MT7610_ap-objs += common/ps.o
+-MT7610_ap-objs += common/cmm_sanity.o
+-MT7610_ap-objs += common/cmm_radar.o
+-MT7610_ap-objs += common/crypt_aes.o
+-MT7610_ap-objs += common/ee_efuse.o
+-MT7610_ap-objs += common/cmm_data.o
+-MT7610_ap-objs += common/spectrum.o
+-MT7610_ap-objs += common/crypt_sha2.o
+-MT7610_ap-objs += common/mlme.o
+-MT7610_ap-objs += common/ee_prom.o
+-MT7610_ap-objs += common/rt_os_util.o
+-MT7610_ap-objs += common/rt_channel.o
+-MT7610_ap-objs += common/scan.o
+-MT7610_ap-objs += common/uapsd.o
+-MT7610_ap-objs += ap/ap_qload.o
+-MT7610_ap-objs += ap/ap_auth.o
+-MT7610_ap-objs += ap/ap_sync.o
+-MT7610_ap-objs += ap/ap_mlme.o
+-MT7610_ap-objs += ap/ap_wpa.o
+-MT7610_ap-objs += ap/ap_assoc.o
+-MT7610_ap-objs += ap/ap_cfg.o
+-MT7610_ap-objs += ap/ap_autoChSel.o
+-MT7610_ap-objs += ap/ap_sanity.o
+-MT7610_ap-objs += ap/ap.o
+-MT7610_ap-objs += ap/ap_data.o
+-MT7610_ap-objs += ap/ap_connect.o
+-MT7610_ap-objs += chips/rtmp_chip.o
+-#MT7610_ap-objs += chips/rt30xx.o
+-MT7610_ap-objs += chips/rt65xx.o
+-MT7610_ap-objs += chips/mt76x0.o
+-#MT7610_ap-objs += FPGA/verf.o
+-MT7610_ap-objs += phy/rtmp_phy.o
+-MT7610_ap-objs += phy/rlt_rf.o
+-MT7610_ap-objs += phy/rlt_phy.o
+-MT7610_ap-objs += mac/ral_nmac.o
+-MT7610_ap-objs += mac/rtmp_mac.o
++mt7610-objs += rate_ctrl/ra_ctrl.o
++mt7610-objs += rate_ctrl/alg_grp.o
++mt7610-objs += rate_ctrl/alg_legacy.o
++mt7610-objs += mgmt/mgmt_entrytb.o
++mt7610-objs += mgmt/mgmt_hw.o
++mt7610-objs += mgmt/mgmt_vht.o
++mt7610-objs += mgmt/mgmt_ht.o
++mt7610-objs += os/linux/ap_ioctl.o
++mt7610-objs += os/linux/rt_rbus_pci_drv.o
++mt7610-objs += os/linux/rt_pci_rbus.o
++mt7610-objs += os/linux/rt_rbus_pci_util.o
++#mt7610-objs += os/linux/br_ftph.o
++mt7610-objs += os/linux/pci_main_dev.o
++mt7610-objs += os/linux/rt_profile.o
++mt7610-objs += os/linux/rt_linux.o
++mt7610-objs += os/linux/rt_proc.o
++mt7610-objs += os/linux/rt_main_dev.o
++#mt7610-objs += mcu/rtmp_and.o
++mt7610-objs += mcu/mcu.o
++mt7610-objs += mcu/mcu_and.o
++mt7610-objs += common/cmm_data_pci.o
++mt7610-objs += common/eeprom.o
++mt7610-objs += common/cmm_profile.o
++mt7610-objs += common/cmm_sync.o
++mt7610-objs += common/rtmp_init_inf.o
++mt7610-objs += common/cmm_cfg.o
++mt7610-objs += common/rt_rf.o
++mt7610-objs += common/action.o
++mt7610-objs += common/rtmp_init.o
++mt7610-objs += common/txpower.o
++mt7610-objs += common/cmm_cmd.o
++mt7610-objs += common/rtmp_timer.o
++mt7610-objs += common/cmm_info.o
++mt7610-objs += common/ba_action.o
++mt7610-objs += common/cmm_mac_pci.o
++mt7610-objs += common/cmm_tkip.o
++mt7610-objs += common/cmm_asic.o
++mt7610-objs += common/vht.o
++mt7610-objs += common/cmm_aes.o
++mt7610-objs += common/crypt_md5.o
++mt7610-objs += common/cmm_wep.o
++mt7610-objs += common/crypt_arc4.o
++mt7610-objs += common/crypt_hmac.o
++mt7610-objs += common/cmm_wpa.o
++mt7610-objs += common/ps.o
++mt7610-objs += common/cmm_sanity.o
++mt7610-objs += common/cmm_radar.o
++mt7610-objs += common/crypt_aes.o
++mt7610-objs += common/ee_efuse.o
++mt7610-objs += common/cmm_data.o
++mt7610-objs += common/spectrum.o
++mt7610-objs += common/crypt_sha2.o
++mt7610-objs += common/mlme.o
++mt7610-objs += common/ee_prom.o
++mt7610-objs += common/rt_os_util.o
++mt7610-objs += common/rt_channel.o
++mt7610-objs += common/scan.o
++mt7610-objs += common/uapsd.o
++mt7610-objs += ap/ap_qload.o
++mt7610-objs += ap/ap_auth.o
++mt7610-objs += ap/ap_sync.o
++mt7610-objs += ap/ap_mlme.o
++mt7610-objs += ap/ap_wpa.o
++mt7610-objs += ap/ap_assoc.o
++mt7610-objs += ap/ap_cfg.o
++mt7610-objs += ap/ap_autoChSel.o
++mt7610-objs += ap/ap_sanity.o
++mt7610-objs += ap/ap.o
++mt7610-objs += ap/ap_data.o
++mt7610-objs += ap/ap_connect.o
++mt7610-objs += chips/rtmp_chip.o
++#mt7610-objs += chips/rt30xx.o
++mt7610-objs += chips/rt65xx.o
++mt7610-objs += chips/mt76x0.o
++#mt7610-objs += FPGA/verf.o
++mt7610-objs += phy/rtmp_phy.o
++mt7610-objs += phy/rlt_rf.o
++mt7610-objs += phy/rlt_phy.o
++mt7610-objs += mac/ral_nmac.o
++mt7610-objs += mac/rtmp_mac.o
+ 
+ ifeq ($(CONFIG_MT7610_AP_FLASH),y)
+ 	EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
+-	MT7610_ap-objs += common/ee_flash.o
++	mt7610-objs += common/ee_flash.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_WMM_ACM),y)
+ 	EXTRA_CFLAGS += -DWMM_ACM_SUPPORT
+-	MT7610_ap-objs += common/acm_edca.o
+-	MT7610_ap-objs += common/acm_comm.o
+-	MT7610_ap-objs += common/acm_iocl.o
++	mt7610-objs += common/acm_edca.o
++	mt7610-objs += common/acm_comm.o
++	mt7610-objs += common/acm_iocl.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_LED),y)
+ 	EXTRA_CFLAGS += -DWLAN_LED -DLED_CONTROL_SUPPORT
+-	MT7610_ap-objs += common/rt_led.o
++	mt7610-objs += common/rt_led.o
+ ifeq ($(CONFIG_MT7610_AP_WSC),y)
+ 	EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+ endif
+@@ -105,129 +105,129 @@ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_WSC),y)
+ 	EXTRA_CFLAGS += -DWSC_AP_SUPPORT
+-	MT7610_ap-objs += common/wsc.o
+-	MT7610_ap-objs += common/wsc_tlv.o
+-	MT7610_ap-objs += common/crypt_dh.o
+-	MT7610_ap-objs += common/crypt_biginteger.o
+-	MT7610_ap-objs += common/wsc_ufd.o
++	mt7610-objs += common/wsc.o
++	mt7610-objs += common/wsc_tlv.o
++	mt7610-objs += common/crypt_dh.o
++	mt7610-objs += common/crypt_biginteger.o
++	mt7610-objs += common/wsc_ufd.o
+ ifeq ($(CONFIG_MT7610_AP_WSC_V2),y)
+ 	EXTRA_CFLAGS += -DWSC_V2_SUPPORT
+-	MT7610_ap-objs += common/wsc_v2.o
++	mt7610-objs += common/wsc_v2.o
+ endif
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_WDS),y)
+ 	EXTRA_CFLAGS += -DWDS_SUPPORT
+-	MT7610_ap-objs += ap/ap_wds.o
+-	MT7610_ap-objs += ap/ap_wds_inf.o
+-	MT7610_ap-objs += common/client_wds.o
++	mt7610-objs += ap/ap_wds.o
++	mt7610-objs += ap/ap_wds_inf.o
++	mt7610-objs += common/client_wds.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_MBSS),y)
+ 	EXTRA_CFLAGS += -DMBSS_SUPPORT
+-	MT7610_ap-objs += ap/ap_mbss.o
+-	MT7610_ap-objs += ap/ap_mbss_inf.o
++	mt7610-objs += ap/ap_mbss.o
++	mt7610-objs += ap/ap_mbss_inf.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_APCLI),y)
+ 	EXTRA_CFLAGS += -DAPCLI_SUPPORT
+ 	EXTRA_CFLAGS += -DMAT_SUPPORT
+-	MT7610_ap-objs += ap/ap_apcli.o
+-	MT7610_ap-objs += ap/ap_apcli_inf.o
+-	MT7610_ap-objs += ap/apcli_assoc.o
+-	MT7610_ap-objs += ap/apcli_auth.o
+-	MT7610_ap-objs += ap/apcli_ctrl.o
+-	MT7610_ap-objs += ap/apcli_sync.o
+-	MT7610_ap-objs += common/cmm_mat.o
+-	MT7610_ap-objs += common/cmm_mat_iparp.o
+-	MT7610_ap-objs += common/cmm_mat_pppoe.o
+-	MT7610_ap-objs += common/cmm_mat_ipv6.o
++	mt7610-objs += ap/ap_apcli.o
++	mt7610-objs += ap/ap_apcli_inf.o
++	mt7610-objs += ap/apcli_assoc.o
++	mt7610-objs += ap/apcli_auth.o
++	mt7610-objs += ap/apcli_ctrl.o
++	mt7610-objs += ap/apcli_sync.o
++	mt7610-objs += common/cmm_mat.o
++	mt7610-objs += common/cmm_mat_iparp.o
++	mt7610-objs += common/cmm_mat_pppoe.o
++	mt7610-objs += common/cmm_mat_ipv6.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_IGMP_SNOOP),y)
+ 	EXTRA_CFLAGS += -DIGMP_SNOOP_SUPPORT
+-	MT7610_ap-objs += common/igmp_snoop.o
++	mt7610-objs += common/igmp_snoop.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_NETIF_BLOCK),y)
+ 	EXTRA_CFLAGS += -DBLOCK_NET_IF
+-	MT7610_ap-objs += common/netif_block.o
++	mt7610-objs += common/netif_block.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_DFS),y)
+ 	EXTRA_CFLAGS += -DDFS_SUPPORT
+ 	EXTRA_CFLAGS += -DDFS_HARDWARE_SUPPORT -DDFS_FCC_BW40_FIX -DDFS_DEBUG 
+-	MT7610_ap-objs += common/cmm_dfs.o
++	mt7610-objs += common/cmm_dfs.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_CARRIER),y)
+ 	EXTRA_CFLAGS += -DCARRIER_DETECTION_SUPPORT
+-	MT7610_ap-objs += common/cmm_cs.o
++	mt7610-objs += common/cmm_cs.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_DLS),y)
+ 	EXTRA_CFLAGS += -DQOS_DLS_SUPPORT
+-	MT7610_ap-objs += ap/ap_dls.o
++	mt7610-objs += ap/ap_dls.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_IDS),y)
+ 	EXTRA_CFLAGS += -DIDS_SUPPORT
+-	MT7610_ap-objs += ap/ap_ids.o
++	mt7610-objs += ap/ap_ids.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_WAPI),y)
+ 	EXTRA_CFLAGS   += -DWAPI_SUPPORT -DSOFT_ENCRYPT
+-	MT7610_ap-objs += common/wapi.o
+-	MT7610_ap-objs += common/wapi_sms4.o
+-	MT7610_ap-objs += common/wapi_crypt.o
+-	MT7610_ap-objs += common/libwapi.a
++	mt7610-objs += common/wapi.o
++	mt7610-objs += common/wapi_sms4.o
++	mt7610-objs += common/wapi_crypt.o
++	mt7610-objs += common/libwapi.a
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_80211R_FT),y)
+-	MT7610_ap-objs += common/ft.o
+-	MT7610_ap-objs += common/ft_iocl.o
+-	MT7610_ap-objs += common/ft_tlv.o
+-	MT7610_ap-objs += common/ft_rc.o
+-	MT7610_ap-objs += ap/ap_ftkd.o
++	mt7610-objs += common/ft.o
++	mt7610-objs += common/ft_iocl.o
++	mt7610-objs += common/ft_tlv.o
++	mt7610-objs += common/ft_rc.o
++	mt7610-objs += ap/ap_ftkd.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_80211K_RR),y)
+-	MT7610_ap-objs += common/rrm_tlv.o
+-	MT7610_ap-objs += common/rrm_sanity.o
+-	MT7610_ap-objs += common/rrm.o
++	mt7610-objs += common/rrm_tlv.o
++	mt7610-objs += common/rrm_sanity.o
++	mt7610-objs += common/rrm.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_VIDEO_TURBINE),y)
+ 	EXTRA_CFLAGS   += -DVIDEO_TURBINE_SUPPORT
+-	MT7610_ap-objs += common/cmm_video.o
++	mt7610-objs += common/cmm_video.o
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_CSO),y)
+ 	EXTRA_CFLAGS   += -DCONFIG_CSO_SUPPORT -DCONFIG_TSO_SUPPORT
+-	MT7610_ap-objs += naf/net_acc.o
++	mt7610-objs += naf/net_acc.o
+ endif
+ 
+ #ifeq ($(CONFIG_MT7610_AP_MESH),y)
+ #EXTRA_CFLAGS += -DMESH_SUPPORT -DINTEL_CMPC -DSCAN_SUPPOR
+-#MT7610_ap-objs += common/mesh_link_mng.o
+-#MT7610_ap-objs += common/mesh.o
+-#MT7610_ap-objs += common/mesh_ctrl.o
+-#MT7610_ap-objs += common/mesh_forwarding.o
+-#MT7610_ap-objs += common/mesh_bmpkt.o
+-#MT7610_ap-objs += common/mesh_inf.o
+-#MT7610_ap-objs += common/mesh_tlv.o
+-#MT7610_ap-objs += common/mesh_sanity.o
+-#MT7610_ap-objs += common/mesh_path_mng.o
++#mt7610-objs += common/mesh_link_mng.o
++#mt7610-objs += common/mesh.o
++#mt7610-objs += common/mesh_ctrl.o
++#mt7610-objs += common/mesh_forwarding.o
++#mt7610-objs += common/mesh_bmpkt.o
++#mt7610-objs += common/mesh_inf.o
++#mt7610-objs += common/mesh_tlv.o
++#mt7610-objs += common/mesh_sanity.o
++#mt7610-objs += common/mesh_path_mng.o
+ #endif
+ 
+ ###################
+ #  CFLAGS
+ ##################
+ 
+-	EXTRA_CFLAGS += -DDOT11_N_SUPPORT -DDOT11_VHT_AC -DSTATS_COUNT_SUPPORT -DNEW_RATE_ADAPT_SUPPORT
+-	EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT  -DLINUX -Wall -Wstrict-prototypes -Wno-trigraphs \
++EXTRA_CFLAGS += -DDOT11_N_SUPPORT -DDOT11_VHT_AC -DSTATS_COUNT_SUPPORT -DNEW_RATE_ADAPT_SUPPORT
++EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT  -DLINUX -Wall -Wstrict-prototypes -Wno-trigraphs \
+ 			-DSYSTEM_LOG_SUPPORT -DRESOURCE_PRE_ALLOC -DFPGA_MODE -DENHANCED_STAT_DISPLAY
+-			EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT  -DUAPSD_SUPPORT -DIAPP_SUPPORT -DDOT1X_SUPPORT -DAP_SCAN_SUPPORT -DSCAN_SUPPORT
++EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT  -DUAPSD_SUPPORT -DIAPP_SUPPORT -DDOT1X_SUPPORT -DAP_SCAN_SUPPORT -DSCAN_SUPPORT
+ #EXTRA_CFLAGS += -DRALINK_ATE -DCONFIG_RT2880_ATE_CMD_NEW -DRALINK_QA
+ EXTRA_CFLAGS += -DMT76x0 -DRT65xx -DMT7610 -DMT7630 -DMT7650 -DRLT_MAC -DRLT_RF -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DA_BAND_SUPPORT -DRX_DMA_SCATTER -DRTMP_EFUSE_SUPPORT -DRA_NAT_SUPPORT -DCONFIG_ANDES_SUPPORT
+ EXTRA_CFLAGS += -DVCORECAL_SUPPORT -DFIFO_EXT_SUPPORT
+@@ -235,11 +235,11 @@ EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DPEER
+ #EXTRA_CFLAGS += -DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
+ 
+ ifeq ($(CONFIG_MT7610_AP_ATE),y)
+-EXTRA_CFLAGS += -Idrivers/net/wireless/MT7610_ap/ate/include
+-MT7610_ap-objs += ate/common/rt_ate.o
+-MT7610_ap-objs += ate/common/ate_pci.o
+-MT7610_ap-objs += ate/chips/rt6590_ate.o
+-#MT7610_ap-objs += ate/chips/rt85592_ate.o
++EXTRA_CFLAGS += -I$(src)/ate/include
++mt7610-objs += ate/common/rt_ate.o
++mt7610-objs += ate/common/ate_pci.o
++mt7610-objs += ate/chips/rt6590_ate.o
++#mt7610-objs += ate/chips/rt85592_ate.o
+ EXTRA_CFLAGS += -DRALINK_ATE
+ EXTRA_CFLAGS += -DCONFIG_RT2880_ATE_CMD_NEW
+ #EXTRA_CFLAGS += -DRTMP_RF_RW_SUPPORT
+@@ -247,7 +247,7 @@ EXTRA_CFLAGS += -DCONFIG_RT2880_ATE_CMD_
+ endif
+ 
+ ifeq ($(CONFIG_MT7610_AP_QA),y)
+-MT7610_ap-objs += ate/common/rt_qa.o
++mt7610-objs += ate/common/rt_qa.o
+ EXTRA_CFLAGS += -DRALINK_QA
+ EXTRA_CFLAGS += -DENHANCED_STAT_DISPLAY
+ endif
+@@ -314,7 +314,7 @@ ifeq ($(CONFIG_MT7610_AP_MAC_REPEATER),y
+ 	EXTRA_CFLAGS += -DMAC_REPEATER_SUPPORT
+ 	EXTRA_CFLAGS += -DAPCLI_CONNECTION_TRIAL
+ #	EXTRA_CFLAGS += -DAPCLI_AUTO_CONNECT_SUPPORT
+-	MT7610_ap-objs += ap/ap_repeater.o
++	mt7610-objs += ap/ap_repeater.o
+ endif
+ 
+ #ifeq ($(CONFIG_MT7610_AP_HDR_TRANS),y)

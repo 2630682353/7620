@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0,minimal-ui" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>路由器设置</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/router.js"></script>
+        <!--[if lte IE 6]> 
+        <div id="ie6-warning">您正在使用 Internet Explorer 6，在本页面的显示效果可能有差异。建议您升级到现代浏览器： <a href="http://www.google.com/chrome/?hl=zh-CN">Chrome</a> / <a href="http://www.mozillaonline.com/">Firefox</a> / <a href="http://www.apple.com.cn/safari/">Safari</a> / <a href="http://www.operachina.com/">Opera</a></div> 
+        <![endif]--> 
+    </head>
+
+    <body class="login-bd">
+        <div class="login-wrap">
+            <div class="login-box">
+                <div class="login-logo"><a href="javascript:;"><img src="images/logo.png"></a></div>
+                <h1>欢迎使用拓展器</h1>
+<!--                <div id="setpwd" style="display: none;">
+                    <div class="login-inpt">
+                        <label for="userpwd">设置密码(6-15位字符)</label>
+                        <input type="password" class="inpts" id="userpwd" onfocus="ap_router.hidePlaceholder(this.id);" onfocusout="ap_router.setPlaceholder(this.id)">
+                    </div>
+                    <div class="login-inpt">
+                        <label for="userpwd2">确认密码</label>
+                        <input type="password" class="inpts" id="userpwd2" onfocus="ap_router.hidePlaceholder(this.id);" onfocusout="ap_router.setPlaceholder(this.id);">
+                    </div>
+                    <a href="javascript:;" class="btn login-btn" id="user_confirm" onclick="ap_router.checkLoginForm();">确定</a>
+                </div>-->
+                <div id="login">
+                    <div class="login-inpt">
+                        <label for="login_pwd">请输入密码</label>
+                        <input type="password" class="inpts" id="login_pwd" onfocus="ap_router.hidePlaceholder(this.id);" onfocusout="ap_router.setPlaceholder(this.id)">
+                    </div>
+                    <a href="javascript:;" class="btn login-btn" onclick="ap_router.checkLoginForm()" id="user_login">登录</a> 
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

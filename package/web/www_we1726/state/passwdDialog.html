@@ -1,0 +1,56 @@
+<div class="routerSetPwd" ng-controller="passwdCtrl"> <!-- 修改密码开始 -->
+
+    <div class="routerSetTit">
+
+        <a href="javascript:;" class="routerClose" onclick="closeSetDialog()"><img src="images/routerClose.png" ></a>
+
+        <span>修改密码</span>&nbsp;&nbsp;
+
+        <small>路由器后台登录密码</small>
+
+    </div>
+
+    <div class="wifiSet stateTop">
+            <ul>
+
+                <!-- <li>
+
+                  <span class="SetWifiName">旧密码</span>&nbsp;&nbsp;　　
+
+                  <input type="password" class="stateSel netName netPassword" id="oldPwd" value="">&nbsp;<p class="pwdErr"></p>
+
+                </li> -->
+
+                <li>
+
+                    <span class="SetWifiName">新密码</span>&nbsp;&nbsp;　　
+
+                    <input type="password" class="stateSel netName netPassword" ng-model="newPasswd" ng-focus="clearPasswdErr()"
+                            ng-blur="checkNewPass()">&nbsp;
+                    <p class="errMsg" ng-bind="newPassErr"></p>
+
+                </li>
+
+                <li>
+
+                    <span class="SetWifiName">重复新密码</span>&nbsp;&nbsp;
+
+                    <input type="password" class="stateSel" ng-model="newPassRepeat" ng-blur="checkSame()" ng-focus="clearPasswdErr()">&nbsp;
+                    <p class="errMsg" ng-bind="newPassRepeatErr" ></p>
+
+                </li>
+
+                <div class="SetWifiSub">
+
+                    <input type="submit" class="btn btn-default" ng-click="submitPasswd()" value="保存">
+
+                    <input type="reset" class="btn wanResetBtn" value="取消" onclick="closeSetDialog()">
+
+                </div>
+                <div><p class="errMsg" ng-bind="errMsg"></p></div>
+
+            </ul>
+
+    </div>
+
+</div> <!-- 修改密码结束 -->

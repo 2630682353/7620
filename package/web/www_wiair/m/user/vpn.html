@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>星际互联-路由器设置</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/m_router.css">
+</head>
+
+<body>
+<style>
+.layermbtn span:first-child{ background-color:#056b9c;}
+</style>
+<div class="wrap">
+	<div class="top"><a href="index.html" class="goback"><i></i></a>星际互联</div>
+    
+    <!-- 登录vpn -->  
+    <div id="vpn_login" > 
+        <ul class="login-box">
+            <li><span class="lar-icon"><img src="../../images/m/acc-icon.png"></span><input required class="vpn-inpt" type="text" name="username" placeholder="请输入用户名\手机号码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/pwd-icon.png"></span><input required class="vpn-inpt" type="password" name="pwd" placeholder="请输入密码"></li>
+        </ul>
+        <div class="bot-box">
+            <div class="box"><a href="javascript:;" class="btn">登录</a></div>
+            <div class="bot"><a href="javascript:;" class="fl grey">注册新用户</a> <a href="javascript:;" class="fr grey">忘记密码?</a></div>
+        </div>   
+    </div>
+    <!-- 登录vpn end-->
+    
+    <!-- 注册vpn -->  
+    <div id="vpn_reg" style="display:none;"> 
+        <ul class="login-box">
+            <li><span class="lar-icon"><img src="../../images/m/acc-icon.png"></span><input required class="vpn-inpt" type="text" name="username" placeholder="请输入您的真实姓名"></li>
+            <li><span class="lar-icon"><img src="../../images/m/card-icon.png"></span><input required class="vpn-inpt" type="text" name="username" placeholder="请输入身份证号码"></li>
+            <li><span class="lar-icon" style="width:1.5rem;margin-right:1rem;"><img src="../../images/m/phone-icon.png"></span><input required class="vpn-inpt" type="tel" name="username" placeholder="请输入手机号码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/pwd-icon.png"></span><input required class="vpn-inpt" type="password" name="pwd" placeholder="请输入密码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/pwd-icon.png"></span><input required class="vpn-inpt" type="password" name="pwd" placeholder="请再次输入密码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/code-icon.png"></span><input required class="vpn-inpt s-inpt" type="text" name="username" placeholder="请输入验证码"> <a href="javascript:;" class="code-link">获取短信验证码</a></li>
+        </ul>
+        <div class="bot-box">
+            <div class="box"><a href="javascript:;" class="btn">注册</a></div>
+             <div class="bot" style="text-align:center;">
+                <input type="checkbox" checked class="chks"> 我同意
+                 <a class="blue" href="http://vpn.hbdata.cc:8090/vpn/d/la" target="_blank">《用户许可协议》</a>
+                 <a class="blue" href="http://vpn.hbdata.cc:8090/vpn/d/sa" target="_blank">《星际互联服务条款》</a>
+             </div>
+        </div> 
+    </div>  
+    <!-- 注册vpn end-->
+    
+    <!-- 找回密码vpn -->  
+    <div id="vpn_getpwd" style="display:none;"> 
+        <ul class="login-box">
+            <li><span class="lar-icon"><img src="../../images/m/acc-icon.png"></span><input required class="vpn-inpt" type="text" name="username" placeholder="请输入用户名\手机号码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/pwd-icon.png"></span><input required class="vpn-inpt" type="password" name="pwd" placeholder="请输入密码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/pwd-icon.png"></span><input required class="vpn-inpt" type="password" name="pwd" placeholder="请再次输入密码"></li>
+            <li><span class="lar-icon"><img src="../../images/m/code-icon.png"></span><input required class="vpn-inpt s-inpt" type="text" name="username" placeholder="请输入验证码"> <a href="javascript:;" class="code-link">获取短信验证码</a></li>
+        </ul>
+        <div class="bot-box">
+            <div class="box"><a href="javascript:;" class="btn">确定</a></div>
+        </div> 
+    </div>  
+    <!-- 找回密码vpn end-->
+    	
+    <!-- 启动vpn -->
+    <div class="bd-box" style="display:none;">
+        <h1>星际互联</h1>
+        <div class="vpn-tit">高速稳定不掉线，尽享优质VPN服务</div>
+        <div class="vpn-desc">服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容服务内容</div>
+        <div class="btn-box"><a href="javascript:;" class="btn" id="vpn_start">启动VPN</a></div>
+    </div>
+    <!-- 启动vpn end-->
+    
+    <!-- 购买套餐 -->
+    <div class="bd-box" style="display:none;">
+        <div class="vpn-tit">
+            <div class="fl"><span class="md-icon"><img src="../../images/m/account.png"></span><span>帐号: 13800138000</span></div>
+            <a href="javascript:;" class="fr"><span class="md-icon"><img src="../../images/m/logout.png"></span> 退出账号>></a>
+        </div>
+        <div class="tc-box">
+            <p>当前套餐：优惠套餐</p>
+            <p>剩余时间：25天</p>
+            <p>开始时间：2016年1月2日</p>
+            <p>结束时间：2016年2月2日</p>
+            <p>套餐详情：5G不限流量，之后200KB/S5G不限流量，之后200KB/S5G不限流量，之后200KB/S5G不限流量，之后</p>
+            <p>连接状态：已连接</p>
+            
+        </div>
+        <div class="renew"><span class="md-icon"><img src="../../images/m/coin.png"></span><a href="javascript:;">续费>></a></div>
+        <div class="btn-box"><a href="javascript:;" class="btn">关闭</a></div>
+        
+    </div>
+    <!-- 购买套餐 end-->
+    
+    <!-- 支付方式 -->
+    <div class="bd-box mgat" id="packageshow" style="display:none;">
+        <div class="vpn-tit">
+            <div class="fl"><span class="md-icon"><img src="../../images/m/account.png"></span><span>帐号: 13800138000</span></div>
+            <a href="javascript:;" class="fr"><span class="md-icon"><img src="../../images/m/logout.png"></span> 退出账号>></a>
+        </div>
+        
+        <div class="tc-box pay" style="border:none;">
+            <div class="pay-box">
+                <div class="vpn-tit2"><span class="tc-ico"></span>续费方式：</div>
+                <div class="tc-name-box">
+                    <a href="javascript:;" data-id="xf_1" class="xf-name selected">支付购买</a>
+                    <a href="javascript:;" data-id="xf_2" class="xf-name">激活码</a>
+                </div>
+            </div>	
+        </div>
+        <div id="xf_1_box" class="xf-name-box">
+            <div class="tc-box pay">
+                <div class="pay-box">
+                    <div class="vpn-tit2"><span class="tc-ico"></span>选择套餐：</div>
+                    <div class="tc-name-box" id="vpnshowlist">
+                        <a href="javascript:;" data-id="tc_1" class="tc-name">体验套餐</a>
+                        <a href="javascript:;" data-id="tc_2" class="tc-name selected">畅享套餐</a>
+                    </div>
+                </div>
+                <div class="pay-box">
+                    <div class="vpn-tit2 pacakage_date">
+                        <div class="tc-name-box hide" id="tc_1_box">
+                        <a href="javascript:;" data-id="1" data-price="0.01" data-desc="24小时试用(使用P2P下载自动断线，超过3次扣除一个月使用期限，概不退费)" class="tc-time selected">1天</a>
+                        </div>
+                        <div class="tc-name-box" id="tc_2_box"><a href="javascript:;" data-id="2" data-price="20.00" data-desc="每月5GB内不限速，超出5GB限速200K/s(使用P2P下载自动断线，超过3次扣除一个月使用期限，概不退费)" class="tc-time selected">1个月</a><a href="javascript:;" data-id="3" data-price="114.00" data-desc="每月5GB内不限速，超出5GB限速200K/s(使用P2P下载自动断线，超过3次扣除一个月使用期限，概不退费)" class="tc-time">6个月</a><a href="javascript:;" data-id="4" data-price="218.00" data-desc="每月5GB内不限速，超出5GB限速200K/s(使用P2P下载自动断线，超过3次扣除一个月使用期限，概不退费)" class="tc-time">12个月</a></div></div>
+                    <div class="tc-txt">每月5GB内不限速，超出5GB限速200K/s(使用P2P下载自动断线，超过3次扣除一个月使用期限，概不退费)</div>
+                </div>
+                <div class="pay-box">
+                    <div class="vpn-tit2"><span class="tc-ico"></span>支付方式：</div>
+                    <ul>
+                        <li><label for="wx"><input type="radio" name="paymethod" id="wx" value="2" checked="" class="rdo"><span class="pay-ico"><img src="../../images/m/wx.png"></span>微信支付</label></li>
+                        <li><label for="zfb"><input type="radio" name="paymethod" id="zfb" value="1" class="rdo"><span class="pay-ico"><img src="../../images/m/zfb.png"></span>支付宝</label></li>
+                    </ul>
+                </div>
+
+                <div class="pay-box">
+                    <div class="vpn-tit2"><span class="tc-ico" style="background:none;"></span>价格：<strong class="red"><span id="orderpice">20.00</span>元</strong></div>
+                    <p class="bz">备注：自购买日起生效</p>
+                </div>
+            </div>
+            <input type="hidden" value="" id="vagainbuy">
+            <div class="vpn-btn"><a href="javascript:;" class="btn" id="confirm_buy">确认购买</a></div>
+        </div>
+        <div id="xf_2_box" class="xf-name-box hide">
+            <div class="tc-box pay" style="border:none;">
+                <div class="pay-box">
+                    <div class="tc-name-box">
+                        激活码：<input type="text" class="jh-inpt" placeholder="请输入您的激活码">
+                        <input type="button" class="btn jh-btn" value="确认">
+                    </div>
+                    <div class="jh-state">激活码无效，请重新输入</div>
+                    <div class="jh-state">您已成功续费一年畅享套餐</div>
+                </div>
+
+            </div>	
+        </div>
+
+    </div>
+    <!-- 支付方式 end-->
+        
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/layer.m/layer.m.js"></script>
+<script type="text/javascript" src="../../js/m_router.js"></script>
+
+

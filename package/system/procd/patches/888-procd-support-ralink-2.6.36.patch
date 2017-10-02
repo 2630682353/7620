@@ -1,0 +1,14 @@
+--- a/syslog.c
++++ b/syslog.c
+@@ -12,10 +12,10 @@
+  * GNU General Public License for more details.
+  */
+ 
+-#include <linux/un.h>
+ 
+ #include <sys/types.h>
+ #include <sys/socket.h>
++#include <linux/un.h>
+ #include <sys/stat.h>
+ 
+ #include <fcntl.h>

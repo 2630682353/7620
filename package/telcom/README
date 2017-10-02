@@ -1,0 +1,5 @@
+编译:
+	1. 依赖jansson和openssl. openssl需要打开CONFIG_OPENSSL_WITCH_EC=Y，开启ecdh支持
+	2. sdk的uclibc存在bug，所以不支持static链接
+
+编译生成两个可执行程序telcomc, telcoms。 telcomc是客户端，telcoms是服务器。

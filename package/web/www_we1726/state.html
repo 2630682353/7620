@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app="webapiApp" ng-controller="stateCtrl" ng-cloak>
+    <head>
+        <meta charset="UTF-8">
+        <title>路由状态</title>
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+        <script src="js/angular.1.4.6.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/common.js"></script>
+        <script src="js/webapiAngular.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+        <script src="state/stateAngular.js"></script>
+        <script src="state/lanDialogAngular.js"></script>
+        <script src="state/passwdAngular.js"></script>
+        <script src="state/wifiDialogAngular.js"></script>
+        <script src="state/wanDialogAngular.js"></script>
+        <script>
+    if ($.cookie('lstatus') != 'true') {
+        $.cookie('lstatus', false, {path: '/'});
+        document.location = 'http://' + document.domain + "/login.html";
+    }
+        </script>
+    </head>
+    <body>
+        <!-- 页头 header.html -->
+        <header class="header routerhead">
+            <div class="mainWidth">
+                <div>
+                    <a href="#" class="float-l routerlogo"><img src="images/logo.png" alt=""></a>
+                    <ul class="routerMeun float-l">
+                        <li class="active"><a ng-href="{{stateHref}}">系统状态</a></li>
+                        <li><a ng-href="{{deviceHref}}">终端设备</a></li>
+                        <li><a ng-href="{{settingHref}}">系统设置</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="routerTit">欢迎使用乐家路由宝</div>
+        <div class="mainWidth">
+            <div class="routerBg">
+                <div class="routerMain">
+                    <div class="wifiName">【<span ng-bind="wifiName"></span>】</div>
+                    <div class="ipAddr text-center" style="line-height: 1.9em;"><span ng-bind="ipAddr" ng-show="wanErr"></span><br/>
+                        <span ng-bind="wanProto" ng-show="wanErr"></span></div>
+                    <div class="wifiDevice"><a href="javascript:;" ng-click="toggleSetWifi()"><img src="images/routerWifi.png" class=""></a>
+                        <p>无线设置</p></div>
+                    <div class="setLan"><a href="javascript:;" ng-click="toggleSetLan()">
+                            <!-- <img src="images/routerLan.png"> --></a>
+                        <p>内网设置</p></div>
+                    <div class="reboot"><a href="javascript:;" ng-click="toggleReboot()">重启</a></div>
+                    <div class="wanDevice">
+                        <a href="javascript:;" ng-hide="wanErr" ng-click="toggleSetWan()"><img src="images/routerWanOff.png"><img src="images/routerWanErr.png" class="routerWanErr"></a>
+                        <a href="javascript:;" ng-show="wanErr" ng-click="toggleSetWan()"><img src="images/routerWanOk.png"></a>
+                        <p>外网设置</p>
+                    </div>
+                    <div class="interNet"><p>互联网　　　　</p></div>
+                    <div class="changePwd"><a href="javascript:;" ng-click="toggleChangePasswd()">修改密码</a></div>
+                    <div class="moblieDevice"><a ng-href="{{deviceHref}}">终端设备<span ng-bind="wifiClients"></span></a></div>
+                    <div class="port port1" ng-show ='showport1'></div>
+                    <div class="port port2" ng-show ='showport2'></div>
+                    <div class="port port3" ng-show ='showport3'></div>
+                    <div class="port port4" ng-show ='showport4'></div>
+                    <div class="port port5" ng-show ='showport5'></div>
+                </div>
+                <div class="routerHidden tipModelHidden">
+                    <div class="routerHideCon">
+                        <div ng-include="'state/rebootDialog.html'"></div>
+                        <div ng-include="'state/wifiDialog.html'"></div>
+                        <div ng-include="'state/wanDialog.html'"></div>
+                        <div ng-include="'state/lanDialog.html'"></div>
+                        <div ng-include="'state/passwdDialog.html'"></div>
+                        <div class="tipModel"> <!-- 提示框 -->
+                            <div class="routerSetTit">
+                                <!-- <a href="javascript:;" onclick="closeSetDialog()" class="routerClose"><img src="./images/routerClose.png" ></a> -->
+                                <span>提示：</span>&nbsp;&nbsp;
+                            </div>
+                            <div class="wifiSet stateTop">
+                                <p id="tipModelId"></p>
+                                <div class="SetWifiSub">
+                                    <input type="submit" id="submitTip" class="btn btn-default" ng-click="submitTip()" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div><!-- 提示框结束-->
+                    </div>
+                </div>
+            </div>
+            <!-- 结束 -->
+            <div ng-include="'loading.html'"></div>
+        </div>
+        <div ng-include="'footer.html'"></div>
+        <script src="js/router.js"></script>
+    </body>
+</html>

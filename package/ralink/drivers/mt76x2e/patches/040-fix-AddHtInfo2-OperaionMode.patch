@@ -1,0 +1,28 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap.c
+@@ -1568,11 +1568,19 @@ VOID APUpdateOperationMode(
+ 	BOOLEAN bDisableBGProtect = FALSE, bNonGFExist = FALSE;
+ 
+ 	pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 0;
+-	if ((pAd->ApCfg.LastNoneHTOLBCDetectTime + (5 * OS_HZ)) > pAd->Mlme.Now32) /* non HT BSS exist within 5 sec */
++
++	if(pAd->ApCfg.LastNoneHTOLBCDetectTime != 0)
+ 	{
+-		pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 1;
+-		bDisableBGProtect = FALSE;
+-		bNonGFExist = TRUE;
++		if ((pAd->ApCfg.LastNoneHTOLBCDetectTime + (5 * OS_HZ)) > pAd->Mlme.Now32) /* non HT BSS exist within 5 sec */
++		{
++			pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 1;
++			bDisableBGProtect = FALSE;
++			bNonGFExist = TRUE;
++		}
++		else
++		{
++			pAd->ApCfg.LastNoneHTOLBCDetectTime = 0;
++		}
+ 	}
+ 
+    	/* If I am 40MHz BSS, and there exist HT-20MHz station. */

@@ -1,0 +1,121 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/mt76x2.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+@@ -60,7 +60,15 @@ static RTMP_REG_PAIR mt76x2_mac_cr_table
+ 	{TX_PWR_CFG_8, 0x3A},
+ 	{TX_PWR_CFG_9, 0x3A},
+ 	{MT7662_EFUSE_CTRL, 0xD000},
+-	{PER_PORT_PAUSE_ENABLE_CONTROL1, 0xA},
++#if 1 // according to mail from yiwei, 20140314 16:32
++	// rx patch for 5g
++	{PER_PORT_PAUSE_ENABLE_CONTROL1, 0xa},
++	// FCE threshold
++	{0x824, 0x60401c18},
++#else
++    {PER_PORT_PAUSE_ENABLE_CONTROL1, 0x0},
++#endif
++
+ #ifdef TXBF_SUPPORT
+ 	{TX_TXBF_CFG_0,		0x4004FC21},	/* Force MCS4 for sounding response*/
+ 	{TX_TXBF_CFG_1,		0xFE23727F},	
+@@ -1608,6 +1616,13 @@ VOID init_fce(RTMP_ADAPTER *ad)
+ 
+ 	reg.word = 0;
+ 
++// according to mail from yiwei, 20140314 16:32
++/*modified FCE’s clock to prevent Host overflow*/
++#if 1 //change FCE cpu setting to middle.
++    RTMP_IO_WRITE32(ad, 0x708, 0x1401);
++#endif
++
++
+ #ifdef RTMP_PCI_SUPPORT
+ 	RTMP_IO_READ32(ad, FCE_L2_STUFF, &reg.word);
+ 	reg.field.FS_WR_MPDU_LEN_EN = 0;
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data_pci.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_data_pci.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data_pci.c
+@@ -1216,6 +1216,8 @@ PNDIS_PACKET RxRingDeQueue(
+ 	pRxD = (PRXD_STRUC) pRxCell->AllocVa;
+ #endif
+ 
++// according to mail from yiwei, 20140314 16:32
++#if 0 // Rx debug
+ 	if (pRxD->DDONE == 0)
+ 	{
+ 		*pRxPending = 0;
+@@ -1223,6 +1225,30 @@ PNDIS_PACKET RxRingDeQueue(
+ 		bReschedule = TRUE;
+ 		goto done;
+ 	}
++#else
++      if (pRxD->DDONE == 0)
++      {
++          //*pRxPending = 0;
++          pAd->d_count ++;
++          //DBGPRINT(RT_DEBUG_TRACE, ("@@@ DDONE=0!, d_count=%u\n",pAd->d_count));
++          /* DMAIndx had done but DDONE bit not ready*/
++          bReschedule = TRUE;
++          RTMP_IO_READ32(pAd, pRxRing->hw_didx_addr, &pRxRing->RxDmaIdx);
++          //DBGPRINT(RT_DEBUG_TRACE, ("(%u, %u)\n",pRxRing->RxDmaIdx,pRxRing->RxSwReadIdx));
++          if(pAd->d_count > 10)
++          {
++              pAd->d_count =0;
++              DBGPRINT(RT_DEBUG_ERROR, ("(%u, %u)\n",pRxRing->RxDmaIdx,pRxRing->RxSwReadIdx));
++              DBGPRINT(RT_DEBUG_ERROR, ("@@@ DDONE=0!, d_count=%u\n",pAd->d_count));
++              INC_RING_INDEX(pRxRing->RxSwReadIdx, RX_RING_SIZE);
++              pRxRing->RxCpuIdx = (pRxRing->RxSwReadIdx == 0) ? (RX_RING_SIZE-1) : (pRxRing->RxSwReadIdx-1);
++              RTMP_IO_WRITE32(pAd, pRxRing->hw_cidx_addr, pRxRing->RxCpuIdx);
++          }
++          goto done;
++      }
++
++      pAd->d_count =0;
++#endif
+ 
+ 	/* return rx descriptor*/
+ 	NdisMoveMemory(&pRxBlk->hw_rx_info[0], pRxD, RXD_SIZE);
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+@@ -4112,6 +4112,12 @@ struct fpga_ctrl fpga_ctl;
+ #ifdef VHT_TXBF_SUPPORT
+ 	BOOLEAN NDPA_Request;
+ #endif
++
++// according to mail from yiwei, 20140314 16:32
++#if 1 //Rx debug!
++UINT32 d_count;
++#endif
++
+ };
+ 
+ #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_rbus_pci_drv.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/os/linux/rt_rbus_pci_drv.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/os/linux/rt_rbus_pci_drv.c
+@@ -970,14 +970,20 @@ redo: 
+ 		*/
+ 		DBGPRINT(RT_DEBUG_ERROR, (">>>TxCoherent<<<\n"));
+ 		pAd->tx_coherent_counter++;
++// according to mail from yiwei, 20140314 16:32
++#if 0
+ 		RTMPHandleRxCoherentInterrupt(pAd);
++#endif
+ 	}
+ 
+ 	if (IntSource & RxCoherent)
+ 	{
+ 		DBGPRINT(RT_DEBUG_ERROR, (">>>RxCoherent<<<\n"));
+ 		pAd->rx_coherent_counter++;
++// according to mail from yiwei, 20140314 16:32
++#if 0
+ 		RTMPHandleRxCoherentInterrupt(pAd);
++#endif
+ 	}
+ 
+ 	if (IntSource & FifoStaFullInt) 

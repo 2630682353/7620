@@ -1,0 +1,66 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+
+START=50
+
+start() {
+	cp -rf /etc/rconf /tmp
+	cp /etc/rconf_check /tmp/rconf_check_old
+	mkdir /tmp/alone
+
+	cloud_client &
+
+	#ipv4
+	echo "1" > /proc/sys/net/ipv4/ip_forward
+	echo "1024 65535" > /proc/sys/net/ipv4/ip_local_port_range
+	echo "0" > /proc/sys/net/ipv4/conf/all/rp_filter
+	echo "1" > /proc/sys/net/netfilter/nf_conntrack_acct
+
+	#netdev
+	echo "500" > /proc/sys/net/core/netdev_max_backlog
+	echo "16" > /proc/sys/net/core/dev_weight
+	echo "64" > /proc/sys/net/core/netdev_budget
+
+	#arp
+	echo "1" > /proc/sys/net/ipv4/conf/all/arp_ignore
+
+	#tcp timeout
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_close
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_close_wait
+	echo "480" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_established
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_fin_wait
+	echo "30" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_last_ack
+	echo "30" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_max_retrans
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_syn_recv
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_syn_sent
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_time_wait
+	echo "8192" > /proc/sys/net/nf_conntrack_max
+	#echo "0" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_loose
+
+	#udp timeout
+	echo "10" > /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout
+	echo "180" > /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout_stream
+
+	#route
+	echo "15" > /proc/sys/net/ipv4/route/gc_interval
+	MEMSIZE=`cat /proc/meminfo | grep MemTotal | awk '{printf $2}'`
+	if [ $MEMSIZE -gt 39999 ];then
+		echo "8000" > /proc/sys/net/ipv4/route/max_size
+		echo "3000" > /proc/sys/vm/min_free_kbytes
+	else
+		echo "4000" > /proc/sys/net/ipv4/route/max_size
+		echo "400" > /proc/sys/vm/min_free_kbytes
+	fi
+
+	#echo "16" > /proc/sys/vm/lowmem_reserve_ratio
+	echo "3" > /proc/sys/vm/drop_caches
+	echo "3" > /proc/sys/kernel/panic
+}
+
+stop() {
+	killall cloud_client
+}
+
+

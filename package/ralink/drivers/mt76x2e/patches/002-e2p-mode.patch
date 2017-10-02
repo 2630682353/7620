@@ -1,0 +1,22 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/eeprom.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/eeprom.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/eeprom.c
+@@ -52,7 +52,7 @@ UCHAR RtmpEepromGetDefault(
+ {
+ 	UCHAR e2p_dafault = 0;
+ 
+-#ifdef CONFIG_RT_FIRST_CARD
++#if defined(CONFIG_RT_FIRST_CARD) && CONFIG_RT_FIRST_CARD == 7612
+ 	if ( pAd->dev_idx == 0 )
+ 	{
+ 		if ( RTMPEqualMemory("efuse", CONFIG_RT_FIRST_CARD_EEPROM, 5) )
+@@ -65,7 +65,7 @@ UCHAR RtmpEepromGetDefault(
+ 	}
+ #endif /* CONFIG_RT_FIRST_CARD */
+ 
+-#ifdef CONFIG_RT_SECOND_CARD
++#if defined(CONFIG_RT_SECOND_CARD) && CONFIG_RT_SECOND_CARD == 7612
+ 	if ( pAd->dev_idx == 1 )
+ 	{
+ 		if ( RTMPEqualMemory("efuse", CONFIG_RT_SECOND_CARD_EEPROM, 5) )

@@ -1,0 +1,197 @@
+
+
+<div class="routerSetLan"  ng-controller="lanCtrl"> <!-- 内网(局域网)设置 -->
+
+    <div class="routerSetTit">
+
+        <a href="javascript:;" class="routerClose" onclick="closeSetDialog()"><img src="images/routerClose.png" ></a>
+
+        <span>局域网设置</span>&nbsp;&nbsp;
+
+    </div>
+
+    <div class="wifiSet stateTop">
+
+            <ul>
+
+                <li>
+
+                    <span class="SetWifiName">局域网IP</span>&nbsp;&nbsp;
+
+
+
+                    <input  type="text" maxlength="3" size="4" class="stateSel myIp" ng-model="lanIp1" disabled>
+
+
+
+                    <input  type="text" maxlength="3" size="4" class="stateSel myIp" ng-model="lanIp2" disabled>
+
+
+
+                    <input type="text"  maxlength="3" size="4" class="stateSel myIp" ng-model="lanIp3"  ng-blur="lanIpCheck(3)">
+
+
+
+                    <input  type="text" maxlength="3" size="4" class="stateSel myIp" ng-model="lanIp4"  ng-blur="lanIpCheck(4)">
+
+
+
+                <p ng-if="lanTipIf" ng-bind="lanTipInfo" style="color: #ff0000;"></p>
+
+
+                </li>
+
+
+                <!-- <div class="SetWifiSub">
+
+
+
+                  <input type="submit" class="btn btn-default" value="&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;">
+
+
+
+                </div> -->
+
+
+
+                <div class="hr"></div>
+
+
+
+                <li>
+
+
+
+                    <span class="SetWifiName">DHCP服务</span>&nbsp;&nbsp;
+
+
+
+                    <div class="switch demo3">
+
+
+
+                        <input type="checkbox" ng-click="toggleDhcpSwitch()"  ng-checked="dhcpSwitch">
+
+
+
+                        <label><i></i></label>
+
+
+
+                    </div>
+
+
+
+                </li>
+
+
+
+                <li>
+
+
+
+                    <span class="SetWifiName">起始IP</span>&nbsp;&nbsp;　
+
+
+
+                    <input type="text" size="4" maxlength="3" class="stateSel ipBlurVal1 landhcpinput" ng-model="lanIp1" disabled>.
+
+
+
+                    <input type="text" size="4" maxlength="3" class="stateSel ipBlurVal1 landhcpinput" ng-model="lanIp2" disabled>.
+
+
+
+                    <input type="text" size="4" maxlength="3" class="stateSel ipBlurVal1 landhcpinput" ng-model="lanIp3" disabled>.
+
+
+
+                    <input type="text" size="4" maxlength="3" class="stateSel landhcpinput" ng-model="dhcpIp" ng-blur="lanIpCheck(5)">
+
+                <p ng-if="lanTipDhcpIf" ng-bind="lanTipDhcpInfo" style="color: #ff0000;"></p>
+
+                </li>
+
+
+                <li><span class="SetWifiName">限制IP数</span>&nbsp;&nbsp;
+
+
+
+                        <input type="number"  class="stateSel userTime rentTime landhcpinput" ng-model="dhcpLimit" min="0" max="150">
+                        <p ng-if="lanTipNumIf" ng-bind="lanTipNumInfo" style="color: #ff0000;"></p>
+
+
+
+                </li>
+
+
+                <li>
+
+
+
+                    <span class="SetWifiName">租约时间(单位：小时)</span>&nbsp;&nbsp;
+
+
+
+                    <select  ng-model="leasetime" ng-options="x for x in leasetimes" class="landhcpinput"></select>
+
+
+
+                </li>
+
+
+
+
+                <!-- <li>
+
+
+
+                  <span class="SetWifiName">结束IP</span>&nbsp;&nbsp;　
+
+
+
+                  <input type="text" size="4" maxlength="3" class="stateSel ipBlurVal2" value="{{ipaddr[0]}}" readonly>.
+
+
+
+                  <input type="text" size="4" maxlength="3" class="stateSel ipBlurVal2" value="{{ipaddr[1]}}" readonly>.
+
+
+
+                  <input type="text" size="4" maxlength="3" class="stateSel ipBlurVal2" value="{{ipaddr[2]}}" readonly>.
+
+
+
+                  <input type="text" size="4" maxlength="3" class="stateSel " value="{{laninfo.dhcp_start-0+laninfo.dhcp_limit}}">
+
+
+
+                </li> -->
+
+
+                
+
+
+
+            </ul>
+
+
+
+            <div class="SetWifiSub">
+
+
+
+                <input type="submit" class="btn btn-default" ng-click="submitLan()" value="&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;" ng-hide="btSave">
+
+            </div>
+
+
+
+
+
+    </div>
+
+
+
+</div> <!-- 内网(局域网)设置结束 -->
+

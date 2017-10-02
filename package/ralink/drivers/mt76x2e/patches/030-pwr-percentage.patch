@@ -1,0 +1,87 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/mt76x2.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+@@ -3473,9 +3473,9 @@ static void mt76x2_antenna_default_reset
+ 
+ void percentage_delta_pwr(RTMP_ADAPTER *ad) 
+ {
+-	CHAR mac_drop_pwr = 0, bbp_drop_pwr = 0;
+-	UCHAR mdsm_drop_pwr;
+-	UINT32 bbp_val = 0;
++	CHAR mac_drop_pwr = 0;
++	CHAR tx_alc_ch_init_0= 0, tx_alc_ch_init_1= 0;
++	UINT32 mac_val = 0;
+ 	
+ 	/* 
+ 		Calculate delta power based on the percentage specified from UI.
+@@ -3494,47 +3494,36 @@ void percentage_delta_pwr(RTMP_ADAPTER *
+ 		mac_drop_pwr -= 3;
+ 	} else if (ad->CommonCfg.TxPowerPercentage > 15) {
+ 		/* 16 ~ 30%, treat as 25% in terms of mW */
+-		bbp_drop_pwr -= 6;
++		mac_drop_pwr -= 6;
+ 	} else if (ad->CommonCfg.TxPowerPercentage > 9) {
+ 		/* 10 ~ 15%, treat as 12.5% in terms of mW */
+-		mac_drop_pwr -= 3;
+-		bbp_drop_pwr -= 6;
++		mac_drop_pwr -= 9;
+ 	} else {
+ 		/* 0 ~ 9 %, treat as MIN(~3%) in terms of mW */
+-		bbp_drop_pwr -= 12;
++		mac_drop_pwr -= 12;
+ 	}
+ 
+-	if (bbp_drop_pwr == -6)
+-	{
+-		ad->CommonCfg.TxPowerShow += bbp_drop_pwr;
+-		mdsm_drop_pwr = 0x01;
+-	}
+-	else if (bbp_drop_pwr == -12)
+-	{
+-		ad->CommonCfg.TxPowerShow += bbp_drop_pwr;
+-		mdsm_drop_pwr = 0x02;
+-	}
+-	else
+-	{
+-		ad->CommonCfg.TxPowerShow += 6;
+-		mdsm_drop_pwr = 0x00;
+-	}
+-	
+-	DBGPRINT(RT_DEBUG_INFO, ("%s::drop the BBP transmit power by %d dBm!\n",
+-		__FUNCTION__, 
+-		(mdsm_drop_pwr == 0x02 ? 12 : \
+-		(mdsm_drop_pwr == 0x01 ? 6 : 0))));
+-
+-	RTMP_BBP_IO_READ32(ad, TXBE_R4, &bbp_val);
+-	bbp_val &= (~0x3);
+-	bbp_val |= mdsm_drop_pwr;
+-	RTMP_BBP_IO_WRITE32(ad, TXBE_R4, bbp_val);
+-
+ 	ad->CommonCfg.TxPowerShow += mac_drop_pwr;
+-	DBGPRINT(RT_DEBUG_INFO, ("%s::<After> total drop power = %d dBm, TXBE_R4 = 0x%0x\n",
+-		__FUNCTION__, (mac_drop_pwr + bbp_drop_pwr), bbp_val));
+ 
+-	mt76x2_adjust_per_rate_pwr_delta(ad, ad->hw_cfg.cent_ch, mac_drop_pwr*2);
++	RTMP_IO_READ32(ad, TX_ALC_CFG_0, &mac_val);
++	tx_alc_ch_init_0 = (mac_val & 0x3F) + mac_drop_pwr*2;
++	if (tx_alc_ch_init_0 <= 0)
++		tx_alc_ch_init_0 = 0;
++	tx_alc_ch_init_1 = ((mac_val & 0x3F00) >> 8) + mac_drop_pwr*2;
++	if (tx_alc_ch_init_1<= 0)
++		tx_alc_ch_init_1 = 0;
++
++	DBGPRINT(RT_DEBUG_INFO, ("%s::<Before> TX_ALC_CFG_0=0x%0x, tx_alc_ch_init_0=0x%0x, tx_alc_ch_init_1=0x%0x\n",
++		__FUNCTION__, mac_val, tx_alc_ch_init_0, tx_alc_ch_init_1));
++
++	mac_val = mac_val & (~TX_ALC_CFG_0_CH_INT_0_MASK);
++	mac_val |= TX_ALC_CFG_0_CH_INT_0(tx_alc_ch_init_0);
++	mac_val = mac_val & (~TX_ALC_CFG_0_CH_INT_1_MASK);
++	mac_val |= TX_ALC_CFG_0_CH_INT_1(tx_alc_ch_init_1);
++	RTMP_IO_WRITE32(ad, TX_ALC_CFG_0, mac_val);
++
++	DBGPRINT(RT_DEBUG_INFO, ("%s::<After> TX_ALC_CFG_0=0x%0x\n",
++		__FUNCTION__, mac_val));
+ }
+ 
+ void mt76x2_get_current_temp(RTMP_ADAPTER *ad)

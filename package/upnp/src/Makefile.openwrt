@@ -1,0 +1,48 @@
+# $Id: Makefile.openwrt,v 1.12 2008/05/01 23:11:18 nanard Exp $
+# http://miniupnp.free.fr/
+# Author : Thomas Bernard
+# for use with GNU Make
+# This Makefile would probably need some modifications depending on
+# your openwrt SDK/etc...
+# http://miniupnp.tuxfamily.org/forum/viewtopic.php?p=713
+
+#include $(TOPDIR)/rules.mk
+#CFLAGS = -Wall -O -D_GNU_SOURCE -g
+#CFLAGS = -Wall -Os -D_GNU_SOURCE
+#CC = mipsel-linux-gcc
+CC = $(TARGET_CC)
+CFLAGS = $(TARGET_CFLAGS)
+CFLAGS += -D_GNU_SOURCE
+CFLAGS += -Wall -Iinclude -g
+CP = cp
+RM = rm -f
+INSTALL = install
+IPTABLESINC=$(STAGING_DIR)/usr/include
+
+BASEOBJS = miniupnpd.o upnphttp.o upnpdescgen.o upnpsoap.o \
+           upnpreplyparse.o minixml.o \
+		   upnpredirect.o getifaddr.o daemonize.o upnpglobalvars.o \
+		   options.o upnppermissions.o minissdp.o natpmp.o
+
+LNXOBJS = linux/getifstats.o
+NETFILTEROBJS = netfilter/iptcrdr.o
+ALLOBJS = $(BASEOBJS) $(LNXOBJS) $(NETFILTEROBJS)
+
+all:config.h miniupnpd
+
+clean:
+	$(RM) $(BASEOBJS) $(LNXOBJS) $(NETFILTEROBJS) $(EXECUTABLES)
+
+miniupnpd:$(ALLOBJS)
+	$(CC) -O2 -o $@  $(BASEOBJS) $(LNXOBJS) $(NETFILTEROBJS) $(LDFLAGS) -lshare $(CFLAGS) 
+
+%.o:%.c
+	$(CC) -c -o $@ $^ $(CFLAGS) 
+
+depend:	config.h
+	makedepend -f$(MAKEFILE_LIST) -Y \
+	$(ALLOBJS:.o=.c) $(TESTUPNPDESCGENOBJS:.o=.c) \
+	2>/dev/null
+
+config.h:config.h.openwrt
+	$(CP) $< $@

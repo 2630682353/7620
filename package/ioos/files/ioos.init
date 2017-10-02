@@ -1,0 +1,22 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+
+START=99
+
+start() {
+	mkdir /tmp/fwdir
+	mkdir /tmp/ioos
+	service_start /bin/ioos 81
+}
+
+stop() {
+        killall -KILL ioos
+}
+
+
+restart() {
+	stop
+	start
+}

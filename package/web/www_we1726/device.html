@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+
+
+<html ng-app="webapiApp" ng-controller="deviceCtrl" ng-cloak>
+
+
+
+    <head>
+
+
+
+        <meta charset="UTF-8">
+
+
+
+        <title>终端设备</title>
+
+
+
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+
+
+
+        <script src="js/angular.1.4.6.min.js"></script>
+
+
+
+        <script src="js/jquery.min.js"></script>
+
+
+
+        <script src="js/common.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+
+
+        <script src="js/webapiAngular.js"></script>
+
+        <script src="device/deviceAngular.js"></script>
+
+        <script src="js/NbvFirewallAngular.js"></script>
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/login.html";
+            }
+        </script>
+
+
+    </head>
+
+
+
+    <body>
+
+
+
+
+
+        <!-- 页头 header.html -->
+
+
+
+        <header class="header routerhead">
+
+
+
+            <div class="mainWidth">
+
+
+
+                <div>
+
+
+
+                    <a href="#" class="float-l routerlogo"><img src="images/logo.png" alt=""></a>
+
+
+
+                    <ul class="routerMeun float-l">
+
+
+
+                        <li><a href="{{stateHref}}">系统状态</a></li>
+
+
+
+                        <li class="active"><a href="{{deviceHref}}">终端设备</a></li>
+
+
+
+                        <li><a href="{{settingHref}}">系统设置</a></li>
+
+
+
+                    </ul>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </header>
+
+
+
+        <div class="routerTit">欢迎使用乐家路由宝</div>
+
+
+
+        <div class="mainWidth">
+
+
+
+            <div class="deviceMain">
+
+
+
+                <div class="devicetab">
+
+
+
+                    <div class="hd">
+
+
+
+                        <ul>
+
+
+
+                            <li class="on" id="vistSetting" ng-click="deviceSetting(0)">访问设置</li>
+
+
+
+                            <li ng-click="deviceSetting(1)">智能限速</li>
+
+
+
+                        </ul>
+
+
+
+                    </div>
+
+
+
+                    <div class="bd">
+
+
+
+                        <ul class="on">
+
+
+
+                            <table class="accessTab" id="deviceList" cellspacing="0" cellpadding="0">
+
+
+
+                                <thead>
+
+
+
+                                    <tr>
+
+
+
+                                        <th>设备</th>
+
+
+
+                                        <th>详情</th>
+
+
+
+                                        <th>访问外网</th>
+
+
+
+                                    </tr>
+
+
+
+                                </thead>
+
+
+
+                                <tbody>
+
+
+
+                                    <tr ng-repeat="client in clients">
+
+
+
+                                        <td><span class="devName fireName">{{client.name}}</span>&nbsp;&nbsp;
+
+                                            <!--<span class="devDesc">本机</span>-->
+
+                                            <!--<p><span class="devDesc">2.4G网络</span></p></td>-->
+
+
+
+                                        <td>
+
+                                            <ul>
+
+                                                <li><span class="devName">　　 MAC地址：</span><span class="devDesc fireMac">{{client.mac}}</span>
+
+                                                </li>
+
+
+
+                                                <li><span class="devName">　 I P 地 址：</span><span class="devDesc fireIp">{{client.ip}}</span>
+
+                                                </li>
+
+
+
+                                                <!-- <li><span class="devName">　链接时长：</span><span class="devDesc">0天4小时35分</span></li> -->
+
+                                            </ul>
+
+                                        </td>
+
+
+
+                                        <td>
+
+
+
+                                            <div class="switch demo3">
+
+
+
+                                                <input type="checkbox" ng-checked="client.checked" class="switchFire" ng-click='fswitchFire(client)'>
+
+
+
+                                                <label><i></i></label>
+
+
+
+                                            </div>
+
+
+
+                                        </td>
+
+
+
+                                    </tr>
+
+
+
+                                </tbody>
+
+
+
+                            </table>
+
+
+
+                        </ul>
+
+
+
+                        <ul>
+<!--
+                                               <div class="devswitch">
+                            
+                            
+                            
+                                                    <span>智能限速开关&nbsp;&nbsp;</span>
+                            
+                            
+                            
+                                                    <div class="switch demo3">
+                            
+                            
+                            
+                                                        <input type="checkbox" ng-checked="qosSwitch" ng-click="toggleQosSwitch()">
+                            
+                            
+                            
+                                                        <label><i></i></label>
+                            
+                            
+                            
+                                                    </div>
+                            
+                            
+                            
+                                                </div>-->
+
+
+
+                            <table class="accessTab" cellspacing="0" cellpadding="0" ng-show="qosSwitch">
+
+
+
+                                <thead>
+
+
+
+                                    <tr>
+
+
+
+                                        <th>设备</th>
+
+
+
+                                        <th>详情</th>
+
+
+
+                                        <th>网络速度</th>
+
+
+
+                                        <th>最大带宽</th>
+
+
+
+                                    </tr>
+
+
+
+                                </thead>
+
+
+
+                                <tbody>
+
+                                    <tr ng-repeat="qos in nbvqos">
+
+                                        <td>
+
+                                        	<span class="devName">{{qos.name}}</span>&nbsp;&nbsp;
+
+                                        </td>
+
+                                        <td>
+
+                                            <ul>
+
+                                                <li>
+                                                	<span class="devName">MAC地址：</span>
+                                                	<span class="devDesc">{{qos.mac}}</span>
+                                                </li>
+
+                                                <li>
+                                                	<span class="devName">IP地址：</span>
+                                                	<span class="devDesc">{{qos.ip}}</span>
+                                                </li>
+                                                <!--<li><span class="devName">　链接时长：</span><span class="devDesc">0天4小时35分</span></li>-->
+                                            </ul>
+                                        </td>
+
+                                        <td>
+
+                                            <ul>
+
+                                                <li class="green">下载<span ng-bind="qos.ratedl"></span>kbit/s</li>
+
+                                                <li class="green">上传<span ng-bind="qos.rateup"></span>kbit/s</li>
+
+                                            </ul>
+
+                                        </td>
+
+                                        <td>
+
+                                            <span>下载 
+                                            <input type="text" ng-blur="checkBit(0, qos)" ng-trim="false" ng-model="qos.ratedl"> kbit</span>
+
+                                            <span>上传 
+                                            <input type="text" ng-blur="checkBit(1, qos)" ng-trim="false" ng-model="qos.rateup"> kbit</span>
+
+                                        </td>
+                                        
+                                        <!--<td><input type="submit" value="保存" ng-click="qosSubmit()" class="btn btn-default"></td>-->
+
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+									<tr>
+										<td colspan="4">
+										<div class="text-center devsub">
+			                            	<input type="submit" value="保存" ng-click="qosSubmit()" class="btn btn-default">
+			                        　		<input type="reset" value="取消" ng-click="reset()" class="btn">
+			                            </div>
+										</td>
+	                                    
+                                	</tr>
+                                </tfoot>
+
+                            </table>
+
+
+
+
+
+
+
+
+                        </ul>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div ng-include="'loading.html'"></div>
+
+        <div ng-include="'footer.html'" style="margin-top: 80px;"></div>
+
+        <div class="routerHidden tipModelHidden">
+            <div class="routerHideCon">
+                <div ng-include="'tipModel.html'"></div>
+            </div>
+        </div>
+
+        <script src="js/router.js"></script>
+
+
+
+    </body>
+
+
+
+</html>  
+
+
+

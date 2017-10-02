@@ -1,0 +1,78 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/mt76x2.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+@@ -1871,6 +1871,7 @@ void mt76x2_get_agc_gain(RTMP_ADAPTER *a
+ 	RTMP_BBP_IO_READ32(ad, AGC1_R8, &bbp_val);
+ 	val = ((bbp_val & (0x00007f00)) >> 8) & 0x7f;
+ 	ad->CommonCfg.lna_vga_ctl.agc_vga_init_0 = val;
++    ad->CommonCfg.lna_vga_ctl.agc1_r8_backup = bbp_val;
+ 	if (init_phase == TRUE) {
+ 		ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0 = ad->CommonCfg.lna_vga_ctl.agc_vga_init_0;
+ 		DBGPRINT(RT_DEBUG_OFF, ("original vga value(chain0) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0));
+@@ -1883,6 +1884,7 @@ void mt76x2_get_agc_gain(RTMP_ADAPTER *a
+ 		RTMP_BBP_IO_READ32(ad, AGC1_R9, &bbp_val);
+ 		val = ((bbp_val & (0x00007f00)) >> 8) & 0x7f;
+ 		ad->CommonCfg.lna_vga_ctl.agc_vga_init_1 = val;
++        ad->CommonCfg.lna_vga_ctl.agc1_r9_backup = bbp_val;
+ 		if (init_phase == TRUE) {
+ 			ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1= ad->CommonCfg.lna_vga_ctl.agc_vga_init_1;
+ 			DBGPRINT(RT_DEBUG_OFF, ("original vga value(chain1) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1));
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/mlme.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/mlme.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/mlme.c
+@@ -372,15 +372,14 @@ void periodic_monitor_false_cca_adjust_v
+ 
+ 		if (pAd->chipCap.dynamic_chE_trigger == TRUE) {
+ 			mt76x2_get_agc_gain(pAd, FALSE); /* real time update init values */
+-			RTMP_BBP_IO_READ32(pAd, AGC1_R8, &bbp_val1);
+-			val1 = (((bbp_val1 & (0x00007f00)) >> 8) & 0x7f - pAd->chipCap.compensate_level);
++            bbp_val1 = pAd->CommonCfg.lna_vga_ctl.agc1_r8_backup;
++            val1 = ((((bbp_val1 & (0x00007f00)) >> 8) & 0x7f) - pAd->chipCap.compensate_level);
+ 			bbp_val1 = (bbp_val1 & 0xffff80ff) | (val1 << 8);
+ 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val1);
+-
+-			RTMP_BBP_IO_READ32(pAd, AGC1_R9, &bbp_val2);
+-			val2 = (((bbp_val2 & (0x00007f00)) >> 8) & 0x7f - pAd->chipCap.compensate_level);
++            bbp_val2 = pAd->CommonCfg.lna_vga_ctl.agc1_r9_backup;
++            val2 = ((((bbp_val2 & (0x00007f00)) >> 8) & 0x7f) - pAd->chipCap.compensate_level);
+ 			bbp_val2 = (bbp_val2 & 0xffff80ff) | (val2 << 8);
+-			RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val1);			
++			RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val2);
+ 		} else {
+ 			RTMP_BBP_IO_READ32(pAd, AGC1_R8, &bbp_val1);
+ 			val1 = ((bbp_val1 & (0x00007f00)) >> 8) & 0x7f;
+@@ -389,6 +388,7 @@ void periodic_monitor_false_cca_adjust_v
+ 		}
+ 
+ 		DBGPRINT(RT_DEBUG_INFO, ("vga_init_0 = %x, vga_init_1 = %x\n",  pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0, pAd->CommonCfg.lna_vga_ctl.agc_vga_init_1));
++        DBGPRINT(RT_DEBUG_INFO, ("ori AGC1_R8 = %x, ori AGC1_R9 = %x\n",  pAd->CommonCfg.lna_vga_ctl.agc1_r8_backup, pAd->CommonCfg.lna_vga_ctl.agc1_r9_backup));
+ 		DBGPRINT(RT_DEBUG_INFO,
+ 			("one second False CCA=%d, fixed agc_vga_0:0%x, fixed agc_vga_1:0%x\n", pAd->RalinkCounters.OneSecFalseCCACnt, val1, val2));
+ 		DBGPRINT(RT_DEBUG_INFO, ("compensate level = %x\n", pAd->chipCap.compensate_level));
+@@ -397,6 +397,8 @@ void periodic_monitor_false_cca_adjust_v
+ 			if (val1 > (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0 - 0x10)) {
+ 				val1 -= 0x02;
+ 				pAd->chipCap.compensate_level += 0x02;
++                if (pAd->chipCap.compensate_level >= 0x10)
++                    pAd->chipCap.compensate_level = 0x10;
+ 				bbp_val1 = (bbp_val1 & 0xffff80ff) | (val1 << 8);
+ 				RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val1);
+ #ifdef DFS_SUPPORT
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+@@ -799,9 +799,11 @@ typedef struct _LNA_VGA_CTL_STRUCT {
+ 	UINT16 		nFalseCCACnt;	
+ 	UINT16		nFalseCCATh;	/* default is 100 */
+ 	UINT16		nLowFalseCCATh;
++    UINT32      agc1_r8_backup;
+ 	UCHAR		agc_vga_init_0;
+ 	UCHAR 		agc_vga_ori_0; /* the original vga gain initialized by firmware at start up */
+ 	UINT16		agc_0_vga_set1_2;
++    UINT32      agc1_r9_backup;
+ 	UCHAR 		agc_vga_init_1;
+ 	UCHAR 		agc_vga_ori_1; /* the original vga gain initialized by firmware at start up */
+ 	UINT16		agc_1_vga_set1_2;	

@@ -1,0 +1,16 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/mt76x2.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+@@ -1302,6 +1302,11 @@ static void mt76x2_switch_channel(RTMP_A
+ 	RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, 0x04101B3F);
+ #endif /* DYNAMIC_VGA_SUPPORT */
+ 
++#ifdef CONFIG_DISABLE_EDCCA
++	DBGPRINT(RT_DEBUG_OFF,("%s(): disable EDCCA!\n", __FUNCTION__));
++	mt76x2_set_ed_cca(ad, FALSE);
++#endif
++
+ 	DBGPRINT(RT_DEBUG_OFF,
+ 			("%s(): Switch to Ch#%d(%dT%dR), BBP_BW=%d, bbp_ch_idx=%d)\n",
+ 			__FUNCTION__,

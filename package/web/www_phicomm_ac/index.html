@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>phicomm路由设置</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="js/layer/layer.js"></script>
+        <script type="text/javascript" src="js/jquery.md5.js"></script>
+        <script language="javascript" type="text/javascript" src="js/common.js"></script>
+        <script language="javascript" type="text/javascript" src="js/config.js"></script>
+        <script type="text/javascript" src="js/router.js"></script>
+        <script>
+            if ($.cookie('lstatus') == 'true') {
+                document.location = 'http://' + document.domain + "/quick.html?tt=" + new Date().getTime();
+            }
+        </script>
+
+        <!--[if lte IE 6]> 
+        <div id="ie6-warning">您正在使用 Internet Explorer 6，在本页面的显示效果可能有差异。建议您升级到 <a href="http://www.microsoft.com/china/windows/internet-explorer/" target="_blank">Internet Explorer 8</a> 或其他现代浏览器： <a href="http://www.mozillaonline.com/">Firefox</a> / <a href="http://www.google.com/chrome/?hl=zh-CN">Chrome</a> / <a href="http://www.apple.com.cn/safari/">Safari</a> / <a href="http://www.operachina.com/">Opera</a></div> 
+        <![endif]--> 
+    </head>
+
+    <body>
+        <div class="new_wrap">
+            <div class="index_logo"><img src="images/index-logo.png"></div>
+            <div class="login-box">
+                <h1>您好,admin</h1>
+                <div class="inner-box">
+                    <div class="login">
+                        <ul class="login-list">
+                            <li>
+                                <span class="sp-l"><img src="images/account.png"></span>
+                                <span class="sp-r">
+                                    <label for="login_acc">请输入用户名(默认用户名admin)</label>
+                                    <input type="text" name="login_acc" class="inpt" id="login_acc" autocomplete="off">
+                                </span>
+                            </li>
+                            <li>
+                                <span class="sp-l"><img src="images/password.png"></span>
+                                <span class="sp-r">
+                                    <label for="login_pwd">请输入密码(默认密码admin)</label>
+                                    <input type="password" name="login_pwd" class="inpt" id="login_pwd" autocomplete="off">
+                                </span>
+                            </li>
+                        </ul>
+
+                        <p><a href="javascript:;" class="btn loginBtn" id="user_login">确认</a></p>
+                    </div>
+
+                    <div class="ewm_box">
+                        <div><img src="images/erweima.png" width="147" height="147"></div>
+                        <p>扫描下载安卓app 轻松配置路由器</p>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="foot">斐讯路由器 | 服务热线：4007-567-567</div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

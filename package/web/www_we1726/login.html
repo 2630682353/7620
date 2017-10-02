@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>登录</title>
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+        <script src="js/angular.1.4.6.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/common.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+        <script src="setting/spark-md5.min.js"></script>
+        <script src="js/webapiAngular.js"></script>
+    </head>
+    <body  ng-app="webapiApp" ng-controller="loginCtrl" ng-cloak>
+        <!-- 页头 header.html -->
+        <div ng-include="'header.html'"></div>
+        <div class="mainWidth">
+            <div class="text-center loginlogo"><img src="images/lejia.png" alt=""><p>欢迎使用乐家路由宝</p></div>
+            <div class="routerlogin">
+                <form>
+                    <div class="loginpwd">
+                        <span>密&nbsp;&nbsp;码：</span>
+                        <input type="password" placeholder="请输入密码" size="35" ng-model="txt_pwd">
+                    </div><br/>
+                    <p>路由器默认密码为admin，可登录后修改</p>
+                    <!-- <div  class="errMsg" ng-hide="hide_msg" ng-bind="errMsg"> </div> -->
+                    <button class="btn  btn-default" ng-click="onLogin()">&nbsp;&nbsp;登&nbsp;&nbsp;录&nbsp;&nbsp;</button>
+                </form>
+            </div>
+        </div>
+        <div class="routerHidden tipModelHidden">
+            <div class="routerHideCon">
+                <div ng-include="'tipModel.html'"></div>
+            </div>
+        </div>
+    </body>
+</html>

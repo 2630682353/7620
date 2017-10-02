@@ -1,0 +1,6 @@
+usb1/1-1/1-1.1 UsbDisk1 Volume 
+usb1/1-1/1-1:1.0 UsbDisk1 Volume 
+usb1/1-1/1-1.2 UsbDisk2 Volume
+usb1/1-1/1-1.3 UsbDisk4 Volume
+usb1/1-1/1-1.4 UsbDisk5 Volume
+mtk-sd.0 UsbDisk3 Volume 

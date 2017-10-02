@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>Smart Wireless Router</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="js/layer/layer.js"></script>
+        <script type="text/javascript" src="js/jquery.md5.js"></script>
+        <script type="text/javascript" src="../js/channel.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/config.js"></script>
+        <script type="text/javascript" src="js/router.js"></script>
+        <!--[if lte IE 6]> 
+        <div id="ie6-warning">您正在使用 Internet Explorer 6，在本页面的显示效果可能有差异。建议您升级到 <a href="http://www.microsoft.com/china/windows/internet-explorer/" target="_blank">Internet Explorer 8</a> 或其他现代浏览器： <a href="http://www.mozillaonline.com/">Firefox</a> / <a href="http://www.google.com/chrome/?hl=zh-CN">Chrome</a> / <a href="http://www.apple.com.cn/safari/">Safari</a> / <a href="http://www.operachina.com/">Opera</a></div> 
+        <![endif]--> 
+<style type="text/css">
+    a.gousera{
+        margin-top: 35px;
+        display: block;
+        float: right;
+        margin-right: 5%;
+        color: #888888;
+        text-decoration: underline;
+        font-size: 12px;
+    }
+    a.gousera:hover{
+        color: #222222;
+    }
+</style>
+    </head>
+
+    <body>
+        <div class="top">
+            <div class="wrap"></div>	
+        </div>
+
+        <!-- 设置过密码的主页面 -->        
+        <div class="wrap" id="account_login">
+            <div class="content">
+                <div class="img-box"></div>
+                <p class="index_text">Smart Wiresless Router</p>
+                <div class="con">
+                    <ul class="list login-list">
+                        <li>
+                            <span class="sp-l" style="width:80px;">Password</span>
+                            <span class="sp-r">
+                                <label for="login_pwd" id="login_pwd_label" style="display: block;">Password(Default admin)</label>
+                                <input type="password" class="inpt" id="login_pwd" autocomplete="off">
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="box" style="margin-top:10px;">
+                        <a href="javascript:;" class="btn" id="user_login">OK</a>
+                    </div>
+                </div>   
+            </div>
+        </div>
+        <!-- 设置过密码的主页面 end-->        
+
+        <div class="wrap" id="netWorkSet" style="position:relative;">	
+            <P style="width: 1000px;margin: 0 auto;line-height: 2;margin-top: 24px;">Quick Settings
+            <a href="/user" style="float:right">Advanced</a></P>
+            <div class="bd">
+	            <p style="text-align: left;text-indent: 8%;margin-top:10px;line-height:3">Internet</p>
+                <div class="bd-box" style="width: 835px;margin: 0 auto 20px;padding: 20px 0;border-radius: 8px;border: 1px #d8eaf3 solid;position: static;">    	
+                    <div class="nav" id="connectNav" style="width:525px;position: relative;overflow: visible;">
+	                    <span class="nav_title">Connection Type</span>
+                        <a data-id="t_1" id="t_1" href="javascript:;">PPPoE</a>
+                        <a data-id="t_2" id="t_2" href="javascript:;">Static IP</a>
+                        <a data-id="t_3" id="t_3" href="javascript:;">Dynamic IP</a>
+                        <a data-id="t_5" id="t_5" href="javascript:;">PPTP/L2TP</a>
+                        <a data-id="t_4" id="t_4" href="javascript:;">WISP</a>
+                    </div>
+                    <div>
+                    	
+                        <!-- 宽带拨号 -->
+                        <div class="sub" id="t_1_box"> 
+                            <div class="sub-box">                   
+                                <p>Select PPPoE if your Internet connection asks for the user name and password.</p>
+                                <ul class="list">
+                                    <li>
+                                        <span class="sp-l">User Name</span>
+                                        <span class="sp-r">
+                                            <label for="acc">User Name</label>
+                                            <input type="text" name="acc" class="inpt" id="acc" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">Password</span>
+                                        <span class="sp-r">
+                                            <label for="pwd">Password</label>
+                                            <input type="text" name="pwd" class="inpt" id="pwd" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Server Name</span>
+                                        <span class="sp-r">
+                                            <label for="pppoe_server">Just for special area users</label>
+                                            <input type="text" name="pppoe_server" class="inpt" id="pppoe_server" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Preferred DNS</span>
+                                        <span class="sp-r">
+                                            <label for="pp_dns">Please input a valid IP address.(Optional)</label>
+                                            <input type="text" name="dns" class="inpt" id="pp_dns" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Alternative DNS</span>
+                                        <span class="sp-r">
+                                            <label for="pp_dns1">Please input a valid IP address.(Optional)</label>
+                                            <input type="text" name="dns" class="inpt" id="pp_dns1" autocomplete="off">
+                                        </span>
+                                    </li>                                    
+                                    <li style="display: none">
+                                        <span class="sp-l">MTU</span>
+                                        <span class="sp-r">
+                                            <label for="pp_mtu">Please input a mtu.(Optional)</label>
+                                            <input type="text" name="mtu" class="inpt" id="pp_mtu" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Clone MAC</span>
+                                        <span style="margin-left: 6px;">
+                                            <select name="mac" style="width: 115px;" class="userInpt index-inpt macChoose" id="macChoose1">
+                                                <option value="1">Custom MAC</option>
+                                                <option value="2">Host MAC</option>
+                                                <option value="3" selected="selected">Raw MAC</option>
+                                            </select>
+                                            <em id="mac_box1" style="margin-left:6px;"></em>
+                                        </span>
+                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter1" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                    </li>                                    
+                                </ul>
+                                <div class="bot">
+                                    <a class="fl" href="getAccountInfo.html">Access to broadband account password</a>
+                                    <a class="fr setBtn" id="PpoeHightSet" href="javascript:;">Advanced</a>
+                                </div>
+                                <div class="btn-box" style="position: absolute;bottom: 30px;z-index:9;left: 50%;margin-left: -125px;"><input type="button" class="btn" id="btn_1" value="OK">&nbsp;&nbsp;<span id="pppoe_message"></span></div>
+                            </div>
+                        </div>
+                        <!-- 宽带拨号 end-->
+
+                        <!-- 静态IP -->
+                        <div class="sub" id="t_2_box">
+                            <div class="sub-box">
+                                <p>Select Static IP if your Internet connection asks for static IP info.</p>
+                                <ul class="list">
+                                    <li>
+                                        <span class="sp-l">IP Address</span>
+                                        <span class="sp-r">
+                                            <label for="static_ip">IP Address</label>
+                                            <input type="text" name="ip_addr" class="inpt" id="static_ip" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">Subnet Mask</span>
+                                        <span class="sp-r">
+                                            <label for="static_mask">Subnet Mask</label>
+                                            <input type="text" name="subnet" class="inpt" id="static_mask" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">Default Gateway</span>
+                                        <span class="sp-r">
+                                            <label for="static_gw">Default Gateway</label>
+                                            <input type="text" name="wg" class="inpt" id="static_gw" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Preferred DNS</span>
+                                        <span class="sp-r">
+                                            <label for="static_dns">Please input a valid IP address.(Optional)</label>
+                                            <input type="text" name="dns" class="inpt" id="static_dns" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Alternative DNS</span>
+                                        <span class="sp-r">
+                                            <label for="static_dns1">Please input a valid IP address.(Optional)</label>
+                                            <input type="text" name="dns" class="inpt" id="static_dns1" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">MTU</span>
+                                        <span class="sp-r">
+                                            <label for="static_mtu">Please input a mtu,default 1500.(Optional)</label>
+                                            <input type="text" name="mtu" class="inpt" id="static_mtu" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Clone Mac</span>
+                                        <span style="margin-left: 6px;">
+                                            <select name="mac" style="width: 115px;" class="userInpt index-inpt macChoose" id="macChoose2">
+                                                <option value="1">Custom MAC</option>
+                                                <option value="2">Host MAC</option>
+                                                <option value="3" selected="selected">Raw MAC</option>
+                                            </select>
+                                            <em id="mac_box2" style="margin-left:6px;"></em>
+                                        </span>
+                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter2" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                    </li>
+                                </ul>
+                                <div class="bot"><a class="fr setBtn" id="StaticHightSet" href="javascript:;">Advanced</a></div>
+                                <div class="btn-box" style="position: absolute;bottom: 30px;z-index:9;left: 50%;margin-left: -125px;"><input type="button" class="btn" id="btn_2" value="OK">&nbsp;&nbsp;<span id="static_message"></span></div>
+                            </div>
+                        </div>
+                        <!-- 静态IP end-->
+
+                        <!-- 动态IP -->
+                        <div class="sub" id="t_3_box">
+                            <div class="sub-box">
+                                <p>Select Dynamic IP if your Internet can be auto-connected with no account or static IP info set.</p>
+                                <ul class="list">
+                                    <li style="display: none">
+                                        <span class="sp-l">Preferred DNS</span>
+                                        <span class="sp-r">
+                                            <label for="dhcp_dns">Please input a valid IP address.(Optional)</label>
+                                            <input type="text" name="dns" class="inpt" id="dhcp_dns" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Alternative DNS</span>
+                                        <span class="sp-r">
+                                            <label for="dhcp_dns1">Please input a valid IP address.(Optional)</label>
+                                            <input type="text" name="dns" class="inpt" id="dhcp_dns1" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">MTU</span>
+                                        <span class="sp-r">
+                                            <label for="dhcp_mtu">Please input a mtu,default 1500.(Optional)</label>
+                                            <input type="text" name="mtu" class="inpt" id="dhcp_mtu" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li style="display: none">
+                                        <span class="sp-l">Clone MAC</span>
+                                        <span style="margin-left: 6px;">
+                                            <select name="mac" style="width: 115px;" class="userInpt index-inpt macChoose" id="macChoose3">
+                                                <option value="1">Custom MAC</option>
+                                                <option value="2">Host MAC</option>
+                                                <option value="3" selected="selected">Raw MAC</option>
+                                            </select>
+                                            <em id="mac_box3" style="margin-left:6px;"></em>
+                                        </span>
+                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter3" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                    </li>
+                                </ul>
+                                <div class="bot"><a class="fr setBtn" id="DhcpHightSet" href="javascript:;">Advanced</a></div>                                
+                                <div class="btn-box" style="position: absolute;bottom: 30px;z-index:9;left: 50%;margin-left: -125px;"><input type="button" class="btn" id="btn_3" value="OK">&nbsp;&nbsp;<span id="dhcp_message"></span></div>
+                            </div>
+                        </div>
+                        <!-- 动态IP end-->
+
+                        <!-- PPTP/L2TP -->
+                        <div class="sub" id="t_5_box">
+                            <div class="sub-box">
+                                <p>PPTP/L2TP Dialing method.</p>
+                                <ul class="list pl">
+                                    <li>
+                                        <span class="sp-l">internet service provider</span>
+                                        <span class="sp-r">
+                                            <select id="pl_type" style="width: 307px;height: 38px;border: none;font-size: 14px;">
+												<option value="pptp">PPTP</option>
+												<option value="l2tp">L2TP</option>
+                                            </select>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">User Name</span>
+                                        <span class="sp-r">
+                                            <label for="pl_username">User Name from ISP</label>
+                                            <input type="text" name="dns" class="inpt" id="pl_username" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">Password</span>
+                                        <span class="sp-r">
+                                            <label for="pl_password">Password from ISP</label>
+                                            <input type="text" name="dns" class="inpt" id="pl_password" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+										<span class="sp-l">
+											<select id="pl_sstype" style="width: 100%;height: 38px;border: none;text-align: center;font-size: 14px;">
+												<option value="0">ServerIP</option>
+												<option value="1">Sdomain</option>
+											</select>
+										</span>
+										<span class="sp-r">
+											<label for="pl_ssvalue">ServerIP or Sdomain from ISP</label>
+											<input type="text" name="dns" class="inpt" id="pl_ssvalue" autocomplete="off">
+										</span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">Server port</span>
+                                        <span class="sp-r">
+                                            <input type="text" name="pl_port" class="inpt" id="pl_port" autocomplete="off" disabled="disabled" value="1723">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">MPPE</span>
+                                        <span class="sp-r">
+                                        	<div class="tbDiv"><i id="pl_mppe" class="switch3 open3"></i></div>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <div class="btn-box" style="position: absolute;bottom: 30px;z-index:9;left: 50%;margin-left: -125px;"><input type="button" class="btn" id="btn_5" value="OK">&nbsp;&nbsp;<span id="pltp_message"></span></div>
+                            </div>
+                        </div>
+                        <!-- PPTP/L2TP end-->
+
+                        <!-- 无线中继 -->
+                        <div class="sub" id="t_4_box">
+                            <div class="sub-box newlist">
+                                <ul class="list">
+                                    <li>
+                                        <span class="sp-l" style="text-align: right;margin-right: 20px;">Wi-Fi Name</span>
+                                        <span class="sp-r"><label class="noinpt" id="wf_name">CYWiFi</label></span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l" style="text-align: right;margin-right: 20px;">Status</span>
+                                        <span class="sp-r"><label class="noinpt" id="noinpt" style="color:#e4007f;">No Relay</label></span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l" style="text-align: right;margin-right: 20px;">Select a Wi-Fi Network</span>
+                                        <span class="sp-r"><a href="javascript:;" onclick="getWifiList(1);" class="btn s-btn">refresh</a></span>
+                                    </li>
+                                </ul>
+                                <div class="bot wifi" style="padding-left: 84px;">
+                                    <a href="javascript:;" class="ssid_add">Hidden Wi-Fi</a>
+                                </div>
+                            </div>
+
+                            <div class="wifi-list">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <td>Wi-Fi Name</td>
+                                            <td>MAC Address</td>
+                                            <td>Channel</td>
+                                            <td>Security Mode</td>
+                                            <td>Signal Strength</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="getWifiList">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tbody id="getWifiList">
+                                        </tbody>
+                                    </table>
+                                </div>                                
+                                <div class="btn-box">
+                                    <!--                                    <input type="hidden" id="security">-->
+                                    <!--                                    <input type="hidden" id="channel">-->
+                                    <!--                                    <input type="button" class="btn" id="btn_4" value="连 接">-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 无线中继 end-->
+
+                    </div>
+                </div>
+				
+				<p style="text-align: left;text-indent: 8%;line-height:3;" id="Wireless">Wireless</P>
+                <!--离线配置ssid statr-->
+                <div class="bd-box newlist" id="offlineWifi" style="width:835px;margin-top:0;padding-bottom: 70px;">
+                    <ul class="list" id="swichNav">
+                        <li>
+                            <span class="sp-l" style="text-align: right;margin-right: 15px;margin-top: 10px;width: 177px;">2.4G Wi-Fi</span>
+                            <span class="sp-r nav">
+                                <a href="javascript:;" id="wifi_on">ON</a>
+                                <a href="javascript:;" id="wifi_off" class="selected">OFF</a>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <ul class="list" id="wifisetpanel" style="display:none;">
+                        <li>
+                            <span class="sp-l" style="text-align: right;margin-right: 15px;width: 177px;">Wi-Fi Name</span>
+                            <span class="sp-r new-sp">
+                                <label for="wf_nameset" style="display: none;">Wi-Fi Name</label>
+                                <input name="wf_name" class="inpt" id="wf_nameset" autocomplete="off" type="text">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l" style="text-align: right;margin-right: 15px;width: 177px;">Wi-Fi Password</span>
+                            <span class="sp-r new-sp">
+                                <label for="wf_pwdset">Wi-Fi Password</label>
+                                <input name="wf_pwd" class="inpt" id="wf_pwdset" autocomplete="off" type="text">
+                            </span>
+                        </li>
+                    </ul>
+
+
+                    <ul class="list" id="swichNav">
+                        <li>
+                            <span class="sp-l" style="text-align: right;margin-right: 15px;margin-top: 10px;width: 177px;">5G Wi-Fi</span>
+                            <span class="sp-r nav">
+                                <a href="javascript:;" id="wifi_on_5g">ON</a>
+                                <a href="javascript:;" id="wifi_off_5g" class="selected">OFF</a>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <ul class="list" id="wifisetpanel_5g">
+                        <li>
+                            <span class="sp-l" style="text-align: right;margin-right: 15px;width: 177px;">Wi-Fi Name</span>
+                            <span class="sp-r new-sp">
+                                <label for="wf_nameset_5g" style="display: none;">Wi-Fi Name</label>
+                                <input name="wf_nameset_5g" class="inpt" id="wf_nameset_5g" autocomplete="off" type="text">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l" style="text-align: right;margin-right: 15px;width: 177px;">Wi-Fi Password</span>
+                            <span class="sp-r new-sp">
+                                <label for="wf_pwdset_5g">Wi-Fi Password</label>
+                                <input name="wf_pwd" class="inpt" id="wf_pwdset_5g" autocomplete="off" type="text">
+                            </span>
+                        </li>
+                    </ul>
+
+
+                </div>
+
+
+
+                <!--离线配置ssid end-->
+
+            </div>
+        </div>
+        
+        <!-- 未插网线 -->
+        <div class="wifiConnectLayer" style="height:auto;" id="lineOff">
+            <div class="bg"></div>
+            <div class="con con2">        
+                <div class="img1"><img src="images/img-1.png"></div>
+                <p>WAN port is not inserted into the cable</p>
+                <div class="img2"><img id="go_on" src="images/img-2.png"></div>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn" id="lineOffSet">Offline Set</a>
+                    <a href="javascript:;" class="btn layer-btn" id="lineOffConnect">WISP</a>
+                </div>
+            </div>
+        </div>
+        <!-- 未插网线 end-->        
+
+        <!-- 添加隐藏ssid -->
+        <div class="wifiConnectLayer" id="ssid_connect">
+            <div class="bg"></div>
+            <div class="con">
+                <p>Hidden Wi-Fi</p>
+                <ul class="list login-list">
+                    <li>
+                        <span class="sp-l" style="width:86px">Wi-Fi Name</span>
+                        <span class="sp-r">
+                            <label for="ssid">Wi-Fi Name</label>
+                            <input type="text" name="ssid" class="inpt" id="ssid" autocomplete="off">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="sp-l" style="width:86px">Security Mode</span>
+                        <span class="sp-r">
+                            <select id="check_wpa" class="check_channel">
+                                <option value="1" selected="selected">None</option>
+                                <option value="WPAPSK">WPA PSK</option>
+                                <option value="WPA2PSK">WPA2 PSK</option>      
+                                <option value="WPAPSKWPA2PSK">WPA/WPA2 PSK</option>
+                            </select>
+                        </span>                    
+                    </li>
+                    <li>
+                        <span class="sp-l" style="width:86px">Channel</span>
+                        <span class="sp-r">
+                            <select id="check_channel" class="check_channel">
+
+                            </select>
+                        </span>
+                    </li>                    
+                    <li id="pwd_li" class="hide">
+                        <span class="sp-l" style="width:86px">Wi-Fi Password</span>
+                        <span class="sp-r">
+                            <label for="ssid_pwd">Wi-Fi Password</label>
+                            <input type="text" name="ssid_pwd" class="inpt" id="ssid_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn cannel">Cancel</a>
+                    <a href="javascript:;" class="btn layer-btn" id="ssid_confirm">OK</a>
+                </div>
+            </div>
+        </div>
+        <!-- 添加隐藏ssid end-->
+        <!-- 无线中继 -->
+        <div class="wifiConnectLayer" id="wifi_zj">
+            <div class="bg"></div>
+            <div class="con">
+                <p id="cyname"></p>
+                <ul class="list login-list" id="have_pwd">
+                    <li>
+                        <span class="sp-l" style="width:86px">Password</span>
+                        <span class="sp-r">
+                            <label for="wf_pwd">Wi-Fi Password</label>
+                            <input type="text" name="wf_pwd" class="inpt" id="wf_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <input type="hidden" id="channel">
+                    <input type="hidden" id="data_sec">
+                    <a href="javascript:;" class="btn s-btn" id="wifi_zj_confirm">OK</a>
+                    <a href="javascript:;" class="btn s-btn cannel">Cancel</a>
+                </div>
+            </div>
+        </div>
+        <!-- 无线中继 end-->
+
+    </body>
+</html>
+<script type="text/javascript">
+    wifiGet('');
+    wifiGet('_5g');
+    get5GWifiAp();
+    router.getWifiAp();
+    checkConfig();
+</script>

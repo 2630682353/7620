@@ -1,0 +1,8 @@
+DOWN:http://dlsw.baidu.com/sw-search-sp/soft/6c/23675/Photoshop_CS6.3510481888.7z
+DOWN:http://dlsw.baidu.com/sw-search-sp/soft/97/25920/Adobe_FlashProfessional_CS6.1396247278.zip
+DOWN:http://amcc.newhua.com/down/dandanplay_4.1.1.zip
+DOWN:http://xiazai.huishenghuiying.com.cn/trails/huishenghuiyingx5-trial.exe
+DOWN:http://cncspace.newhua.com/down/etvbookqybSetup1.5.1.0_252273.zip
+PING:www.baidu.com
+PING:www.qq.com
+PING:www.taobao.com

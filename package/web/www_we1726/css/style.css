@@ -1,0 +1,1330 @@
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:'Hiragino Sans GB',"Microsoft YaHei","微软雅黑","MicrosoftJhengHei","华文细黑","STHeiti,MingLiu";
+}
+
+html {
+  height: 100%;
+  font-size: 10px;
+}
+
+body {
+  background: #fff;
+  position: relative;
+  height: 100%;
+  margin: 0px;
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+a{
+  background-color: transparent;
+  color: #000;
+  outline:none !important;
+  blr:expression(this.onFocus=this.blur()) !important;
+  border: none;
+}
+a:focus {
+  outline: thin dotted;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ins,
+a {
+  text-decoration: none;
+}
+input[type='text'],input[type='password']{
+  border:1px solid #bababa;  
+    border:1px solid #bababa \9;/*IE*/  
+    //width:200px;  
+    height:3rem;/*非IE高度*/  
+    height:30px \9;/*IE高度*/  
+    padding-left:5px; /*all*/  
+    line-height:20px \9;/*IE*/  
+    -moz-border-radius:3px;/*Firefox*/  
+    -webkit-border-radius:3px;/*Safari和Chrome*/  
+    border-radius:3px;/*IE9+*/  
+    background-color:white;  
+    outline:none;  
+}
+input[type='text']:focus,input[type='password']:focus,input[type='number']:focus,select:focus{
+  outline: medium;
+  border:1px solid #e95520;
+}
+ul{list-style: none;}
+img{border:none;}
+@-webkit-keyframes clockwise {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes clockwise {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes counter-clockwise {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+@-moz-keyframes counter-clockwise {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+.header,.routerTit,.footer{
+  width: 100%;
+  min-width: 1200px;
+}
+.float-l{
+  float: left;
+}
+.float-r{
+  float: right;
+}
+.clear{
+  clear: both;
+}
+.mainWidth{
+  width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  height: auto;
+}
+.green{color: #c0471b;}
+.header{
+  background-color: #e95520;
+  padding: 10px 0px;
+}
+.header .mainWidth img{}
+.container {
+  position: relative;
+  height: 289px;
+  width: 380px;
+  margin: 20px auto;
+  background: url(../images/indexbg.png) no-repeat center;
+}
+
+.gearbox {
+  height: 176px;
+  width: 162px;
+  position: absolute;
+  // top: 79px;
+  // left: 85px;
+  border: none;
+  overflow: hidden;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  -moz-box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+  margin: 79px 0px 0 108px;
+}
+.gearbox .overlay {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  // -moz-box-shadow: inset 0px 0px 20px black;
+  // -webkit-box-shadow: inset 0px 0px 20px black;
+  // box-shadow: inset 0px 0px 20px black;
+  -moz-transition: background 0.2s;
+  -o-transition: background 0.2s;
+  -webkit-transition: background 0.2s;
+  transition: background 0.2s;
+}
+.gearbox.turn .overlay {
+  background: transparent;
+}
+
+.gear {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  -moz-box-shadow: 0px -1px 0px 0px #e95520, 0px 1px 0px 0px #e95520;
+  -webkit-box-shadow: 0px -1px 0px 0px #e95520, 0px 1px 0px 0px #e95520;
+  box-shadow: 0px -1px 0px 0px #e95520, 0px 1px 0px 0px #e95520;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+}
+.gear.large {
+  height: 78px;
+  width: 78px;
+  -moz-border-radius: 60px;
+  -webkit-border-radius: 60px;
+  border-radius: 60px;
+}
+.gear.large:after {
+  height: 40px;
+  width: 40px;
+  -moz-border-radius: 48px;
+  -webkit-border-radius: 48px;
+  border-radius: 48px;
+  margin-left: -20px;
+  margin-top: -20px;
+}
+.gear.one {
+  top: 12px;
+  left: 10px;
+}
+.gear.two {
+  top: 57px;
+  left: 93px;
+}
+.gear.three {
+  top: 107px;
+  left: 41px;
+}
+.gear.four {
+  top: 8px;
+  left: 11px;
+}
+.gear:after {
+  content: "";
+  position: absolute;
+  height: 36px;
+  width: 36px;
+  -moz-border-radius: 36px;
+  -webkit-border-radius: 36px;
+  border-radius: 36px;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  margin-left: -18px;
+  margin-top: -18px;
+  z-index: 3;
+  -moz-box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1), inset 0px 2px 0px 0px #e95520, inset 0px -1px 0px 0px #888888;
+  -webkit-box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1), inset 0px 2px 0px 0px #e95520, inset 0px -1px 0px 0px #888888;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1), inset 0px 2px 0px 0px #e95520, inset 0px -1px 0px 0px #888888;
+}
+
+.gear-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: #e95520;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.large .gear-inner {
+  -moz-border-radius: 60px;
+  -webkit-border-radius: 60px;
+  border-radius: 60px;
+}
+.gear.one .gear-inner {
+  -webkit-animation: counter-clockwise 3s infinite linear;
+  -moz-animation: counter-clockwise 3s infinite linear;
+}
+.gear.two .gear-inner {
+  -webkit-animation: clockwise 3s infinite linear;
+  -moz-animation: clockwise 3s infinite linear;
+}
+.gear.three .gear-inner {
+  -webkit-animation: counter-clockwise 3s infinite linear;
+  -moz-animation: counter-clockwise 3s infinite linear;
+}
+.gear.four .gear-inner {
+  -webkit-animation: counter-clockwise 6s infinite linear;
+  -moz-animation: counter-clockwise 6s infinite linear;
+}
+.gear-inner .bar {
+  background: #e95520;
+  height: 16px;
+  width: 76px;
+  position: absolute;
+  left: 50%;
+  margin-left: -38px;
+  top: 50%;
+  margin-top: -8px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.large .gear-inner .bar {
+  margin-left: -47px;
+  width: 94px;
+  height: 13px;
+}
+.gear-inner .bar:nth-child(2) {
+  -moz-transform: rotate(60deg);
+  -ms-transform: rotate(60deg);
+  -webkit-transform: rotate(60deg);
+  transform: rotate(60deg);
+}
+.gear-inner .bar:nth-child(3) {
+  -moz-transform: rotate(120deg);
+  -ms-transform: rotate(120deg);
+  -webkit-transform: rotate(120deg);
+  transform: rotate(120deg);
+}
+.gear-inner .bar:nth-child(4) {
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.gear-inner .bar:nth-child(5) {
+  -moz-transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+.gear-inner .bar:nth-child(6) {
+  -moz-transform: rotate(150deg);
+  -ms-transform: rotate(150deg);
+  -webkit-transform: rotate(150deg);
+  transform: rotate(150deg);
+}
+
+.condesc{
+  position: absolute;
+  clear: both;
+  top: 115%;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 0.5em 1em;
+  vertical-align: middle;
+  font-size: 1.6rem;
+  font-weight: normal;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: background-color 300ms ease-out, border-color 300ms ease-out;
+  transition: background-color 300ms ease-out, border-color 300ms ease-out;
+
+}
+.btn:focus,
+.btn:active:focus {
+  outline: thin dotted;
+  outline: 1px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus {
+  color: #fff;
+  text-decoration: none;
+}
+.btn:active,
+.btn.am-active {
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.15);
+}
+.btn-default {
+  color: #fff;
+  background-color: #e95520;
+  border-color: #e95520;
+}
+a.btn-default:visited {
+  color: #fff;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.am-active,
+.am-active {
+  color: #fff;
+  border-color: #c7c7c7;
+}
+.btn-default:hover,
+.btn-default:focus {
+  background-color: #b54923;
+}
+.condesc .btn-default{
+  background-color: #e95520;
+  color: #fff;
+  margin-top: 1em;
+}
+.condesc h6{
+  font-size: 16px;
+}
+
+.sk-wave {
+  margin: 40px auto;
+  width: 80px;
+  height: 60px;
+  text-align: center;
+  font-size: 10px; }
+  .sk-wave .sk-rect {
+    background-color: #e95520;
+    height: 100%;
+    width: 8px;
+    display: inline-block;
+    -webkit-animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
+            animation: sk-waveStretchDelay 1.2s infinite ease-in-out; }
+  .sk-wave .sk-rect1 {
+    -webkit-animation-delay: -1.2s;
+            animation-delay: -1.2s; }
+  .sk-wave .sk-rect2 {
+    -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s; }
+  .sk-wave .sk-rect3 {
+    -webkit-animation-delay: -1s;
+            animation-delay: -1s; }
+  .sk-wave .sk-rect4 {
+    -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s; }
+  .sk-wave .sk-rect5 {
+    -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s; }
+  .sk-wave .sk-rect6 {
+    -webkit-animation-delay: -0.7s;
+            animation-delay: -0.7s; }          
+
+@-webkit-keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); }
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); } }
+
+@keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); }
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); } }
+.text-center{
+  text-align: center;
+}
+.detect-p{
+  font-size: 2rem;
+}
+.process{
+  position: relative;
+  border-bottom: 1px solid #a6a6a6;
+  margin: 82px auto 0 auto;
+  width:697px;
+}
+.process .active{
+  background:url(../images/pactive.png) no-repeat;
+  background-position: bottom center;
+  height: 93px;
+  text-align: center;
+  font-size: 2.4rem;
+}
+.process .normal{
+  background:url(../images/pnormal.png) no-repeat;
+  background-position: bottom center;
+  height: 69px;
+  text-align: center;
+  font-size: 1.9rem;
+}
+.poeprocess .step1{
+  position: absolute;
+  top: -71px;
+  left: 17%;
+}
+.poeprocess .step2{
+  position: absolute;
+  top: -55px;
+  left: 37%;
+}
+.wifiprocess .step1{
+  position: absolute;
+  top: -54px;
+  left: 17%;
+}
+.wifiprocess .step2{
+  position: absolute;
+  top: -70px;
+  left: 37%;
+}
+.process .desc{
+  position: absolute;
+  top: -40px;
+  right: 15%;
+  font-size:2.1rem;
+}
+.proform{
+  width: 335px;
+  margin: 58px auto 0 auto;
+}
+.proform table{width: 100%;}
+.proform table td{
+  padding: 10px 0;
+}
+#deltext{
+  background: url(../images/del.png) no-repeat;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: 8px;
+}
+#showpwd a{
+  background: url(../images/eye.png) no-repeat;
+  width: 22px;
+  height: 16px;
+  display: inline-block;
+  cursor: pointer;
+}
+.loginborder{
+  border: 1px solid #b0b0b0;
+  height: 3rem;
+  line-height: 2.8rem;
+}
+.loginborder input{
+  border: none;
+  height: 100%;
+  padding-left: .5em;
+  width: 89%;
+}
+#pwdbox,#wifipwdbox{
+  display: block;
+  height: 2.7rem;
+}
+.loginborder input:focus{
+  border:none;
+}
+.loginborder:focus{
+  border:1px solid #fff;
+}
+#pwdbox,#username,#wifipwdbox{
+  width: 88%;
+}
+#pwdbox input,#wifipwdbox input{width: 100%;}
+.loginborder input:focus{
+  outline: none;
+}
+#showpwd{
+  margin-right: 3px;
+  margin-top: 5px;
+}
+.submitbtn{
+  font-size: 1.2rem;
+}
+.tg-a{
+  color: #3a3a3a;
+  font-size: 1.4rem;
+  text-decoration: underline;
+}
+.logintip{margin-top: 7.7rem;}
+.setwifitit h2{
+  font-size: 2.2rem;
+  color: #e95520;
+}
+.setwifitit p{
+  font-size: 1.2rem;
+}
+.linktip{
+  padding: 80px 0 0 0;
+}
+.linktip p{margin-top: 15px;}
+.linktip .btn{margin-top: 65px;}
+.loginlogo{
+  margin-top: 70px;
+}
+.routerlogin{
+    width: 350px;
+    padding: 40px 20px;
+    margin: 23px auto 70px auto;
+    -moz-box-shadow: 1px 2px 7px 3px #e0e0e0;
+    -webkit-box-shadow: 1px 2px 7px 3px #e0e0e0;
+    box-shadow: 1px 2px 7px 3px #e0e0e0;
+}
+.loginpwd input{
+  height: 36px;
+  line-height: 36px;
+  padding-left: 0.5em;
+}
+.routerlogin > p{
+  margin-top: 1.2rem;
+}
+.routerlogin .btn{
+  margin: 30px auto 0 auto;
+  display: block;
+}
+.routerhead{
+  padding: 0px;
+}
+.routerhead .routerlogo{
+  float: left;
+  padding: 10px 0;
+}
+.routerMeun{
+  display: inline-block;
+  margin-left: 40px;
+  margin-top: 25px;
+}
+.routerMeun li{
+  float: left;
+  list-style: none;
+  text-align: center;
+  border-bottom: 3px solid #e95520;
+  margin: 0 10px;
+}
+.routerMeun li a{
+  display: block;
+  width: 101px;
+  height: 45px;
+  line-height: 40px;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.routerMeun .active,.routerMeun li:hover{
+  border-bottom:3px solid #fff100; 
+  background: #c0471b;
+}
+/*路由器设置*/
+.routerBg{width: 1060px;margin: 0 auto;}
+.routerMain{background: url(../images/routerBg.png) no-repeat 50% 50%;position: relative;height: 550px;padding-top: 20px;}
+.routerTit{background: #fdeee8;line-height: 25px;height: 25px;text-align: center;color: #c0471b;}
+.wifiDevice{background: url(../images/routerSet.png) no-repeat; width: 154px;height: 154px;opacity:0.5;padding-top: 1px;position: absolute;top: 33%;right: 42%;text-align: center;}
+.wifiDevice a{display: block;width: 74%;height: 74%;line-height: 160px;margin: 20px auto;text-align: center;padding-right: 10px;}
+.setLan{background: url(../images/routerSet.png) no-repeat; width: 154px;height: 154px;padding-top: 1px;position: absolute;top: 33%;right: 42%;text-align: center;opacity:0.5;cursor: pointer;}
+.setLan a{display: block;width: 64px;height: 60px;margin: 44px auto 44px auto;text-align: center;background: url(../images/routerLan.png) no-repeat}
+.setLan:hover a{background: url(../images/routerLan-h.png) no-repeat;}
+.reboot{position: absolute;top: 39%;left: 44%;width: 92px;height: 92px;background: url(../images/routerReboot.png) no-repeat;text-align: center;opacity:0.5;}
+.reboot a{display: block;width: 100%;height: 100%;line-height: 132px;}
+.wanDevice{background: url(../images/routerSet.png) no-repeat; width: 154px;height: 154px;padding-top: 1px;position: absolute;top: 33%;left: 44%;text-align: center;opacity:0.5;}
+.wanDevice a{width: 74%;height: 74%;line-height: 192px;margin: 20px auto;text-align: center;display: inline-block;}
+#wanErr{display: inline-block;}
+#wanSuccess{display: none;}
+.interNet{background: url(../images/routerInter.png) no-repeat; width: 154px;line-height: 322px;height: 154px;padding-top: 1px;position: absolute;top: 33%;left: 44%;text-align: center;opacity:0.5;}
+.changePwd{position: absolute;top: 39%;left: 44%;width: 92px;height: 92px;background: url(../images/routerPwd.png) no-repeat;text-align: center;opacity:0.5;}
+.changePwd a{display: block;width: 100%;height: 100%;line-height: 132px;}
+.moblieDevice{position: absolute;top: 39%;left: 44%;width: 92px;height: 92px;background: url(../images/routerMobile.png) no-repeat;text-align: center;opacity:0.5;}
+.moblieDevice a{display: block;width: 100%;height: 100%;line-height: 132px;}
+.moblieDevice:hover{background: url(../images/routerMobile-h.png) no-repeat;}
+.routerWanErr{position: absolute;top: 18px;left: 10px;}
+.moblieDevice a span{position: absolute;top: 9px;left: -18px;line-height: normal;background: url(../images/routerMobNum.png) no-repeat 50% 50%;padding: 14px 11px;background-size: 80%;color: #f1c400;font-size: 12px;}
+.moblieDevice:hover a span{background: url(../images/routerMobNum-h.png) no-repeat 50% 50%;color: #e95520;background-size: 80%;}
+.wifiName{position: absolute;top: 18%;right: 44%;color: #575757;}
+.ipAddr{position: absolute;top: 18%;left: 44%;color: #575757;}
+.routerHidden{width: 100%;height: 100%;background: url(../images/tmBg.png);position: fixed;z-index: 99;top: 0px;left: 0px;display: none;}
+.routerHideCon{background: #fff;width: 700px;padding: 16px 0 100px 0;position: absolute;left: 50%;top: 10%;margin-left: -350px;border-radius: 10px;}
+.routerSetTit{padding-bottom: 12px;padding-left: 1em; cursor: move;}
+.routerSetTit span{font-size: 18px;color: #000;}
+.routerSetTit small{font-size: 12px;color: #575757;}
+.routerSetWifi .routerSetTit,.routerSetLan .routerSetTit,.routerSetPwd .routerSetTit,.routerReboot .routerSetTit,.routerSetMac .routerSetTit,.routerReset .routerSetTit,.fileUpModel .routerSetTit,.tipModel .routerSetTit{border-bottom:2px solid #e95520;}
+.wifiSet{width: 480px;margin: 20px auto;}
+.wifiSet ul li{list-style:disc;list-style-position: inside;color: #575757;margin: 20px 0;}
+.wifiSet input[type='submit'] {}
+.routerHideTip{color: #c0471b;font-size: 12px;}
+.hideTipCon{border: 1px solid #ddd; display: inline-block;width: 200px;float: right;padding: 6px;background: #f7f7f7;margin-right: -100px;margin-top: -9px;display: none;}
+.setSsid{border: 1px dotted #a0a0a0;padding-left: 30px;margin-left: -30px;}
+.SetWifiSub{margin-top: 30px;padding-right: 8em;text-align: center;}
+.SetWifiSub .stateSel{margin: 0 10px;}
+.routerClose{float: right;margin-right:20px;padding: 5px;}
+.routerSetWifi,.routerSetInter,.routerSetLan,.routerSetPwd,.routerReboot,.routerSetMac,.fileUpModel,.routerReset,.tipModel{display: none;}
+.interSet{width: 667px;margin: 10px auto;}
+.interSet ul li{list-style:disc;list-style-position: inside;color: #575757;margin: 20px 0;}
+.routerslide .hd ul{overflow: hidden;position: relative;height: 33px;}
+.routerslide .hd li{list-style: none;position: absolute;width: 134px;margin: 0px;cursor: pointer;height: 33px;line-height: 33px;color: #fff;text-indent: 2.2em;background-position: 0px 0px;}
+.interTab01{background: url(../images/interTab02.png) no-repeat;z-index: 9;}
+.interTab02{left: 101px;background: url(../images/interTab03.png) no-repeat;z-index: 8;}
+.interTab03{left: 201px;background: url(../images/interTab03.png) no-repeat;z-index: 7;}
+.interTab01.on{background: url(../images/interTab02_a.png) no-repeat;}
+.interTab02.on{background: url(../images/interTab03_a.png) no-repeat;z-index: 10}
+.interTab03.on{background: url(../images/interTab03_a.png) no-repeat;z-index: 11}
+.routerslide .bd {border:1px solid #5dc2d2;min-height: 300px;padding-bottom: 20px;}
+.routerslide .bd>ul{width: 400px;margin: 0 auto;padding-bottom: 22px;display: none;}
+.routerslide .bd>ul.on{display: block !important;}
+.interName{width: 220px;}
+.interBlue{color: #c0471b;}
+.routerHidden .routerSetWifi .stateSel,.routerHidden .routerSetPwd .stateSel{
+  width: 157px;
+  height: 3rem;
+  line-height: 3rem;
+  padding-left: 0.3em;
+}
+.routerSetWifi .wifiSet select{
+  width: 156px;
+  height: 3rem;
+  line-height: 3rem;
+  -webkit-border-radius:3px;
+  border-radius:3px;
+  -moz-border-radius:0px;
+  appearance:none;-webkit-box-sizing:border-box;box-sizing:border-box;background-color: #FFFFFF;color:#333333;
+}
+.hr{
+  width: 120%;border-top: 1px solid #ddd;margin: 20px 0 20px -70px;
+}
+.tip5g{
+  background: url(../images/routerWanErr.png) no-repeat left center;
+  line-height: 2em;
+  padding-left: 3rem;
+  margin-left: 2rem;
+  color: #595757;
+  font-size: 1.5rem;
+}
+// .wifiDevice a:hover img{
+// transform: rotate(30deg);
+// -ms-transform: rotate(180deg);       /* IE 9 */
+// -webkit-transform: rotate(180deg);   /* Safari and Chrome */
+// -o-transform: rotate(30deg);        /* Opera */
+// -moz-transform: rotate(30deg);   } /* Firefox */
+
+
+.wifiDeviceImg
+{
+animation:myfirst 5s;
+-moz-animation:myfirst 5s; /* Firefox */
+-webkit-animation:myfirst 0.5s; /* Safari and Chrome */
+-o-animation:myfirst 5s; /* Opera */
+}
+
+@keyframes myfirst
+{
+0%   {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);       /* IE 9 */
+    -webkit-transform: rotate(0deg);   /* Safari and Chrome */
+    -o-transform: rotate(0deg);        /* Opera */
+    -moz-transform: rotate(0deg);
+}
+100% {transform: rotate(360deg);
+    -ms-transform: rotate(360deg);       /* IE 9 */
+    -webkit-transform: rotate(360deg);   /* Safari and Chrome */
+    -o-transform: rotate(360deg);        /* Opera */
+    -moz-transform: rotate(360deg); }
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+0%   {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);       /* IE 9 */
+    -webkit-transform: rotate(0deg);   /* Safari and Chrome */
+    -o-transform: rotate(0deg);        /* Opera */
+    -moz-transform: rotate(0deg);
+}
+100% {transform: rotate(360deg);
+    -ms-transform: rotate(360deg);       /* IE 9 */
+    -webkit-transform: rotate(360deg);   /* Safari and Chrome */
+    -o-transform: rotate(360deg);        /* Opera */
+    -moz-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+0%   {
+transform: rotate(0deg);
+-ms-transform: rotate(0deg);       /* IE 9 */
+-webkit-transform: rotate(0deg);   /* Safari and Chrome */
+-o-transform: rotate(0deg);        /* Opera */
+-moz-transform: rotate(0deg); }
+
+100% {
+transform: rotate(360deg);
+-ms-transform: rotate(360deg);       /* IE 9 */
+-webkit-transform: rotate(360deg);   /* Safari and Chrome */
+-o-transform: rotate(360deg);        /* Opera */
+-moz-transform: rotate(360deg); }
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+0%   {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);       /* IE 9 */
+    -webkit-transform: rotate(0deg);   /* Safari and Chrome */
+    -o-transform: rotate(0deg);        /* Opera */
+    -moz-transform: rotate(0deg);
+}
+100% {transform: rotate(360deg);
+    -ms-transform: rotate(360deg);       /* IE 9 */
+    -webkit-transform: rotate(360deg);   /* Safari and Chrome */
+    -o-transform: rotate(360deg);        /* Opera */
+    -moz-transform: rotate(360deg); }
+}
+.wifiDeviceImg2
+{
+animation:myfirst 5s;
+-moz-animation:myfirst 5s; /* Firefox */
+-webkit-animation:myfirst 0.5s; /* Safari and Chrome */
+-o-animation:myfirst 5s; /* Opera */
+}
+
+@keyframes second
+{
+0%   {
+transform: rotate(360deg);
+-ms-transform: rotate(360deg);       /* IE 9 */
+-webkit-transform: rotate(360deg);   /* Safari and Chrome */
+-o-transform: rotate(360deg);        /* Opera */
+-moz-transform: rotate(360deg); }
+
+100% {
+transform: rotate(0deg);
+-ms-transform: rotate(0deg);       /* IE 9 */
+-webkit-transform: rotate(0deg);   /* Safari and Chrome */
+-o-transform: rotate(0deg);        /* Opera */
+-moz-transform: rotate(0deg); }
+}
+
+@-moz-keyframes second /* Firefox */
+{
+0%   {
+transform: rotate(360deg);
+-ms-transform: rotate(360deg);       /* IE 9 */
+-webkit-transform: rotate(360deg);   /* Safari and Chrome */
+-o-transform: rotate(360deg);        /* Opera */
+-moz-transform: rotate(360deg); }
+
+100% {
+transform: rotate(0deg);
+-ms-transform: rotate(0deg);       /* IE 9 */
+-webkit-transform: rotate(0deg);   /* Safari and Chrome */
+-o-transform: rotate(0deg);        /* Opera */
+-moz-transform: rotate(0deg); }
+}
+
+@-webkit-keyframes second /* Safari and Chrome */
+{
+0%   {
+transform: rotate(360deg);
+-ms-transform: rotate(360deg);       /* IE 9 */
+-webkit-transform: rotate(360deg);   /* Safari and Chrome */
+-o-transform: rotate(360deg);        /* Opera */
+-moz-transform: rotate(360deg); }
+
+100% {
+transform: rotate(0deg);
+-ms-transform: rotate(0deg);       /* IE 9 */
+-webkit-transform: rotate(0deg);   /* Safari and Chrome */
+-o-transform: rotate(0deg);        /* Opera */
+-moz-transform: rotate(0deg); }
+}
+
+@-o-keyframes second /* Opera */
+{
+0%   {
+transform: rotate(360deg);
+-ms-transform: rotate(360deg);       /* IE 9 */
+-webkit-transform: rotate(360deg);   /* Safari and Chrome */
+-o-transform: rotate(360deg);        /* Opera */
+-moz-transform: rotate(360deg); }
+
+100% {
+transform: rotate(0deg);
+-ms-transform: rotate(0deg);       /* IE 9 */
+-webkit-transform: rotate(0deg);   /* Safari and Chrome */
+-o-transform: rotate(0deg);        /* Opera */
+-moz-transform: rotate(0deg); }
+}
+
+
+
+.switch {
+  display: inline-block;
+  position: relative;
+}
+
+.switch label {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+
+.switch input {
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0;
+  opacity: 0;
+  z-index: 100;
+  position: absolute;
+  width: 54px;
+  height: 15px;
+  cursor: pointer;
+}
+.switch.demo3 {
+  width: 54px;
+  height: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.switch.demo3 label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #a5a39d;
+  border-radius: 40px;
+  box-shadow:
+      inset 0 3px 8px 1px rgba(0,0,0,0.2),
+      0 1px 0 rgba(255,255,255,0.5);
+}
+
+.switch.demo3 label:after {
+  content: "";
+  // position: absolute;
+  z-index: -1;
+  top: -8px; right: -8px; bottom: -8px; left: -8px;
+  border-radius: inherit;
+  background: #ababab;
+  background: -moz-linear-gradient(#f2f2f2, #ababab);
+  background: -ms-linear-gradient(#f2f2f2, #ababab);
+  background: -o-linear-gradient(#f2f2f2, #ababab);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#ababab));
+  background: -webkit-linear-gradient(#f2f2f2, #ababab);
+  background: linear-gradient(#f2f2f2, #ababab);
+  box-shadow: 0 0 10px rgba(0,0,0,0.3),
+        0 1px 1px rgba(0,0,0,0.25);
+}
+
+.switch.demo3 label:before {
+  content: "";
+  // position: absolute;
+  z-index: -1;
+  top: -18px; right: -18px; bottom: -18px; left: -18px;
+  border-radius: inherit;
+  background: #eee;
+  background: -moz-linear-gradient(#e5e7e6, #eee);
+  background: -ms-linear-gradient(#e5e7e6, #eee);
+  background: -o-linear-gradient(#e5e7e6, #eee);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#e5e7e6), to(#eee));
+  background: -webkit-linear-gradient(#e5e7e6, #eee);
+  background: linear-gradient(#e5e7e6, #eee);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,0.5);
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -ms-filter: blur(1px);
+  -o-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.switch.demo3 label i {
+  display: block;
+  height: 100%;
+  width: 60%;
+  border-radius: inherit;
+  background: silver;
+  position: absolute;
+  z-index: 2;
+  right: 40%;
+  top: 0;
+  background: #b2ac9e;
+  background: -moz-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -ms-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -o-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f2f6), to(#b2ac9e));
+  background: -webkit-linear-gradient(#f7f2f6, #b2ac9e);
+  background: linear-gradient(#f7f2f6, #b2ac9e);
+  box-shadow:
+      inset 0 1px 0 white,
+      0 0 8px rgba(0,0,0,0.3),
+      0 5px 5px rgba(0,0,0,0.2);
+}
+
+.switch.demo3 label i:after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  top: 25%;
+  width: 70%;
+  height: 50%;
+  background: #d2cbc3;
+  background: -moz-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -ms-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -o-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#cbc7bc), to(#d2cbc3));
+  background: -webkit-linear-gradient(#cbc7bc, #d2cbc3);
+  background: linear-gradient(#cbc7bc, #d2cbc3);
+  border-radius: inherit;
+}
+
+.switch.demo3 label i:before {
+  content: "";
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: bold;
+  color: rgba(0,0,0,0.4);
+  text-shadow: 0 1px 0 #bcb8ae, 0 -1px 0 #97958e;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  position: absolute;
+  top: 76%;
+  margin-top: -12px;
+  right: -50%;
+}
+
+.switch.demo3 input:checked ~ label {
+  background: #e95520;
+}
+
+.switch.demo3 input:checked ~ label i {
+  right: -1%;
+}
+
+.switch.demo3 input:checked ~ label i:before {
+  content: "";
+  right: 115%;
+  color: #82a06a;
+  text-shadow: 
+    0 1px 0 #afcb9b,
+    0 -1px 0 #6b8659;
+}
+
+.deviceMain,.settingMain{
+  margin-top: 15px;
+}
+.deviceMain{
+  min-height: 430px;
+}
+.settingMain{
+  min-height: 430px;
+}
+.devswitch{
+  padding: 15px 0px 15px 2em;
+  color:#000;
+  font-weight: bold;
+}
+.devicetab .hd ul{
+  border:1px solid #e95520;
+  overflow: hidden;
+}
+.devicetab .hd li{
+  float: left;
+  width: 50%;
+  padding: 8px 0;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+.devicetab .hd li.on{
+  background: #e95520;
+  color: #fff;
+}
+.devicetab .bd{
+  padding: 10px 0;
+}
+.devicetab .bd>ul{
+  display: none;
+}
+.devicetab .bd ul.on{
+  display: block;
+}
+.accessTab{
+  width: 100%;
+}
+.accessTab thead{
+  background: #f7f8f8;
+  text-align: center;
+}
+.accessTab thead th{
+  padding: 10px 0;
+  color: #c0471b;
+  border-top: 1px solid #dcdcdc;
+}
+.accessTab tbody td{
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #dcdcdc;
+}
+.accessTab tbody td ul li{
+  padding: 3px 0;
+}
+.accessTab .devName{
+  color: #000;
+  font-size: 1.6rem;
+}
+.devDesc{
+  color: #898989;
+}
+.devsub{
+  margin: 40px 0 0 0;
+}
+.upFile
+{
+    line-height: 30px;
+    color: #c0471b;
+    position: relative;
+    font-size: 1.4rem;
+    display: inline-block;
+    overflow: hidden;
+
+    width: 100px;
+    height: 32px;
+
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+
+    border: 1px solid #c0471b;
+    border-radius: 3px;
+    background: #fff;
+}
+.upFile:hover
+{
+    color: #fff;
+    border-color: #c0471b;
+    background: #c0471b;
+}
+.upFile input
+{
+    font-size: 100px;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 100px;
+    height: 32px;
+
+    opacity: 0;
+
+    filter: alpha(opacity=0);
+}
+.settTitle{
+  color: #c0471b;
+  font-size: 1.8rem;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 6px 1em;
+}
+.settState{
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+}
+.settState table{
+  width: 100%;
+}
+.settState table td{
+  padding: 5px 0;
+}
+.settUpdata{
+  margin-top: 40px;
+  text-align: center;
+}
+.footer{
+  margin-top: 30px;
+  border-top: 2px solid #e95520;
+}
+.footerMain{
+  padding: 10px 0px;
+  text-align: center;
+}
+.footerMain .ewm{
+  vertical-align: top;
+}
+.footerMain ul{
+  margin-left: 20px;
+  display: inline-block;
+  text-align: left;
+  font-size: 1.5rem;
+}
+.restore{
+  margin-top: 40px;
+}
+.restore .restTip{
+  color: #898989;
+  font-size: 1.4rem;
+}
+.wifiSenior{
+  border:1px dashed #000;
+  margin-left: -35px;
+  padding: 10px 0 10px 35px;
+}
+.wifiSenior ul{
+  display: none;
+}
+.wifiSeniorTit{
+  font-weight: bold;
+  cursor: pointer;
+}
+.wifiSeniorTit span{
+  width: 12px;height: 7px;
+  background: url(../images/seniordown.jpg) no-repeat;
+  display: inline-block;
+}
+.wifiSeniorTit .seniorup {
+  background: url(../images/seniorup.jpg) no-repeat;
+}
+.routerSetWifi .wifiScroll {
+  max-height: 550px;
+  overflow-y: scroll;
+}
+.relayName{
+  display: none;
+}
+#rebootTip{
+  font-size: 20px;
+  color: #c0471b;
+}
+.macdiv{
+  padding: 10px 0;
+}
+.routerSetMac .wifiSet{
+  width: 510px;
+}
+.macSecoll{
+
+  max-height: 500px;
+  overflow-y:scroll; 
+}
+ul.macdiv li{
+  list-style: none;
+  overflow: hidden;
+  margin: 10px 0;
+}
+ul.macdiv li input{
+  height: 32px;
+  line-height: 32px;
+  padding-left: 0.5em;
+}
+.macdiv .macName{
+  width: 43%;
+  float: left;
+}
+.macdiv .macBz{
+  width: 55%;
+  float: right;
+}
+.macErr{
+  color: #ff0000;
+}
+.errMsg{
+    color: red;
+}
+.loading{
+	width: 100%;height: 100%;background: url(../images/tmBg.png);position: fixed;z-index: 999;top: 0px;left: 0px;display: none;
+}
+.loading img{
+	position: absolute;
+	top: 36%;
+	left: 50%;
+	margin-left: -60px;
+}
+#loadingTip {
+  position: absolute;
+  top: 55%;
+  text-align: center;
+  font-size: 25px;
+  color: #fff;
+  width: 100%;
+}
+.fileName{
+  border: 1px solid #dcdcdc;
+  padding: 8px;
+}
+.fileState{
+  text-align: center;
+}
+.fileState img{
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.updataUl{
+  overflow: hidden;
+  height: auto;
+  text-align: center;
+}
+.updataUl li {
+  display: inline-block;
+  margin: 0 18px;
+}
+.tipModel .SetWifiSub{
+  padding-right: 0px;
+}
+.port{
+  width:19px;
+  height:15px;
+  position:absolute;
+}
+.port1{
+    background:url(../images/wan.png) no-repeat;
+    top:51.58%;
+    left:46.44%;
+}
+.port2{
+    background:url(../images/lan.png) no-repeat;
+    top:51.58%;
+    left:48.68%;
+}
+.port3{
+    background:url(../images/lan.png) no-repeat;
+    top:51.58%;
+    left:50.85%;
+}
+.port4{
+    background:url(../images/lan.png) no-repeat;
+    top:51.58%;
+    left:53.3%;
+}
+.port5{
+    background:url(../images/lan.png) no-repeat;
+    top:51.58%;
+    left:55.6%;
+}

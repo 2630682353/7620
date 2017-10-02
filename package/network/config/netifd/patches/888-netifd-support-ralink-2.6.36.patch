@@ -1,0 +1,11 @@
+--- a/system-linux.c
++++ b/system-linux.c
+@@ -625,7 +625,7 @@ int system_macvlan_add(struct device *ma
+ 		{ "private", MACVLAN_MODE_PRIVATE },
+ 		{ "vepa", MACVLAN_MODE_VEPA },
+ 		{ "bridge", MACVLAN_MODE_BRIDGE },
+-		{ "passthru", MACVLAN_MODE_PASSTHRU },
++		// { "passthru", MACVLAN_MODE_PASSTHRU }, /* for ralink-2.6.36, hua */
+ 	};
+ 
+ 	if (ifindex == 0)

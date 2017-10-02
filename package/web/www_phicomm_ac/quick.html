@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>phicomm路由设置</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="js/layer/layer.js"></script>
+        <script type="text/javascript" src="js/jquery.md5.js"></script>
+        <script language="javascript" type="text/javascript" src="js/common.js"></script>
+        <script language="javascript" type="text/javascript" src="js/config.js"></script>
+        <script type="text/javascript" src="js/router.js"></script>
+    </head>
+
+    <body>
+        <div class="set_box">
+            <h1><img src="images/index-logo.png"></h1>
+            <div class="guide-list">
+                <h2>快速向导</h2>
+                <p>温馨提示:如果您的网络服务提供商提供了宽带接入的用户名和密码，请选择PPPoE.</p>
+                <div class="set-tb">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td class="green">现在可以扫描二维码下载“斐讯智联APP”直接从手机管理路由器啦！</td>
+                            <td><img src="images/erweima3.png" width="65" height="65"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="set-tb">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <td colspan="2">上网设置</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="150">上网方式：</td>
+                                <td>
+                                    <div class="nav" id="connectNav">
+                                        <a data-id="t_1" id="t_1" href="javascript:;">PPPoE</a>
+                                        <a data-id="t_2" id="t_2" href="javascript:;">静态IP</a>
+                                        <a data-id="t_3" id="t_3" href="javascript:;">动态IP</a>
+                                        <a data-id="t_4" id="t_4" href="javascript:;">无线中继</a>
+                                    </div>
+                                </td>
+                            </tr>                   
+                        </tbody>
+                    </table>
+                </div>
+                <div class="set-tb sub" id="t_1_box">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr><td colspan="2">PPPoE</td></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="150">宽带账号：</td>
+                                <td><div class="nav"><input type="text" name="acc" id="acc" autocomplete="off"></div></td>
+                            </tr>   
+                            <tr>
+                                <td width="150">宽带密码：</td>
+                                <td><div class="nav"><input type="text" name="pwd" id="pwd" autocomplete="off"></div></td>
+                            </tr> 
+                            <tr style="display: none">
+                                <td width="150">DNS(首选)：</td>
+                                <td><div class="nav"><input type="text" name="dns" id="pp_dns" autocomplete="off"> (可选)</div></td>
+                            </tr>   
+                            <tr style="display: none">
+                                <td width="150">DNS(备用)：</td>
+                                <td><div class="nav"><input type="text" name="dns" id="pp_dns1" autocomplete="off"> (可选)</div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">MTU：</td>
+                                <td><div class="nav"><input type="text" name="mtu" id="pp_mtu" autocomplete="off"> (可选 默认1480)</div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">克隆MAC：</td>
+                                <td><div class="nav">
+                                        <span style="margin-left: 6px;">
+                                            <select name="mac" style="width: 115px;" class="userq index-inpt macChoose" id="macChoose1">
+                                                <option value="1">手动MAC</option>
+                                                <option value="2">本地主机MAC</option>
+                                                <option value="3" selected="selected">出厂MAC</option>
+                                            </select>
+                                            <em id="mac_box1" style="margin-left:6px;"></em>
+                                        </span>
+                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter1" style="width: 165px;" class="userq index-inpt" value=""></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center;"><input type="button" style="height: 25px;line-height: 25px;" class="btn" id="btn_1" value="开始拨号"><a id="PpoeHightSet" href="javascript:;">高级配置</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="set-tb sub" id="t_2_box">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <td colspan="2">静态IP</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="150">IP地址：</td>
+                                <td><div class="nav"><input type="text" name="ip_addr" id="static_ip" autocomplete="off"></div></td>
+                            </tr>   
+                            <tr>
+                                <td width="150">子网掩码：</td>
+                                <td><div class="nav"><input type="text" name="subnet" id="static_mask" autocomplete="off"></div></td>
+                            </tr>  
+                            <tr>
+                                <td width="150">默认网关：</td>
+                                <td><div class="nav"><input type="text" name="wg" id="static_gw" autocomplete="off"></div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">首选DNS服务器：</td>
+                                <td><div class="nav"><input type="text" name="dns" id="static_dns" autocomplete="off"> (可选)</div></td>
+                            </tr>     
+                            <tr style="display: none">
+                                <td width="150">备用DNS服务器：</td>
+                                <td><div class="nav"><input type="text" name="dns" id="static_dns1" autocomplete="off"> (可选)</div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">MTU：</td>
+                                <td><div class="nav"><input type="text" name="mtu" id="static_mtu" autocomplete="off"> (可选 默认1500)</div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">克隆MAC：</td>
+                                <td><div class="nav">
+                                        <span style="margin-left: 6px;">
+                                            <select name="mac" style="width: 115px;" class="userInptq index-inpt macChoose" id="macChoose2">
+                                                <option value="1">手动MAC</option>
+                                                <option value="2">本地主机MAC</option>
+                                                <option value="3" selected="selected">出厂MAC</option>
+                                            </select>
+                                            <em id="mac_box2" style="margin-left:6px;"></em>
+                                        </span>
+                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter2" style="width: 165px;" class="userq index-inpt" value=""></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center;"><input type="button" class="btn" style="height: 25px;line-height: 25px;" id="btn_2" value="确 认"><a id="StaticHightSet" href="javascript:;">高级配置</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="set-tb sub" id="t_3_box">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr><td colspan="2">动态IP</td></tr>
+                        </thead>
+                        <tbody>
+                            <tr style="display: none">
+                                <td width="150">DNS(首选)：</td>
+                                <td><div class="nav"><input type="text" name="dns" id="dhcp_dns" autocomplete="off"> (可选)</div></td>
+                            </tr>   
+                            <tr style="display: none">
+                                <td width="150">DNS(备用)：</td>
+                                <td><div class="nav"><input type="text" name="dns" id="dhcp_dns1" autocomplete="off"> (可选)</div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">MTU：</td>
+                                <td><div class="nav"><input type="text" name="mtu" id="dhcp_mtu" autocomplete="off"> (可选 默认1500)</div></td>
+                            </tr>
+                            <tr style="display: none">
+                                <td width="150">克隆MAC：</td>
+                                <td><div class="nav">
+                                        <span style="margin-left: 6px;">
+                                            <select name="mac" style="width: 115px;" class="userq index-inpt macChoose" id="macChoose3">
+                                                <option value="1">手动MAC</option>
+                                                <option value="2">本地主机MAC</option>
+                                                <option value="3" selected="selected">出厂MAC</option>
+                                            </select>
+                                            <em id="mac_box3" style="margin-left:6px;"></em>
+                                        </span>
+                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter3" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center;"><input type="button" class="btn" style="height: 25px;line-height: 25px;" id="btn_3" value="开始启用"><a id="DhcpHightSet" href="javascript:;">高级配置</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="set-tb sub" id="t_4_box">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr><td colspan="2">无线中继</td></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="150">WIFI名称：</td>
+                                <td><div class="nav"><label class="noinpt" id="wf_name">CYWiFi</label></div></td>
+                            </tr>
+                            <tr>
+                                <td width="150">连接状态：</td>
+                                <td><div class="nav"><label class="noinpt" id="noinpt" style="color:#e4007f;">未中继</label></div></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><a href="javascript:;" class="ssid_add">添加隐藏网络</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td>WiFi名称</td>
+                                <td>MAC地址</td>
+                                <td>信道</td>
+                                <td>加密模式</td>
+                                <td>信号强度</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="getWifiList">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tbody id="getWifiList">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="set-tb">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <td colspan="2">无线加密</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="150">网络名称(SSID)：</td>
+                                <td><div class="nav"><input type="text" name="wf_name" id="wf_nameset" autocomplete="off"></div></td>
+                            </tr>   
+                            <tr>
+                                <td width="150">无线密码：</td>
+                                <td><div class="nav"><input type="text" name="wf_pwd" id="wf_pwdset" autocomplete="off"> (请设置不小于8位的密码)</div></td>
+                            </tr>                 
+                        </tbody>
+                    </table>	
+                </div>
+                <div class="btn-area">
+                    <input type="button" class="btn s-btn" style="height: 25px;line-height: 25px;" id="wifi_set_confirm" value="确定">
+                    <a href="user/index.html" class="btn setBtn">详细配置</a>
+                </div>
+            </div>
+            <!-- 拨号 -->
+            <!--            <div class="progress_box" style="display:none;">
+                            <div id="progressBar">
+                                <div id="progressBar_Track"><p id="progressBarTxt"></p></div>
+                            </div>
+            
+                            <p class="warn">警告：重启过程中请不要中断电源！否则会导致系统中断！</p>
+                        </div>-->
+            <!-- 拨号 end-->
+        </div>
+        
+        <!-- 添加隐藏ssid -->
+        <div class="wifiConnectLayer" id="ssid_connect">
+            <div class="bg"></div>
+            <div class="con">
+                <p>添加隐藏网络</p>
+                <ul class="list">
+                    <li>
+                        <span class="sp-l">无线名称</span>
+                        <span class="sp-r">
+                            <label for="ssid">请输入无线名称</label>
+                            <input type="text" name="ssid" class="inpt" id="ssid" autocomplete="off">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="sp-l">安全性</span>
+                        <span class="sp-r">
+                            <select id="check_wpa" class="check_channel">
+                                <option value="1" selected="selected">开放</option>
+                                <option value="WPAPSK">WPA PSK</option>
+                                <option value="WPA2PSK">WPA2 PSK</option>      
+                                <option value="WPAPSKWPA2PSK">WPA/WPA2 PSK</option>
+                            </select>
+                        </span>                    
+                    </li>
+                    <li>
+                        <span class="sp-l">信道</span>
+                        <span class="sp-r">
+                            <select id="check_channel" class="check_channel">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                            </select>
+                        </span>
+                    </li>                    
+                    <li id="pwd_li" class="hide">
+                        <span class="sp-l">密码</span>
+                        <span class="sp-r">
+                            <label for="ssid_pwd">请输入密码</label>
+                            <input type="text" name="ssid_pwd" class="inpt" id="ssid_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn cannel">取消</a>
+                    <a href="javascript:;" class="btn layer-btn" id="ssid_confirm">确认</a>
+                </div>
+            </div>
+        </div>
+        <!-- 添加隐藏ssid end-->
+        <!-- 无线中继 -->
+        <div class="wifiConnectLayer" id="wifi_zj">
+            <div class="bg"></div>
+            <div class="con">
+                <p id="cyname"></p>
+                <ul class="list" id="have_pwd">
+                    <li>
+                        <span class="sp-l">无线密码</span>
+                        <span class="sp-r">
+                            <label for="wf_pwd">请输入无线密码</label>
+                            <input type="text" name="wf_pwd" class="inpt" id="wf_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <input type="hidden" id="channel">
+                    <input type="hidden" id="data_sec">
+                    <a href="javascript:;" class="btn s-btn" id="wifi_zj_confirm">连接</a>
+                    <a href="javascript:;" class="btn s-btn cannel">取消</a>
+                </div>
+            </div>
+        </div>
+        <!-- 无线中继 end-->
+        <!-- 未插网线 -->
+        <div class="wifiConnectLayer" style="height:auto;" id="lineOff">
+            <div class="bg"></div>
+            <div class="con con2">        
+                <div class="img1"><img src="images/img-1.png"></div>
+                <p>检测到WAN口未插网线</p>
+                <div class="img2"><img id="go_on" src="images/img-2.png"></div>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn" id="lineOffSet">离线配置</a>
+                    <a href="javascript:;" class="btn layer-btn" id="lineOffConnect">无线中继</a>
+                </div>
+            </div>
+        </div>
+        <!-- 未插网线 end-->
+        
+    </body>
+</html>
+<script>
+    checkConfig();
+    router.getWifiAp();
+//    $(function () {
+//        //设置最大值
+//        ProgressBar.maxValue = 100;
+//        //设置当前刻度
+//        var index = 0;
+//        var mProgressTimer = window.setInterval(function () {
+//            index += 2;
+//            ProgressBar.SetValue(index);
+//            if (index == 100) {
+//                window.clearInterval(mProgressTimer);
+//                //ProgressBar.SetValue(0);
+//                $(".guide-list").show().siblings(".progress_box").hide();
+//                layer.msg("更新成功!");
+//            }
+//        }, 100);
+//    })
+//    var ProgressBar = {
+//        maxValue: 100,
+//        value: 0,
+//        SetValue: function (aValue) {
+//            this.value = aValue;
+//            if (this.value >= this.maxValue)
+//                this.value = this.maxValue;
+//            if (this.value <= 0)
+//                this.value = 0;
+//            var mWidth = this.value / this.maxValue * $("#progressBar").width() + "px";
+//            $("#progressBar_Track").css("width", mWidth);
+//            $("#progressBarTxt").html(this.value + "%");
+//        }
+//    }
+</script>

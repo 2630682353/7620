@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0,minimal-ui" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>其他拓展网络</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/router.css">
+        <script type="text/javascript" src="js/router.js"></script>
+        <script>
+            if (!ap_router.getCookie('lstatus')) {
+                document.location = 'login.html';
+            }
+        </script>
+        <!--[if lte IE 6]> 
+        <div id="ie6-warning">您正在使用 Internet Explorer 6，在本页面的显示效果可能有差异。建议您升级到现代浏览器： <a href="http://www.google.com/chrome/?hl=zh-CN">Chrome</a> / <a href="http://www.mozillaonline.com/">Firefox</a> / <a href="http://www.apple.com.cn/safari/">Safari</a> / <a href="http://www.operachina.com/">Opera</a></div> 
+        <![endif]--> 
+    </head>
+
+    <body>
+        <div class="wrap" id="wrap">
+            <div class="menu">
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="client.html">拓展器连接终端</a></li>
+                    <li><a href="visiter.html">访客模式</a></li>
+                    <li><a href="changeApName.html">更改拓展网络名称</a></li>
+                    <li><a href="system.html">系统管理</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <!-- 手机端头部 -->
+                <div class="m-top">
+                    <a href="javascript:history.go(-1);" class="goback"><i></i></a>
+                    <div class="nav-toggle" id="nav_toggle" onclick="ap_router.sliderBarToggle();">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <h1>拓展网络</h1>
+                </div>
+                <div id="nav">
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="client.html">拓展器连接终端</a></li>
+                        <li><a href="visiter.html">访客模式</a></li>
+                        <li><a href="changeApName.html">更改拓展网络名称</a></li>
+                        <li><a href="system.html">系统管理</a></li>
+                    </ul>
+                </div>
+                <!-- 手机端头部 end-->
+                <div class="ap-con">
+                    <div class="con-box">
+                        <h1 class="title">其他拓展网络</h1>
+                        <div class="client-tb-box">
+                            <div class="getWifiList">
+                                <table class="client-tb">
+                                    <thead>
+                                        <tr>
+                                            <td width="38%">WIFI名称</td>
+                                            <td width="38%">加密模式</td>
+                                            <td width="22%">信号强度</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="more-wifi-list">
+                                    <ul id="getWifiList"></ul>
+<!--                                     <table class="client-tb">
+                                        <tbody id="getWifiList">
+
+                                        </tbody>
+                                    </table> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-box">
+                            <a href="index.html" class="btn s-btn">返回首页</a>
+                            <a href="javascript:;" class="btn s-btn" id="refresh" onclick="getWifiList()">重新扫描</a>
+                            <a href="javascript:;" class="btn s-btn" id="add" onclick="ap_router.wisp_hidden()">拓展隐藏网络</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 无线拓展 -->
+        <div class="layer_shade" id="layer_shade"></div>
+        <div class="wifiConnectLayer lowLayer" id="wifi_zj">
+            <div class="bg"></div>
+            <div class="con">
+                <p id="cyname"></p>
+                <ul class="list" id="have_pwd">
+                    <li>
+                        <span class="sp-l">无线密码</span>
+                        <span class="sp-r">
+                            <label for="wf_pwd">请输入无线密码</label>
+                            <input type="text" name="wf_pwd" class="inpt" id="wf_pwd" autocomplete="off" onfocus="ap_router.hidePlaceholder(this.id);" onfocusout="ap_router.setPlaceholder(this.id);">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <input type="hidden" id="channel">
+                    <input type="hidden" id="data_sec">
+                    <input type="hidden" id="data_mac">
+                    <input type="hidden" id="data_ext">
+                    <a href="javascript:;" class="btn s-btn" id="wifi_zj_confirm" onclick="ap_router.wifi_zj_confirm()">连接</a>
+                    <a href="javascript:;" class="btn s-btn cannel" id="wisp_cancel" onclick="ap_router.hideLayer('layer_shade', 'wifi_zj')">取消</a>
+                </div>
+            </div>
+        </div>
+        <!-- 无线拓展 end-->
+
+        <!-- 提示 -->
+        <div class="wifiConnectLayer msg" id="expend_net">
+            <div class="bg"></div>
+            <div class="con">
+                <p id="content"></p>
+            </div>
+        </div>
+        <!-- 提示 end-->
+
+        <!-- loading -->
+        <div class="wifiConnectLayer" id="loading"><img src="images/loading-3.gif"> 正在加载...</div>
+        <!-- loading end -->
+        <!-- 提示 -->
+        <div class="wifiConnectLayer lowLayer" id="hidden_wisp">
+            <div class="bg"></div>
+            <div class="con">
+                <p id="content">拓展隐藏网络</p>
+                <ul class="list">
+                    <li>
+                        <span class="sp-l">无线名称</span>
+                        <span class="sp-r">
+                            <label for="ssid">请输入无线名称</label>
+                            <input type="text" name="ssid" class="inpt" id="ssid" autocomplete="off" onfocus="ap_router.hidePlaceholder(this.id);" onfocusout="ap_router.setPlaceholder(this.id);">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="sp-l">安全性</span>
+                        <span class="sp-r">
+                            <select id="check_wpa" onchange="ap_router.check_sec()" class="check_channel">
+                                <option value="1" selected="selected">开放</option>
+                                <option value="WPAPSK">WPA PSK</option>
+                                <option value="WPA2PSK">WPA2 PSK</option>      
+                                <option value="WPAPSKWPA2PSK">WPA/WPA2 PSK</option>
+                            </select>
+                        </span>                    
+                    </li>
+                    <li>
+                        <span class="sp-l">信道</span>
+                        <span class="sp-r">
+                            <select id="check_channel" class="check_channel">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                            </select>
+                        </span>
+                    </li>                    
+                    <li id="pwd_li" style="display: none;">
+                        <span class="sp-l">密码</span>
+                        <span class="sp-r">
+                            <label for="ssid_pwd">请输入密码</label>
+                            <input type="text" name="ssid_pwd" class="inpt" id="ssid_pwd" autocomplete="off" onfocus="ap_router.hidePlaceholder(this.id);" onfocusout="ap_router.setPlaceholder(this.id);">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <a href="javascript:;" class="btn s-btn" id="black_list_confirm" onclick="ap_router.hidden_wisp_confirm()">确定</a>
+                    <a href="javascript:;" class="btn s-btn cannel" id="black_cancel" onclick="ap_router.hideLayer('hidden_wisp', 'layer_shade')">取消</a>
+                    <input type="hidden" id="hidden_mac">
+                </div>
+            </div>
+        </div>
+        <!-- 提示 end-->
+    </body>
+</html>
+<script>
+    getWifiList();
+    var info = getWanInfoJsonObject();
+    ap_router.setByid('hidden_mac', info.mac, 1)
+</script>

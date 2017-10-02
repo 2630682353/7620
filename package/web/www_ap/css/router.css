@@ -1,0 +1,784 @@
+body{
+    background:#e6eae9;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+
+#ie6-warning{ 
+    background:rgb(255,255,225);
+    color:#333;
+    width:100%;
+    height:40px;
+    line-height:40px;
+    text-align:center;
+}
+#ie6-warning a {
+    text-decoration:none;
+}
+/*登录*/
+.login-bd{background: #fff;}
+.login-wrap{
+    width:1000px;
+    margin:0 auto;
+}
+.login-box{
+    width:290px;
+    height: 444px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left:-145px;
+    margin-top:-222px;
+    text-align: center;
+}
+.login-box h1{
+    font-size:30px;
+    font-weight: normal;
+    color:#666;
+}
+.login-box p{
+    font-size:16px;
+    margin-top:5px;
+}
+.login-inpt{
+    width:260px;
+    margin:10px auto;
+    border:1px #c9c9c9 solid;
+    border-radius: 4px;
+    position: relative;
+    text-align: left;
+    padding:0 10px;
+    height: 38px;
+    line-height: 38px;
+}
+.login-inpt label{
+    position:absolute;
+    left:10px;
+    top:0;
+    font-size:14px;
+    color:#acaaaa;
+}
+.inpts{
+    width:230px;
+    height: 25px;
+    line-height: 25px;
+    padding:5px 0;
+    border:0 none;
+    outline: none;
+    font-size:14px;
+    vertical-align: middle;
+    background: none;
+    margin-top:-5px;
+    *margin-top:-1px;
+}
+/*登录 end*/
+.wrap{
+    width:1000px;
+    margin:20px auto;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+}
+.menu{
+    width:275px;
+    height: 100%;
+    _height:expression(document.getElementById('wrap').offsetHeight+"px");
+    float:left;
+    position:absolute;
+    left:0;
+    top:0;
+    background: #446a87;
+    text-align: center;
+}
+
+.logo{
+    margin:20px auto;
+}
+.menu li{
+    height:58px;
+    line-height: 58px;
+}
+.menu li a{
+    display: block;
+    color:#a1bfd5;
+    font-size:18px;
+    text-align: center;
+    _height:58px;
+}
+.menu li a:hover{
+    color:#fff;
+    background: #395a73;
+}
+.menu .selected{
+    background: #395a73;
+}
+.menu .selected a{
+    color:#fff;
+}
+.content{
+    float:right;
+    width:725px;
+    min-height: 860px;
+}
+.top{
+    background: #5cb0f0;
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+.logo{ text-align: center; }
+.m-top{
+    display: none;
+    position: relative;
+    text-align: center;
+    height: 60px;
+    background: #5cb0f0;
+}
+.m-top h1{
+    color:#fff;
+    font-size:20px;
+    line-height: 60px;
+    font-weight: normal;
+}
+#nav{display: none;}
+#nav li i{
+    display: inline-block;
+    width:25px;
+    height:25px;
+    vertical-align: middle;
+    margin-right:15px;
+}
+
+.top-box{
+    width:90%;
+    margin:0 auto;
+    overflow: hidden;
+    font-size:18px;
+    text-align: center;
+}
+.top-box div{
+    float:left;
+}
+.top-box p{
+    margin:10px 0;
+    color:#fff;
+}
+.top-box .t-m{
+    margin-top:20px;
+    position: relative;
+}
+.t-m p{margin:0;}
+.t-m span{margin-left:10px;width:25px;height:25px;display: inline-block;}
+.suc{color:#6ee56b;}
+.wrong{color:#e95aa9;}
+.ap-con{
+    background: #fff;
+    font-size:18px;
+    overflow: hidden;
+    padding-bottom: 100px;
+    _zoom:1;
+}
+.con-box{
+    width:95%;
+    margin:20px auto;
+    overflow: hidden;
+}
+.index-tb{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.left{text-align: left;}
+.right{text-align: right;}
+
+.index-tb td{border-bottom: 1px #d2d2d2 solid;padding: 20px 5px;}
+.btn{
+    font-size:20px;
+    color:#fff;
+    width:95%;
+    height: 50px;
+    line-height:50px;
+    display: block;
+    background: #5cb0f0;
+    text-align: center;
+    border-radius: 5px;
+    margin:40px auto 0 auto;
+}
+.login-btn{width:100%;margin-top:10px;}
+.btn:hover{
+    background: #2795e9;
+}
+.version{
+    text-align: center;
+    margin-top:20px;
+    font-size:14px;
+    color:#747474;
+}
+
+/*连接终端*/
+.title{
+    color:#6aa8ed;
+    font-size:14px;
+    font-weight: normal;
+}
+.client-tb-box{
+    margin:10px auto;
+    border-radius: 4px 4px 0 0;
+    border:1px #d2d2d2 solid;
+    overflow: hidden;
+    position: relative;
+}
+.client-tb{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size:14px;
+}
+.client-tb td{
+    padding:10px 5px;
+    text-align: center;
+}
+.client-tb thead{
+    background: #bbcfe0;
+    color:#fff;
+}
+.client-tb .even td{
+    background: #f3f5f8;
+}
+.link-btn{
+    color:#5cb0f0;
+    text-decoration: underline;
+}
+.client-tb .left{
+    text-align: left;
+    padding-left:20px;
+}
+.client-tb .right{
+    text-align: right;
+    padding-right:20px;
+}
+.btn-box{
+    text-align: left;
+}
+.m-btn{
+    width:200px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px;
+    font-size:14px;
+    margin:10px 0 0 0;
+    display: inline-block;
+}
+.layer_shade{
+    position: fixed;
+    _position: absolute;
+    pointer-events: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    _height: expression(document.body.offsetHeight+"px");
+    background-color: #000;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    display: none;
+}
+.wifiConnectLayer{
+    width:360px;
+    height:276px;
+    position: fixed;
+    _position: absolute;
+    pointer-events: auto;
+    left:50%;
+    top:50%;
+    margin-left:-180px;
+    margin-top:-138px;
+    display:none;
+    border-radius: 5px;
+}
+.msg{
+    height: 80px;
+    padding-bottom: 0;
+}
+.lowLayer{height:auto;}
+.bg{
+    background:#fff;	
+    width:100%;
+    height:100%;
+    _height:207px;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:5;
+    border-radius:5px;
+}
+#expend_net .bg{_height:276px;}
+#getWifiList tr{cursor:pointer;}
+.con{
+    position:relative;
+    z-index:10;
+    overflow:hidden;
+    background: #fff;
+    border-radius: 5px;
+}
+.con p{
+    text-align:center;
+    font-size:16px;
+    margin-top:30px;
+}
+.s-btn{
+    width:130px;
+    height:40px;
+    line-height: 40px;
+    display: inline-block;
+    font-size:14px;
+    margin:20px auto;
+    border:0 none;
+    outline:0 none;
+    cursor: pointer;
+}
+
+.box{
+
+    margin:10px auto;
+    overflow:hidden;
+    text-align:center;
+}
+.list{
+    width: 300px;
+    margin: 0 auto;
+    overflow: hidden;
+    _overflow: visible;
+    text-align: center;
+    position: relative;
+    font-size:14px;
+}
+.list li{
+    overflow:hidden;
+    border:1px #999 solid;
+    border-radius:3px;
+    margin:10px 0;
+    _width:300px;
+}
+.list .nobd{border:none;}
+.list li span{
+    float:left;
+    height:38px;
+    line-height:38px;
+}
+.list li .sp-l{
+    width:80px;
+    text-align:center;
+    border-right:1px #999 solid;
+}
+.list li .sp-r{
+    width:210px;
+    text-align:left;
+    position:relative;
+    overflow: hidden;
+}
+.sp-r label{
+    position:absolute;
+    height:35px;
+    left:10px;
+    color:#999;
+    cursor:text;
+    z-index:3;
+}
+.inpt{
+    height:25px;
+    line-height:25px;
+    padding:5px 10px;
+    border:none;
+    outline:none;
+    background:none;
+    width:195px;
+    font-size:14px;
+}
+
+/*访客模式*/
+.panel{
+    margin:10px auto;
+    border-radius: 4px;
+    border:1px #d2d2d2 solid;
+    padding:40px;
+    font-size:14px;
+}
+.tips{
+    font-size:14px;
+    color:#505050;
+}
+/*.client-list{
+    display:none;
+}*/
+.nav_tit{
+    float:left;
+    text-align:left;
+    width:100px;
+}
+.visit-nav{
+    margin:5px 0;
+    overflow:hidden;
+    height:33px;
+    line-height:33px;
+    font-size:14px;
+}
+
+.visit-nav a{
+    float:left;
+    width:95px;
+    text-align:center;
+    color:#565555;
+    font-size:14px;
+    border: 1px #e5e5e5 solid;
+    margin: 0 3px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+}
+.visit-nav a:hover{
+    text-decoration:none;
+}
+.visit-nav a.selected{
+    background: #2795e9;
+    color:#fff;
+    border-color:#2795e9;
+}
+.tbDiv i{
+    height:30px;
+    display:block;
+    vertical-align:middle;
+    cursor:pointer;
+}
+.open{color:#f00;}
+.visit-tb{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size:14px;
+}
+.visit-tb td{
+    padding:5px 0;
+}
+.name{width:380px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;}
+.v-list{margin:0;}
+.reGuestList{display:none;}
+.visit-btn{
+    margin: 10px auto;
+    width:100%;
+    height:40px;
+    line-height: 40px;
+    font-size:16px;
+}
+.visit-list{ overflow: hidden; }
+.visit-list li{
+    float:left;
+    text-align: left;
+    overflow: hidden;
+    padding: 8px 0;
+}
+.v-name{
+    width:80%;
+}
+.v-oper{
+    width:20%;
+}
+
+/*系統管理*/
+.b-2{
+    width:610px;
+    margin:0 auto 10px auto;
+}
+.mt10{margin-top:10px;text-align: right;margin-right:15px;}
+.upload{
+    margin:10px 0;
+    overflow:hidden;
+}
+.line { position:relative; overflow:hidden;_width:500px;}
+.line span{ float:left; padding-top:2px;}
+.file { position:absolute; left:0; width:263px; top:0;height:40px; filter:alpha(opacity=0);opacity:0; cursor: pointer;padding:5px 0;}
+.file1 {float:left;z-index:1; width:73px;height:40px;line-height:40px;background:#5cb0f0; border-radius:4px; text-align:center;color:#fff;font-size:16px;cursor: pointer;margin-left:2px;}
+.inputstyle {width:170px; float:left;height:23px; line-height:23px; z-index:0;padding:6px;background:none;border:1px #bfe2ef solid;font-size:14px;}
+.versor_tips{margin:5px 0 0 10px;}
+.rtDiv .s-btn{
+    margin:0 auto;
+}
+
+#progressBar_box,#progressBar{
+    width: 80%;
+    height: 10px;
+    background-color: #e5e5e5;
+    margin: 10px auto 0 auto;
+}
+
+#progressBar_Track,#progressBar_Track2{
+    width: 0;
+    height: 10px;
+    background-color: #25a1df;
+}
+
+#progressBarTxt{
+    margin-top:15px;
+    text-align: center;
+}
+.phonetips{display:none;}
+
+/*更多拓展网络*/
+.lvl{
+    width:30px;
+    height:24px;
+    display:inline-block;
+    position:relative;
+    vertical-align:middle;
+}
+.lvl-1{
+    background:url(../images/lvl-1.png) 0 0 no-repeat;
+    background-size:cover;
+}
+.lvl-2{
+    background:url(../images/lvl-2.png) 0 0 no-repeat;
+    background-size:cover;
+}
+.lvl-3{
+    background:url(../images/lvl-3.png) 0 0 no-repeat;
+    background-size:cover;
+}
+.lock{
+    width:10px;
+    height:10px;
+    display:inline-block;
+    position:absolute;
+    right:-5px;
+    bottom:-4px;
+    background:url(../images/lock1.png) 0 0 no-repeat
+}
+#clietn_bd tr{cursor:pointer;}
+.more-wifi-list{
+    max-height:500px;
+    _height:expression(this.scrollHeight>500?'500px':'auto');
+    overflow-y:auto;
+    position: relative;
+}
+#getWifiList{
+    overflow: hidden;
+}
+#getWifiList li{
+    cursor: pointer;
+    overflow: hidden;
+    height: 45px;
+    line-height: 45px;
+}
+#getWifiList .even{
+    background: #f3f5f8;
+}
+#getWifiList li .wDiv{
+    float:left;
+    text-align: center;
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+}
+#getWifiList li .w-name,#getWifiList li .w-mode{width:40%;}
+#getWifiList li .w-lvl{width:16%;float:right;*margin-top:10px;}
+.mb-btn{display:none;}
+#loading{
+    width: 200px;
+    background: #fff;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+#loading img{margin-right:10px;}
+
+/*适配移动端*/
+@media screen and (max-width: 1024px) {
+    body{background:#ffffff;}
+    .top{padding: 0;}
+    .ico,.inpts{ vertical-align: middle; }
+    .content{min-height:0;}
+    .wrap{margin:0 auto;width:100%;}
+    .wrap img{width:100%;}
+    .logo{width:36%;margin:0 auto;}
+    .top-box{width:100%;font-size:.875rem;margin:0 auto;}
+    .top-box p{margin:0 0 1rem 0;}
+    .top-box div{width:33%;margin:0 5%;}
+    .top-box .t-m{margin:3rem 0 0 0;}
+    .t-m p{margin:0;}
+    .top-box .t-r{width:13.4%;position:relative;}
+    .right span{display:block;float:right;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:11rem;text-align: right;}
+    .ip{
+        position: absolute;
+        right:0;
+        bottom:-2rem;
+    }
+
+    .content{width:100%;}
+    .menu{display:none;}
+    .m-top{display: block;}
+    .m-logo{width:120px;line-height:60px;position:absolute;left:1rem;}
+    .nav-toggle{
+        position: absolute;
+        right:10px;
+        padding:10px;
+        margin-top:10px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: block;
+        z-index: 999;
+    }
+    .cover {
+        background: rgba(0,0,0,0.75);
+        height: 100%;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        -webkit-animation-name: fade-in;
+        animation-name: fade-in;
+        -webkit-animation-duration: 430ms;
+        animation-duration: 430ms;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-direction: normal;
+        animation-direction: normal;
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+    }
+
+    .nav-toggle span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        margin-bottom: 5px;
+        position: relative;
+        background: #fff;
+        border-radius: 3px;
+        z-index: 1;
+        -webkit-transform-origin: 20px;
+        transform-origin: 20px;
+        -webkit-transition: background 0.5s cubic-bezier(0.77,0.2,0.05,1.0), opacity 0.55s ease, -webkit-transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+        transition: background 0.5s cubic-bezier(0.77,0.2,0.05,1.0), opacity 0.55s ease, -webkit-transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+        transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0), background 0.5s cubic-bezier(0.77,0.2,0.05,1.0), opacity 0.55s ease;
+        transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0), background 0.5s cubic-bezier(0.77,0.2,0.05,1.0), opacity 0.55s ease, -webkit-transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    }
+
+    .nav-toggle.toggle-animate span{
+        opacity: 1;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+
+    }
+    .nav-toggle.toggle-animate span:nth-last-child(2){
+        opacity: 0;
+    }
+    .nav-toggle.toggle-animate span:nth-last-child(3)
+    {
+        opacity: 1;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+    }
+    #nav {
+        width: 260px;
+        background-color: #446a87;
+        display: block;
+        opacity: 0;
+        height: 100%;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding:40px 0 10px 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 99;
+        -webkit-transform:translate(300px,0);
+        transform:translate(300px,0);
+        box-sizing: border-box;
+    }
+    #nav.open-nav {
+        -webkit-transform: translate(0,0);
+        transform: translate(0,0);
+        -webkit-transition:-webkit-transform 430ms cubic-bezier(0.3,0,0,1);
+        transition:transform 430ms cubic-bezier(0.3,0,0,1);
+        opacity: 1;
+    }
+
+    #nav.close-nav {
+        -webkit-transition:-webkit-transform 430ms cubic-bezier(0.3,0,0,1);
+        transition:transform 430ms cubic-bezier(0.3,0,0,1);
+        opacity: 0;
+    }
+    #nav li a{
+        display: block;
+        padding: 1rem 1.5rem;
+        font-size:20px;
+        color:#a1bfd5;
+        text-align: left;
+        padding-left: 2rem;
+    }
+    #nav .current a{
+        color:#fff;
+        background: #395a73;
+    }
+    .con-box td{
+        font-size:.875rem;
+        padding:1rem;
+        word-break: break-word;
+    }
+    .ap-con{padding-bottom: 0;}
+    .btn{margin:2rem auto 0 auto;}
+    .login-btn{margin-top:1rem;}
+
+    .title{display:none;}
+    .btn-box{text-align: center;}
+    .wifiConnectLayer{width:320px;height:276px;margin:0 auto;position:fixed;left:50%;top:50%;margin-left:-160px;margin-top:-138px;}
+    .lowLayer{height:auto;}
+    .list{width:95%;}
+    .list li .sp-l{width:30%;}
+    .list li .sp-r{width:68%;}
+    .goback{
+        width:40px;
+        height:50px;
+        position:absolute;
+        left:15px;
+        top:5px;
+    }
+    .goback i{
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        left: 3px;
+        top: 14px;
+        border-bottom: 2px solid #fff;
+        border-right: 2px solid #fff;
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+        -moz-transform: rotate(135deg);
+    }
+    .mb-hide{display:none;}
+    .panel{padding:1rem;}
+    .nav_tit{width:7rem;}
+    .name{white-space:normal;width:auto;}
+    .s-btn{width:8rem;}
+    .upload{display:none;}
+    .mb-btn{display: inline-block;}
+    .phonetips{margin-top: .7rem;display:block;float: left;}
+    #loading{margin-left:-100px;}
+    .more-wifi-list{max-height:20rem;}
+}
+.check_channel{
+    width: 130px;
+    position: absolute;
+    left: 10px;
+    top:10px;
+    font-size: 14px;
+}

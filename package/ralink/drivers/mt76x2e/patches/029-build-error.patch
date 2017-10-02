@@ -1,0 +1,23 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_cfg.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_cfg.c
+@@ -9238,6 +9238,7 @@ VOID RTMPIoctlConnstatus(
+ 	IN PRTMP_ADAPTER pAd,
+ 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
+ {
++#if APCLI_SUPPORT
+ 	INT Status;
+ 	PSTRING msg;
+     	UCHAR idx = 0;
+@@ -9342,7 +9343,10 @@ VOID RTMPIoctlConnstatus(
+ 	os_free_mem(NULL, msg);
+      	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlConnStatus\n"));
+  	return TRUE;
++#endif /* APCLI_SUPPORT */
+ }
++
++
+ /* 
+     ==========================================================================
+     Description:

@@ -1,0 +1,12 @@
+diff -ruN procd-2013-10-09/early.c procd_mod/early.c
+--- procd-2013-10-09/early.c	2014-08-27 21:13:05.000000000 +0800
++++ procd_mod/early.c	2015-01-29 14:39:57.141075197 +0800
+@@ -27,7 +27,7 @@
+ 	mount("proc", "/proc", "proc", MS_NOATIME, 0);
+ 	mount("sysfs", "/sys", "sysfs", MS_NOATIME, 0);
+ 
+-	mount("tmpfs", "/tmp", "tmpfs", MS_NOSUID | MS_NODEV | MS_NOATIME, NULL);
++	mount("tmpfs", "/tmp", "tmpfs", MS_NOSUID | MS_NODEV | MS_NOATIME, "size=16m");
+ 	mkdir("/tmp/run", 0777);
+ 	mkdir("/tmp/lock", 0777);
+ 	mkdir("/tmp/state", 0777);

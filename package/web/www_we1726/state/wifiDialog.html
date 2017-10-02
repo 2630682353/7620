@@ -1,0 +1,447 @@
+<div class="routerSetWifi" ng-controller="wifiDialogCtrl"> <!-- 无线设置 -->
+
+
+
+    <div class="routerSetTit">
+
+
+
+        <a href="javascript:;" class="routerClose" onclick="closeSetDialog()"><img src="./images/routerClose.png" ></a>
+
+
+
+        <span>无线网络设置</span>&nbsp;&nbsp;
+
+
+
+        <small>移动无线设备接入以下“网络名称”上网</small>
+
+
+
+    </div>
+
+
+
+    <div class="wifiScroll">
+
+
+
+        <div class="wifiSet stateTop">
+
+
+
+            <form>
+
+
+
+                <ul>
+
+
+
+                    <!-- <li>
+
+
+
+                        <span>2.4G网络开关&nbsp;&nbsp;</span>
+
+
+
+                        <div class="switch demo3">
+
+
+
+                          <input type="checkbox" checked id="switch2-4g">
+
+
+
+                          <label><i></i></label>
+
+
+
+                        </div>&nbsp;&nbsp;&nbsp;
+
+
+
+                        <label>
+
+
+
+                            <input type="checkbox" class="hidewifi">
+
+
+
+                            隐藏网络&nbsp;
+
+
+
+                              <a href="javascript:;" class="routerHideTip">(?)</a>
+
+
+
+                              <div class="hideTipCon" style="margin-right: -110px;">
+
+
+
+                                让别人看不到，只能通过手动填写SSID连接
+
+
+
+                              </div>
+
+
+
+                        </label>
+
+
+
+                    </li> -->
+
+
+
+                    <li>
+
+
+
+                        <span class="SetWifiName">网络名称</span>&nbsp;&nbsp;
+
+
+
+                        <input  type="text" class="stateSel netName netInput2-4" ng-blur="checkWifiPwd(0)"   ng-model="mainWifiSSID">&nbsp;&nbsp;
+
+
+
+                        <label>
+
+
+
+                            <input type="checkbox"  ng-checked="hideMainWifi" ng-click="toggleHideWifi(0)">
+
+
+
+                            隐藏网络&nbsp;
+
+
+
+                            
+
+
+
+                        </label>
+
+                        <a href="javascript:;" class="routerHideTip" onmouseover="routerShowTip(this)" onmouseout="routerHideTip(this)">(?)</a>
+
+
+
+                            <div class="hideTipCon" style="margin-right: -110px;">
+
+
+
+                                让别人看不到，只能通过手动填写SSID连接
+
+
+
+                            </div>
+
+
+
+                    </li>
+
+
+
+                    <li>
+
+
+
+                        <span class="SetWifiName">网络密码</span>&nbsp;&nbsp;
+
+
+
+                        <input type="password" class="stateSel netName netPassword netInput2-4 wifikey"
+
+                           ng-blur="checkWifiPwd(0)"    ng-model="mainWifiPasswd" placeholder="密码可以为空" ng-hide="mainPasswdHide">
+
+
+
+                        <input type="text" class="stateSel netNameDis  netPassword netInput2-4 wifikey"
+
+                               ng-blur="checkWifiPwd(0)"     ng-model="mainWifiPasswd"  placeholder="密码可以为空" ng-show="mainPasswdHide">
+
+
+
+                        <label>&nbsp;&nbsp;<input type="checkbox"  class="ycNet netInput2-4" ng-click="toggleShowPasswd(0)"> 显示 </label>&nbsp;<p class="pwdErr"></p>
+                        <p ng-if="wifiPwdIf" ng-bind="wifiPwdInfo" style="color: #ff0000;"></p>
+
+
+                    </li>
+
+
+
+                    <div class="wifiSenior">
+
+
+
+                        <p class="wifiSeniorTit" ng-click="toggleMainAdvance()">高级设置 <span></span></p>
+
+
+
+                        <ul class="wifiSeniorUl">
+
+
+
+
+
+
+                            <li><span class="SetWifiName">无线信道</span>&nbsp;&nbsp;&nbsp; 
+
+
+
+                                <!--<select class="netInput2-4" ng-model="channel" ng-options="x for x in channels"></select>-->
+
+                                <input disabled ng-model="wifiChannel">
+
+                            </li> 
+
+
+
+                            <li><span class="SetWifiName">H T 模式</span>&nbsp;&nbsp;&nbsp;
+
+
+
+                                <select class="netInput2-4" ng-model="HTmodel" ng-options="x for x in HTmodels">
+
+
+
+                                </select>
+
+
+
+                            </li>
+
+
+
+                        </ul>
+
+
+
+                    </div>
+
+                    <div class="SetWifiSub">
+
+
+
+                        <input type="submit" class="btn btn-default" ng-click="toggleSubmitWifi()" value="&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;">
+
+
+
+                    </div>
+
+                    <br/><div class="hr"></div>
+
+
+
+                    <li>
+
+
+
+                        <span>访客网络&nbsp;&nbsp;</span>
+
+
+
+                        <div class="switch demo3">
+
+
+
+                            <input type="checkbox" ng-checked="guestWifiSwitch" ng-click="toggleGuestSwitch()">
+
+
+
+                            <label><i></i></label>
+
+
+
+                        </div>
+
+
+
+                    </li>
+
+
+
+                    <li>
+
+
+
+                        <span class="SetWifiName">网络名称</span>&nbsp;&nbsp;
+
+
+
+                        <input type="text" class="stateSel netName netInputGuest"  ng-blur="checkWifiPwd(1)"  ng-model="guestWifiSSID">
+
+
+
+                        <label>&nbsp;
+
+
+
+                            <input type="checkbox" ng-checked="guestWifiHide" ng-click="toggleHideWifi(1)">
+
+
+
+                            隐藏网络&nbsp;
+
+
+
+                        </label>
+
+
+
+                        <a href="javascript:;" class="routerHideTip"  onmouseover="routerShowTip(this)" onmouseout="routerHideTip(this)">(?)</a>
+
+
+
+                            <div class="hideTipCon" style="margin-right: -110px;">
+
+
+
+                                让别人看不到，只能通过手动填写SSID连接
+
+
+
+                            </div>
+
+
+
+                    </li>
+
+
+
+                    <li>
+
+
+
+                        <span class="SetWifiName">网络密码</span>&nbsp;&nbsp;
+
+
+
+                        <input type="password" class="stateSel netName netPassword netInputGuest"
+
+                               ng-blur="checkWifiPwd(1)"      ng-model="guestWifiPasswd" placeholder="密码可以为空" ng-hide="guestPasswdHide">
+
+
+
+                        <input type="text" class="stateSel netNameDis  netPassword netInputGuest"
+
+                               ng-blur="checkWifiPwd(1)"     ng-model="guestWifiPasswd"  placeholder="密码可以为空" ng-show="guestPasswdHide">
+
+
+
+                        <label>&nbsp;&nbsp;<input type="checkbox"  class="ycNet netInputGuest" ng-click="toggleShowPasswd(1)"> 显示 </label>&nbsp;<p class="pwdErr"></p>
+                        <p ng-if="wifiGuePwdIf" ng-bind="wifiGuePwdInfo" style="color: #ff0000;"></p>
+
+
+
+                    </li>
+
+
+
+                    
+
+
+
+                    <div class="hr"></div>
+
+
+
+                    <!-- <li>
+
+
+
+                      <span class="SetWifiName">5G网络开关&nbsp;&nbsp;</span>
+
+
+
+                      <div class="switch demo3">
+
+
+
+                          <input type="checkbox">
+
+
+
+                          <label><i></i></label>
+
+
+
+                        </div>&nbsp;&nbsp;&nbsp;
+
+
+
+                        <label>
+
+
+
+                            <input type="checkbox">
+
+
+
+                            隐藏网络&nbsp;
+
+
+
+                              <a href="javascript:;" class="routerHideTip">(?)</a>
+
+
+
+                              <div class="hideTipCon" style="margin-right: -100px;">
+
+
+
+                                让别人看不到，只能通过手动填写SSID连接
+
+
+
+                              </div>
+
+
+
+                        </label>
+
+
+
+                    </li> -->
+
+
+
+                    <!-- <div class="tip5g">5G网络未开启</div> -->
+
+
+
+                    <div class="SetWifiSub">
+
+
+
+                        <input type="submit" class="btn btn-default" ng-click="toggleSubmitVWifi()" value="&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;">
+
+
+
+                    </div>
+
+
+
+                </ul>
+
+
+
+            </form>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div> <!-- 无线设置结束 -->

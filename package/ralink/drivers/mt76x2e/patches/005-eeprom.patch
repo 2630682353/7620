@@ -1,0 +1,14 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/eeprom.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/eeprom.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/eeprom.h
+@@ -76,7 +76,8 @@
+ #endif /* CONFIG_RT2860V2_2850 */
+ 
+ #if defined (CONFIG_RALINK_RT6352)  || defined (CONFIG_RALINK_MT7620)
+-#define EEPROM_DEFAULT_FILE_PATH                     "/etc_ro/wlan/MT7620_AP_2T2R-4L_V15.BIN"
++// #define EEPROM_DEFAULT_FILE_PATH                     "/etc_ro/wlan/MT7620_AP_2T2R-4L_V15.BIN"
++#define EEPROM_DEFAULT_FILE_PATH                     "/etc/Wireless/mt7612/mt7612.eeprom.bin"
+ #endif /* defined (CONFIG_RALINK_RT6352)  || defined (CONFIG_RALINK_MT7620) */
+ 
+ #if defined (CONFIG_RALINK_MT7612E)

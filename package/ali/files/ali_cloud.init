@@ -1,0 +1,12 @@
+#!/bin/sh /etc/rc.common
+. /lib/functions.sh
+SERVICE_USE_PID=1
+START=95
+kver=`ls /lib/modules`
+FILE_KO=/lib/modules/${kver}/asec.ko 
+
+start() {
+	ln -s /bin/htdocs /var
+	insmod $FILE_KO lan_if=br-lan
+	sleep 2 && cloud_exchange d ali_cloud &
+}

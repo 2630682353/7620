@@ -1,0 +1,13 @@
+Index: ppp-2.4.5/pppd/plugins/pptp/Makefile.linux
+===================================================================
+--- ppp-2.4.5.orig/pppd/plugins/pptp/Makefile.linux
++++ ppp-2.4.5/pppd/plugins/pptp/Makefile.linux
+@@ -13,7 +13,7 @@ PPPDVERSION = $(shell awk -F '"' '/VERSI
+ INSTALL	= install
+ 
+ COPTS=-O2 -g
+-CFLAGS  = $(COPTS) -I. -I../.. -I../../../include -fPIC -DPPPD_VERSION=\"$(PPPDVERSION)\"
++CFLAGS  = $(COPTS) -I../../../../../linux-ramips_mt7620a/linux-2.6.36/include -I. -I../.. -I../../../include -fPIC -DPPPD_VERSION=\"$(PPPDVERSION)\"
+ all: pptp.so
+ 
+ %.o: %.c

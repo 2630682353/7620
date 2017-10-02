@@ -1,0 +1,8 @@
+logfile /tmp/pppoe_client_log
+noipdefault
+noaccomp
+nopcomp
+nocrtscts
+lock
+lcp-echo-failure 6
+lcp-echo-interval 10

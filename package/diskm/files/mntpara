@@ -1,0 +1,13 @@
+config tntfs
+	option fsname		tntfs
+	option readahead	64K	
+config tfat 
+	option fsname		tfat
+	option readahead	64K 
+config vfat 
+	option fsname		vfat
+	option iocharset	utf8
+config texfat
+	option fsname		texfat
+	option readahead	64K	
+	option errors           recover

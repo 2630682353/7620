@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>终端控制-路由器设置</title>
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/m_router.css">
+        <script type="text/javascript" src="../../js/jquery.js"></script>
+        <script type="text/javascript" src="../../js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="../../js/layer.m/layer.m.js"></script>
+        <script type="text/javascript" src="../../js/jquery.md5.js"></script>
+        <script type="text/javascript" src="../../js/common.js"></script>
+        <script type="text/javascript" src="../../js/config.js"></script>
+        <script type="text/javascript" src="../../js/router.js"></script>
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+    </head>
+
+    <body>
+        <style>
+            .layermbtn span:first-child{ background-color:#056b9c;}
+        </style>
+        <div class="wrap">
+            <div class="top"><a href="index.html" class="goback"><i></i></a>终端控制</div>
+
+
+            <!-- 标题 -->
+            <ul class="client-list hd">
+                <li style="width:30%">终端名称</li>
+                <li style="width:10%">&nbsp;</li>
+                <li style="width:40%">下载/上传速度</li>
+                <li style="width:20%">允许联网</li>
+            </ul>
+            <!-- 标题 end-->
+
+            <!-- 内容 -->
+            <div id="devices"></div>
+        </div>
+
+    </body>
+</html>
+<script>
+    $(function () {
+        router.getDynamicInfo();
+        intervalTimerCount = setInterval(function () {
+            router.getDynamicInfo();
+        }, commonInterval);
+    });
+</script>
+
+

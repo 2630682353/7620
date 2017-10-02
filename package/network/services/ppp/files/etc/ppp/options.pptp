@@ -1,0 +1,17 @@
+logfile /tmp/pptp_pppd.log
+noipdefault
+refuse-pap
+noauth
+nobsdcomp
+nodeflate
+idle 0
+holdoff 60
+mtu 1400
+mru 1400
+mppe required,no40,no56,stateless
+nodetach
+persist
+usepeerdns
+lcp-echo-failure 15
+lcp-echo-interval 8
+plugin pptp.so

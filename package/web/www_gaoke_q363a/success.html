@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>智能路由设置</title>
+        <link rel="stylesheet" href="css/base.css">
+        <script type="text/javascript">
+            function loadCSS() {
+                if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|wOSBrowser|BrowserNG|WebOS)/i))) {
+                    document.write('<link href="css/m_offset.css" rel="stylesheet" type="text/css" media="screen" />');
+                }
+                else {
+                    document.write('<link href="css/offset.css" rel="stylesheet" type="text/css" media="screen" />');
+                }
+            }
+            loadCSS();
+        </script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+        <!--[if lte IE 6]> 
+        <div id="ie6-warning">您正在使用 Internet Explorer 6，在本页面的显示效果可能有差异。建议您升级到 <a href="http://www.microsoft.com/china/windows/internet-explorer/" target="_blank">Internet Explorer 8</a> 或其他现代浏览器： <a href="http://www.mozillaonline.com/">Firefox</a> / <a href="http://www.google.com/chrome/?hl=zh-CN">Chrome</a> / <a href="http://www.apple.com.cn/safari/">Safari</a> / <a href="http://www.operachina.com/">Opera</a></div> 
+        <![endif]--> 
+    </head>
+
+    <body>
+        <div class="wrap">	
+            <div class="bd">
+                <div class="bd-box">   
+                    <div class="txt-box">
+                        <span class="logo-box">
+
+                        <!--<img class="imgbg2" src="images/logo-s.png">-->
+
+                        </span>
+                        <span class="logo-txt">智能路由器</span>
+                    </div>	
+
+                    <div>
+                        <div class="sub" style="display:block;"> 
+                            <div class="sub-box sucbox">                   
+                                <p>恭喜您，您的智能路由器已经配置成功！</p>
+                                <p>您的无线网络名称为：<em id="wifi_name"></em></p>
+                                <dl>
+                                    <dt><img src="images/erweima2.png"></dt>
+                                    <dd>扫描二维码，</dd>
+                                    <dd>安装阿里小智，</dd>
+                                    <dd>进入智能路由时代</dd>
+                                    <dd class="more">或者点击链接：</dd>
+                                    <dd><a target="_blank" href="http://smart.aliyun.com/download.htm">http://smart.aliyun.com/download.htm</a></dd>
+                                </dl>
+                                <div class="clear"></div>
+                                <div class="btn-box"><input type="button" id="cancel_success" class="btn" value="关闭"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bot-logo"><img src="images/bot-logo2.png"></div>
+        </div>
+    </body>
+</html>
+<script>
+    $(function() {
+        $("#cancel_success").click(function() {
+            document.location = 'http://' + document.domain + "/user/index.html?tt=" + new Date().getTime();
+        });
+    });
+    router.getWifiAp();
+</script>

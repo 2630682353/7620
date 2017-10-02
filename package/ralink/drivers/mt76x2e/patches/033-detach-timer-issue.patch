@@ -1,0 +1,36 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/rtmp_init_inf.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/rtmp_init_inf.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/rtmp_init_inf.c
+@@ -379,10 +379,10 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pD
+ 
+ 				/* Now Enable RxTx*/
+ 				RTMPEnableRxTx(pAd);
+-#ifdef MT762x
++#ifdef MT76x2
+ 				// TODO: shiang-usw, check why MT76x2 don't need to set this flag here!
+-				if (!IS_MT762x(pAd))
+-#endif /* MT762x */
++				if (!IS_MT76x2(pAd))
++#endif /* MT76x2 */
+ 					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_START_UP);
+ 
+ 				/* Let BBP register at 20MHz to do scan */
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mgmt/mgmt_entrytb.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/mgmt/mgmt_entrytb.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mgmt/mgmt_entrytb.c
+@@ -118,6 +118,13 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
+ 
+ 		FirstWcid = 1;
+ 
++#ifdef CONFIG_AP_SUPPORT
++	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_START_UP)) {
++		DBGPRINT(RT_DEBUG_TRACE, ("%s:: fRTMP_ADAPTER_START_UP is not ready\n",
++			__FUNCTION__));
++		return NULL;
++	}
++#endif /* CONFIG_AP_SUPPORT */
+ 
+ 	/* allocate one MAC entry*/
+ 	NdisAcquireSpinLock(&pAd->MacTabLock);

@@ -1,0 +1,22 @@
+#!/bin/sh 
+
+cloudPlugin_stop()
+{
+	/tmp/plug_7/etc/init.d/cloudPlugin.sh stop
+	rm -rf /tmp/cloudPluginRoot /tmp/plug_7
+	
+	exit
+}
+
+cd /tmp/plug_7
+tar -zxvf cloudPlugin.ipk
+tar -zxvf data.tar.gz
+
+rm  -rf control.tar.gz   debian-binary cloudPlugin.ipk  data.tar.gz
+trap cloudPlugin_stop 2 3 15
+sed -i "s/PLUGIN_ROOT=\/tmp\/cloudPluginRoot/PLUGIN_ROOT=\/tmp\/plug_7/g" /tmp/plug_7/etc/init.d/cloudPlugin.sh
+/tmp/plug_7/etc/init.d/cloudPlugin.sh start
+
+while true ; do
+  sleep 10
+done

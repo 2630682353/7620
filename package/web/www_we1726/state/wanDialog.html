@@ -1,0 +1,454 @@
+<div class="routerSetInter" ng-controller="wanDialogCtrl"> <!-- 外网设置 -->
+
+
+
+    <div class="routerSetTit">
+
+
+
+        <a href="javascript:;" class="routerClose" onclick="closeSetDialog()"><img src="images/routerClose.png"></a>
+
+
+
+        <span>外网设置</span>&nbsp;&nbsp;
+
+
+
+        <small>请选择您的上网接入方式</small>
+
+
+
+    </div> 
+
+
+
+    <div class="interSet stateTop">
+
+
+
+        <div class="routerslide">
+
+
+
+            <div class="hd">
+
+
+
+                <ul>
+
+
+
+                    <li class="interTab01 on" ng-click="showTab(0)">宽带拨号</li>
+
+
+
+                    <li class="interTab02" ng-click="showTab(1)">网线连接</li>
+
+
+
+                    <!-- <li class="interTab03">无线中继</li> -->
+
+
+
+                </ul>
+
+
+
+            </div>
+
+
+
+            <div class="bd">
+
+
+
+                <ul class="on"> <!-- 宽带拨号开始 -->
+
+                    <li>
+
+                        <span class="SetWifiName">宽带账号</span>&nbsp;&nbsp;
+
+
+
+                        <input type="text" class="stateSel interName" ng-model="poeUser">
+
+
+
+                    </li>
+
+
+
+                    <li>
+
+
+
+                        <span class="SetWifiName">宽带密码</span>&nbsp;&nbsp;
+
+
+
+                        <input type="password" class="stateSel netName netPassword interName poePwd"
+
+                               ng-model="poePasswd" ng-hide="pwdHide">
+
+
+
+                        <input type="text" class="stateSel netNameDis  netPassword interName poePwd"
+
+                               ng-model="poePasswd" ng-show="pwdHide">
+
+
+
+                        <label>&nbsp;&nbsp;<input type="checkbox" class="ycNet" ng-click="showPwd()"> 显示 </label>&nbsp;
+
+                        <p class="pwdErr"></p>
+
+
+
+                    </li>
+
+
+
+
+
+
+                <div class="SetWifiSub">
+
+
+                    <input type="submit" class="btn btn-default" ng-click="wanSubmit()" value="拨号">
+
+
+
+                    <input type="reset" class="btn wanResetBtn" value="取消" onclick="closeSetDialog()">
+
+
+                    <p id="pppoeMsgsss" style="margin-top: 14px;">{{pppoeMsg}}</p>
+
+
+                </div>
+
+
+                </ul>
+
+                <!-- 宽带拨号结束 -->
+
+
+
+
+
+                <ul>  <!-- 网线链接开始 -->
+
+
+
+                    <br/>
+
+
+
+                    <div>
+
+
+
+                        <label><input type="radio" ng-checked="autoChecked"
+
+                                      ng-click="connMode(0)">&nbsp;自动方式(DHCP)</label>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+                        <label><input type="radio" ng-checked="manualChecked"
+
+                                      ng-click="connMode(1)">&nbsp;手动方式(静态IP)</label>
+
+
+
+                    </div>
+
+
+
+                    <br/>
+
+
+
+                    <div class="rangeDiv" ng-hide="showAutoConn">  <!-- 网线链接自动 -->
+
+                        <!-- <div>
+
+
+
+                            <span class="SetWifiName">WAN口模式</span>&nbsp;&nbsp;
+
+
+
+                            <select class="stateSel areaSel" ng-model="wanMode"
+
+                                    ng-options="x.text for x in wanmodels"></select>
+
+
+
+                        </div> -->
+
+
+
+                        <li>
+
+
+
+                            <label>
+
+                                <input type="checkbox" class="setSsidSlide" ng-click="showMyDns()" ng-checked="dnsChecked">&nbsp;自定义DNS</label>&nbsp;
+
+                            <a href="javascript:;" class="routerHideTip"  onmouseover="routerShowTip(this)" onmouseout="routerHideTip(this)">(?)</a>
+
+
+
+                              <span class="hideTipCon" style="margin-right: 10px;">
+
+
+
+                                某些运营商DNS可能存在问题，可使用114.114.114.114
+
+
+
+                              </span>
+
+
+
+                        </li>
+
+
+
+                        <div class="setSsid" ng-show="showDnsFlag">
+
+
+
+                            <li>
+
+
+
+                                <span class="SetWifiName">自定义DNS</span>&nbsp;&nbsp;
+
+
+
+                                <input type="text" class="stateSel" ng-model="dhcp_op">
+
+
+
+                            </li>
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                    <div class="rangeDiv" id="range6" ng-show="showAutoConn"> <!-- 网线链接手动 -->
+
+                        <div>
+
+
+
+                            <span class="SetWifiName">I P 地 址 </span>&nbsp;&nbsp;
+
+
+
+                            <input type="text" class="stateSel interName" ng-model="ipManual">
+
+
+
+                        </div>
+
+                        <br/>
+
+
+
+                        <div>
+
+
+
+                            <span class="SetWifiName">子网掩码</span>&nbsp;&nbsp;
+
+
+
+                            <input type="text" class="stateSel interName" ng-model="maskManual">
+
+
+
+                        </div>
+
+                        <br/>
+
+
+
+                        <div>
+
+
+
+                            <span class="SetWifiName">网　　关</span>&nbsp;&nbsp;
+
+
+
+                            <input type="text" class="stateSel interName" ng-model="gatewayManual">
+
+
+
+                        </div>
+
+                        <br/>
+
+
+
+                        <div>
+
+
+
+                            <span class="SetWifiName">首选DNS</span>&nbsp;&nbsp;
+
+
+
+                            <input type="text" class="stateSel interName" ng-model="dnsManual">
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+
+                <div class="SetWifiSub">
+
+
+
+                    <input type="submit" class="btn btn-default" ng-click="wanSubmit()" value="保存">
+
+
+
+                    <input type="reset" class="btn wanResetBtn" value="取消" onclick="closeSetDialog()">
+
+
+
+                </div>
+
+
+
+
+                </ul>
+
+                <!-- 网线链接结束 -->
+
+
+
+                <!-- <ul>  无线中继开始
+
+
+
+                   <form>
+
+
+
+                     <li>
+
+
+
+                       <span class="SetWifiName">网络名称</span>&nbsp;&nbsp;
+
+
+
+                       <select class="stateSel areaSel relaySelect" id="wispList" ng-model="scanWifiList" ng-options="x.ssid for x in scanWifi">
+
+
+
+                         <option value="">请点击扫描</option>
+
+
+
+                       </select>
+
+
+
+                       <input type="text" class="relayName" id="wispName">
+
+
+
+                       <a href="javascript:;" id="relayScan" class="interBlue">立刻扫描</a>&nbsp;
+
+
+
+                       <a href="javascript:;" id="handInput" class="interBlue">手动输入</a>
+
+
+
+                     </li>
+
+
+
+                     <li>
+
+
+
+                       <span class="SetWifiName">网络密码</span>&nbsp;&nbsp;
+
+
+
+                        <input type="password" class="stateSel netName wispPwd"  id="" value="">
+
+
+
+                       <input type="text" class="stateSel netNameDis  wispPwd" id="" value="" style="display: none;">&nbsp;&nbsp;
+
+
+
+                       <label><input type="checkbox"  class="ycNet"> 显示 </label>&nbsp;<p class="pwdErr"></p>
+
+
+
+                     </li>
+
+
+
+                     <li>
+
+
+
+                       <span class="SetWifiName">状　　态</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="interWlj" style="color: #ff0000;">未连接</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+                     </li>
+
+
+
+                   </form>
+
+
+
+                 </ul>  无线中继结束 -->
+
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div> <!-- 外网设备结束 -->

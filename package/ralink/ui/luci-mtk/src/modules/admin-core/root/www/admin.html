@@ -1,0 +1,789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>触云智能路由器</title>
+<meta name="Keywords"  content="" />
+<meta name="Description" content="" />
+<link href="css/css.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/jLayout.js"></script>
+<script language="javascript" type="text/javascript" src="js/jcall.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+</head>
+<script type="text/javascript">
+
+	var isCheck = getQueryString("c");
+	var myAccount = "";
+	var myPassword = "";
+	var isGet = false;
+	var interval = 0;
+	var checkWanDetectLinkInterval = 0;
+	var checkWanDetectModeInterval = 0;
+	var timeout = 0;
+	var timeoutCount = 10;
+	var timeoutCheck = 0;
+	var timeoutCheckCount = 5;
+	var isCheckModel = false;
+	var wanConfigJsonObject;
+	var wanInfoJsonObject;
+	var currentLanIP = "";
+	var currentMode = "";
+	var myMac = "";
+	var myStaticIp = "";
+	var myStaticMask = "";
+	var myStaticGw = "";
+	var myStaticDns = "";
+	var isConfiged = false;
+
+	/*
+	* 获取wanConfigJson
+	*/
+	function getWanConfigJsonObject(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=local_wan_conf&function=get",
+			 async:false,
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.error == 0){
+					wanConfigJsonObject = jsonObject;
+				}
+			 }
+		 });
+	}
+
+	/*
+	* 获取wanInfoJson
+	*/
+	function getWanInfoJsonObject(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_info&function=get",
+			 async:false,
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.error == 0){
+					wanInfoJsonObject = jsonObject;
+				}
+			 }
+		 });
+	}
+
+	/*
+	* 设置PPPOE账号密码
+	*/
+	function setPPPOE(){
+		var mac = (wanConfigJsonObject.mac).toUpperCase();
+		$("#msg").html("");
+		if(mac == null || mac == ""){
+			$("#msg").html("获取MAC失败，请刷新本页重试！");
+			return;
+		}
+		var account = $("#account").val();
+		var passwd =  $("#passwd").val();
+		var pppoe_mac = $("#pppoe_mac").val();
+		if(pppoe_mac != ""){
+			mac = pppoe_mac;
+		}
+		if(trim(account) == ""){
+			$("#msg").html("请输入宽带账号！");
+			return;
+		}
+		if(account.indexOf("\"") > -1 || account.indexOf("'") > -1 || account.indexOf("\\") > -1){
+			$("#msg").html("宽带账号不能包含 单双引号、反斜杠！");
+			return;
+		}
+		if(trim(passwd) == ""){
+			$("#msg").html("请输入宽带密码！");
+			return;
+		}
+		if(passwd.indexOf("\"") > -1 || passwd.indexOf("'") > -1 || passwd.indexOf("\\") > -1){
+			$("#msg").html("宽带密码不能包含 单引号、又引号、反斜杠！");
+			return;
+		}
+		if(!checkMac(pppoe_mac)){
+			$("#msg").html("MAC地址有误！");
+			return;
+		}
+		if(currentMode != 2 || pppoe_mac != myMac || account != myAccount || passwd != myPassword){
+			$("#submit").attr("disabled",true);
+			$("#submit").val("拨号中...");
+			$.ajax({
+				 type: "POST",
+				 url: actionUrl,
+				 data: "fname=net&opt=local_wan_conf&function=set&user="+account+"&passwd="+passwd+"&mac="+mac+"&mode=2",
+				 dataType: "json",
+				 success: function(data){
+					var jsonObject = data;
+					if(jsonObject.error == 0){
+						interval = setInterval(function(){
+							if(timeout > timeoutCount - 1){
+								if(wanInfoJsonObject.error == 0){
+									if(wanInfoJsonObject.connected == 0){
+										if(wanInfoJsonObject.link == 0){
+											$("#msg").html("请插入网线！");	
+										}else{
+											if(wanInfoJsonObject.reason != 0){
+												$("#msg").html(getErrorCode(wanInfoJsonObject.reason));
+											}
+										}
+									}
+								}else{
+									$("#msg").html("错误码：" + wanInfoJsonObject.error);	
+								}
+								$("#submit").attr("disabled",false);
+								$("#submit").val("拨 号");
+								timeout = 0;
+								clearInterval(interval);
+								return;
+							}
+							if(!isGet){
+								getWanInfo();
+								timeout++;
+							}
+						},1000);
+					}else{
+						$("#msg").html("设置失败！");
+						$("#submit").attr("disabled",false);
+						$("#submit").val("拨 号");
+					}
+				 }
+			 });
+		}else{
+			toUrl();
+		}
+	}
+
+	/*
+	* 设置静态IP
+	*/
+	function setStatic(){
+		$("#static_msg").html("");
+		var mac = (wanConfigJsonObject.mac).toUpperCase();
+		$("#static_msg").html("");
+		if(mac == null || mac == ""){
+			$("#static_msg").html("获取MAC失败，请刷新本页重试！");
+			return;
+		}
+		var static_ip = trim($("#static_ip").val());
+		var static_mask = trim($("#static_mask").val());
+		var static_gw = trim($("#static_gw").val());
+		var static_dns = trim($("#static_dns").val());
+		var static_mac = trim($("#static_mac").val());
+		if(static_mac != ""){
+			mac = static_mac;
+		}
+		if(!checkIP(static_ip)){
+			$("#static_msg").html("IP地址不合法！");
+			return;
+		}
+
+		if(!checkMask(static_mask)){
+			$("#static_msg").html("子网掩码不合法！");
+			return;
+		}
+
+		if(!checkIP(static_gw)){
+			$("#static_msg").html("默认网关不合法！");
+			return;
+		}
+
+		if(static_dns != ""){
+			if(!checkIP(static_dns)){
+				$("#static_msg").html("DNS不合法！");
+				return;
+			}
+		}	
+
+		if(static_ip == static_gw){
+			$("#static_msg").html("IP地址或默认网关设置有误！");
+			return;
+		}
+	
+		if(!validateNetwork(static_ip,static_mask,static_gw)){
+			$("#static_msg").html("IP地址+子网掩码+默认网关设置错误！");
+			return;
+		}
+
+		if(validateNetwork(static_ip,static_mask,currentLanIP)){
+			$("#static_msg").html("IP地址设置错误！");
+			return;
+		}
+		if(!checkMac(static_mac)){
+			$("#static_msg").html("MAC地址有误！");
+			return;
+		}
+		if(currentMode != 3 || static_mac != myMac || static_ip != myStaticIp || 
+			static_mask != myStaticMask || static_gw != myStaticGw || static_dns != myStaticDns){
+			$("#static_submit").attr("disabled",true);
+			$("#static_submit").val("连接中...");
+			$.ajax({
+				 type: "POST",
+				 url: actionUrl,
+				 data: "fname=net&opt=local_wan_conf&function=set&mac="+mac+"&ip="+static_ip+"&mask="+static_mask+"&gw="+static_gw+"&dns="+static_dns+"&mode=3",
+				 dataType: "json",
+				 success: function(data){
+					var jsonObject = data;
+					if(jsonObject.error == 0){
+						interval = setInterval(function(){
+							if(timeout > timeoutCount - 1){
+								if(wanInfoJsonObject.error == 0){
+									if(wanInfoJsonObject.connected == 0){
+										if(wanInfoJsonObject.link == 0){
+											$("#static_msg").html("请插入网线！");	
+										}else{
+											if(wanInfoJsonObject.reason != 0){
+												$("#static_msg").html(getErrorCode(jsonWanInfoObject.reason));
+											}
+										}
+									}
+								}else{
+									$("#static_msg").html("错误码：" + wanInfoJsonObject.error);	
+								}
+								$("#static_submit").attr("disabled",false);
+								$("#static_submit").val("确 认");
+								timeout = 0;
+								clearInterval(interval);
+								return;
+							}
+							if(!isGet){
+								getWanInfo();
+								timeout++;
+							}
+						},1000);
+					}else{
+						$("#static_msg").html("设置失败！");
+						$("#static_submit").attr("disabled",false);
+						$("#static_submit").val("连接");
+					}
+				 }
+			 });
+		}else{
+			toUrl();
+		}
+	}
+
+	/*
+	* 设置DHCP
+	*/
+	function setDHCP(){
+		$("#dhcp_msg").html("");
+		var mac = (wanConfigJsonObject.mac).toUpperCase();
+		$("#dhcp_msg").html("");
+		if(mac == null || mac == ""){
+			$("#dhcp_msg").html("获取MAC失败，请刷新本页重试！");
+			return;
+		}
+		var dhcp_mac = $("#dhcp_mac").val();
+		if(dhcp_mac != ""){
+			mac = dhcp_mac;
+		}
+		if(!checkMac(dhcp_mac)){
+			$("#dhcp_msg").html("MAC地址有误！");
+			return;
+		}
+		if(currentMode != 1 || dhcp_mac != myMac){
+			$("#dhcp_submit").attr("disabled",true);
+			$("#dhcp_submit").val("连接中...");
+			$.ajax({
+				 type: "POST",
+				 url: actionUrl,
+				 data: "fname=net&opt=local_wan_conf&function=set&mac="+mac+"&mode=1",
+				 dataType: "json",
+				 success: function(data){
+					var jsonObject = data;
+					if(jsonObject.error == 0){
+						interval = setInterval(function(){
+							if(timeout > timeoutCount - 1){
+								if(wanInfoJsonObject.error == 0){
+									if(wanInfoJsonObject.connected == 0){
+										if(wanInfoJsonObject.link == 0){
+											$("#dhcp_msg").html("请插入网线！");	
+										}else{
+											if(wanInfoJsonObject.reason != 0){
+												$("#dhcp_msg").html(getErrorCode(jsonWanInfoObject.reason));
+											}
+										}
+									}
+								}else{
+									$("#dhcp_msg").html("错误码：" + wanInfoJsonObject.error);	
+								}
+								$("#dhcp_submit").attr("disabled",false);
+								$("#dhcp_submit").val("确 认");
+								timeout = 0;
+								clearInterval(interval);
+								return;
+							}
+							if(!isGet){
+								getWanInfo();
+								timeout++;
+							}
+						},1000);
+					}else{
+						$("#dhcp_msg").html("设置失败！");
+						$("#dhcp_submit").attr("disabled",false);
+						$("#dhcp_submit").val("连接");
+					}
+				 }
+			 });
+		}else{
+			toUrl();
+		}
+	}
+
+	/*
+	* 获取WanInfo
+	*/
+	function getWanInfo(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_info&function=get",
+			 async:false,
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.error == 0){
+					if(jsonObject.connected == 1){
+						isGet = true;
+						$("#submit").attr("disabled",true);
+						clearInterval(interval);
+						timeout = 0;
+						toUrl();
+					}else{
+						wanInfoJsonObject = jsonObject;
+					}
+				}else{
+					$("#msg").html("错误码：" +　jsonObject.error);
+					$("#static_msg").html("错误码：" +　jsonObject.error);
+					$("#dhcp_msg").html("错误码：" +　jsonObject.error);
+				}
+			 }
+		 });
+	}
+
+	/*
+	* 检查网络类型
+	*/
+	function checkWanDetect(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_detect&function=get",
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.error == 0){
+					if(jsonObject.wan_link == 0){
+						$("#mainDiv").css('display','none');
+						setNoLineDivMobile();
+						$("#loadingDiv").css('display','none');
+						checkWanDetectLinkInterval = setInterval(function(){
+							checkWanDetectLink();
+						},2000);
+					}else{
+						clearInterval(checkWanDetectLinkInterval);
+						$("#noLineDiv").css('display','none');
+						$("#loadingDiv").css('display','none');
+						if(jsonObject.connected == 0){
+							if(jsonObject.mode == 1){	//DHCP
+								setMainDivMobile();
+								$("#tabDiv").css('display','none');
+								$("#pppoeDiv").css('display','none');
+								$("#staticDiv").css('display','none');
+								$("#dhcpDiv").css('display','block');
+								$("#dhcp_mac").val((wanConfigJsonObject.mac).toUpperCase());
+							}else if(jsonObject.mode == 2){	//PPPOE
+								setMainDivMobile();
+								$("#tabDiv").css('display','none');
+								$("#pppoeDiv").css('display','block');
+								$("#staticDiv").css('display','none');
+								$("#dhcpDiv").css('display','none');
+								$("#pppoe_mac").val((wanConfigJsonObject.mac).toUpperCase());
+							}else if(jsonObject.mode == 3){	//STATIC
+								setMainDivMobile();
+								$("#tabDiv").css('display','none');
+								$("#pppoeDiv").css('display','none');
+								$("#staticDiv").css('display','block');
+								$("#dhcpDiv").css('display','none');
+								$("#static_mac").val((wanConfigJsonObject.mac).toUpperCase());
+							}else if(jsonObject.mode == 0){//checking
+								checkWanDetectModeInterval = setInterval(function(){
+									if(timeoutCheck > timeoutCheckCount - 1){
+										setMainDivMobile();
+										timeoutCheck = 0;
+										clearInterval(checkWanDetectModeInterval);
+										return;
+									}
+									if(!isCheckModel){
+										checkWanDetectModel();
+										timeoutCheck++;
+									}
+								},1000);
+							}
+						}else{	//connected
+							clearInterval(checkWanDetectLinkInterval);
+							clearInterval(checkWanDetectModeInterval);
+							toUrl();
+						}
+					}
+				}else{
+					$("#msg").html("错误码：" + jsonObject.error);
+				}
+				
+			}
+		});
+	}
+	
+	function setMainDivMobile(){
+		$("#loadingDiv").css('display','none');
+		$("#mainDiv").css('display','block');
+		if(browser.versions.mobile){
+			$("#mainDiv").css("margin-top", "0px");
+			$("#mainDiv").css("width", "auto");
+			$("#mainBoxDiv").css("margin", "6%");
+			$("#mainBoxDiv").css("height", "auto");
+		}
+	}
+
+	function setNoLineDivMobile(){
+		$("#noLineDiv").css('display','block');
+		if(browser.versions.mobile){
+			$("#noLineDiv").css("margin-top", "0px");
+			$("#noLineDiv").css("width", "auto");
+			$("#noLineBoxDiv").css("margin", "6%");
+			$("#noLineBoxDiv").css("height", "auto");
+		}
+	}
+	/*
+	* 检查网线
+	*/
+	function checkWanDetectLink(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_detect&function=get",
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.wan_link == 1){
+					clearInterval(checkWanDetectLinkInterval);
+					checkWanDetect();
+				}
+			}
+		});
+	}
+
+
+	/*
+	* 检查网络类型
+	*/
+	function checkWanDetectModel(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_detect&function=get",
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.mode > 0){
+					clearInterval(checkWanDetectModeInterval);
+					timeout = 0;
+					isCheckModel = true;
+					checkWanDetect();
+				}
+			}
+		});
+	}
+
+	function toUrl(){
+		if(browser.versions.android || browser.versions.iPhone){
+			document.location = "admin_phone.html";
+		}else if(browser.versions.iPad){
+			document.location = "admin_pad.html";
+		}else{
+			document.location = "admin_pc.html";
+		}
+	}
+
+	/*
+	* STATIC标签
+	*/
+	function tab(type){
+		for(var i=1; i<=3; i++){
+			$("#set_"+i).attr("class","sub_dt sbtn");
+			$("#sub_set_"+i).attr("class","mac_copy dl");
+		}
+		if(type == 2){
+			if(!isConfiged){
+				$("#static_msg").html("");
+				$.ajax({
+					 type: "POST",
+					 url: actionUrl,
+					 data: "fname=net&opt=dhcpd&function=get",
+					 dataType: "json",
+					 success: function(data){
+						var jsonObject = data;
+						if(jsonObject.error == 0){
+							var static_ip = jsonObject.ip == null ? "" : jsonObject.ip;
+							var static_mask = jsonObject.mask == null ? "" : jsonObject.mask;
+							$("#static_ip").val(static_ip);
+							$("#static_mask").val(static_mask);
+							$("#static_gw").val("");
+							$("#static_dns").val("");
+							currentLanIP = static_ip;
+						}
+					}
+				});
+			}
+		}
+	}
+	/*
+	* 检查是否配置过
+	*/
+	function checkConfig(){
+		$("#loadingDiv").css('display','block');
+		if(browser.versions.mobile){
+			$("#loadingDiv").css("margin-top", "0px");
+			$("#loadingDiv").css("width", "auto");
+			$("#loadingDivBox").css("margin", "6%");
+			$("#loadingDivBox").css("height", "auto");
+		}
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=system&opt=device_check&function=get",
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.config_status == 0){	//no config
+					isConfiged = false;
+					getWanConfigJsonObject();
+					checkWanDetect();
+				}else{								//configed
+					isConfiged = true;
+					getWanInfoJsonObject();
+					if(wanInfoJsonObject.error == 0){
+						if(wanInfoJsonObject.link == 0){
+							$("#mainDiv").css('display','none');
+							$("#loadingDiv").css('display','none');
+							setNoLineDivMobile();
+							checkWanDetectLinkInterval = setInterval(function(){
+								checkWanDetectLink();
+							},2000);
+						}else if(wanInfoJsonObject.connected == 0){
+							getWanConfigJsonObject();
+							myMac = (wanConfigJsonObject.mac).toUpperCase();
+							currentMode = wanConfigJsonObject.mode;
+							if(wanConfigJsonObject.error == 0){
+								setMainDivMobile();
+								if(wanConfigJsonObject.mode == 1){
+									$("#mode_1").attr("class","tb tb_on");
+									$("#mode_2").attr("class","tb");
+									$("#mode_3").attr("class","tb");
+									$("#pppoeDiv").attr("class","tbw");
+									$("#staticDiv").attr("class","tbw");
+									$("#dhcpDiv").attr("class","tbw tbw_on");
+									$("#dhcp_mac").val(myMac);
+									$("#pppoe_mac").val(myMac);
+									$("#static_mac").val(myMac);
+								}else if(wanConfigJsonObject.mode == 2){
+									$("#mode_1").attr("class","tb");
+									$("#mode_2").attr("class","tb tb_on");
+									$("#mode_3").attr("class","tb");
+									$("#pppoeDiv").attr("class","tbw tbw_on");
+									$("#staticDiv").attr("class","tbw");
+									$("#dhcpDiv").attr("class","tbw");
+									$("#account").val(wanConfigJsonObject.user);
+									$("#passwd").val(wanConfigJsonObject.passwd);
+									$("#dhcp_mac").val(myMac);
+									$("#pppoe_mac").val(myMac);
+									$("#static_mac").val(myMac);
+									myAccount = wanConfigJsonObject.user;
+									myPassword = wanConfigJsonObject.passwd;
+								}else if(wanConfigJsonObject.mode == 3){
+									$("#mode_1").attr("class","tb");
+									$("#mode_2").attr("class","tb");
+									$("#mode_3").attr("class","tb tb_on");
+									$("#pppoeDiv").attr("class","tbw");
+									$("#staticDiv").attr("class","tbw tbw_on");
+									$("#dhcpDiv").attr("class","tbw");
+									$("#static_ip").val(wanConfigJsonObject.ip);
+									$("#static_mask").val(wanConfigJsonObject.mask);
+									$("#static_gw").val(wanConfigJsonObject.gw);
+									$("#static_dns").val(wanConfigJsonObject.dns);
+									$("#dhcp_mac").val(myMac);
+									$("#pppoe_mac").val(myMac);
+									$("#static_mac").val(myMac);
+									myStaticIp = wanConfigJsonObject.ip;
+									myStaticMask = wanConfigJsonObject.mask;
+									myStaticGw = wanConfigJsonObject.gw;
+									myStaticDns = wanConfigJsonObject.dns;
+								}
+							}
+						}else{
+							$("#mainDiv").css('display','none');
+							$("#noLineDiv").css('display','none');
+							$("#loadingDiv").css('display','none');
+							toUrl();
+						}
+					}
+				}
+			 }
+		 });
+	}
+
+</script>
+<body>
+
+	<div class="main" id="loadingDiv" style="width:390px;margin:54px auto;"><!-- 此处phone端需判断并修改 style="margin-top:0px;width:auto;" -->
+		<div class="box height_same" id="loadingDivBox" style="margin:0;height: 492px;"><!-- 此处phone端需判断并修改 style="margin:6%;height:auto;" -->
+				<div class="con con4">
+					<div><img src="images/ico_loading_set.gif"/></div>
+					<div style="margin:20px 0 60px 0;">正在检测路由器上网方式</div>
+				</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+
+	<div class="main" id="mainDiv" style="width:390px;margin:54px auto;display:none"><!-- 此处phone端需判断并修改 style="margin-top:0px;width:auto;" -->
+		<div class="box height_same" id="mainBoxDiv" style="margin:0;height: 550px;"><!-- 此处phone端需判断并修改 style="margin:6%;height:auto;" -->
+			<div class="header">
+				<div class="logo l"><img src="images/logo.gif"/></div>
+			</div>
+			
+			<div class="bar" id="tabDiv">
+				<div class="tabs">
+				<ul>
+					<li id="mode_2" class="tb tb_on"><a href="javascript:void(0);" onclick="javascript:tab(1);">宽带拨号</a></li>
+					<li id="mode_3" class="tb"><a href="javascript:void(0)" onclick="javascript:tab(2);">静态IP</a></li>
+					<li id="mode_1" class="tb"><a href="javascript:void(0)" onclick="javascript:tab(3);">动态IP</a></li>
+				</ul>
+				<div class="clear"></div>
+				</div>
+			</div>
+			<div class="tbws con">
+				<div class="tbw tbw_on" id="pppoeDiv">
+					<div class="tip_txt cl_blue">请输入运营商给您的宽带上网账号及密码，如有遗忘，可拨打运营商电话找回。</div>
+					<div class="inp_box">
+						<dl class="dl">
+							<dt>宽带账号</dt>
+							<dd><input class="inp_text" id="account" type="text" maxlength="31" value=""></dd>
+						</dl>
+						<dl class="dl">
+							<dt>宽带密码</dt>
+							<dd><input class="inp_text" id="passwd" type="text" maxlength="31" value=""></dd>
+						</dl>
+						<dl class="dl sub_dl">
+							<dt id="set_1" class="sub_dt sbtn" rsp=".mac_copy"><span class="s1 cl_blue">高级</span><span class="s2 cl_silver">收起</span></dt>
+							<dd class="sub_dd">
+								<dl id="sub_set_1" class="mac_copy dl">
+								<dt>克隆MAC</dt>
+								<dd><input class="inp_text" id="pppoe_mac" type="text" value=""></dd>
+								</dl>
+							</dd>
+						</dl>
+						<dl class="ddl" style="margin-bottom:74px;">
+							<dd><input class="inp_enter" id="submit" type="submit" onclick="javascript:setPPPOE();" value="拨 号"></dd><br/>
+							<dd style="text-align:center" id="msg"></dd>
+						</dl>
+						
+					</div>
+					<div class="btm">
+						<div class="l cl_blue"><a href="getinfo.html"><span class="ico"><img src="images/ico_mark.gif"/></span>获取宽带账号密码</a></div>
+						<!--<div class="r cl_blue"><a href="javascript:toUrl();">跳过</a></div>-->
+						<div class="clear"></div>
+					</div>
+				</div>
+				
+				<div class="tbw" id="staticDiv">
+					<div class="tip_txt cl_blue">请输入运营商给您的IP、子网掩码等信息。如有遗忘，可拨打运营商电话找回。</div>
+					<div class="inp_box">
+						<dl class="dl">
+							<dt>IP地址</dt>
+							<dd><input class="inp_text" id="static_ip" type="text" maxlength="15" value=""></dd>
+						</dl>
+						<dl class="dl">
+							<dt>子网掩码</dt>
+							<dd><input class="inp_text" id="static_mask" type="text" maxlength="15" value=""></dd>
+						</dl>
+						<dl class="dl">
+							<dt>默认网关</dt>
+							<dd><input class="inp_text" id="static_gw" type="text" maxlength="15" value=""></dd>
+						</dl>
+						<dl class="dl">
+							<dt>DNS</dt>
+							<dd class="dd_tip">可选</dd>
+							<dd class="dd_center"><input class="inp_text" id="static_dns" type="text" maxlength="15" value=""></dd>
+						</dl>
+						<dl class="dl sub_dl">
+							<dt id="set_2" class="sub_dt sbtn" rsp=".mac_copy"><span class="s1 cl_blue">高级</span><span class="s2 cl_silver">收起</span></dt>
+							<dd class="sub_dd">
+								<dl id="sub_set_2" class="mac_copy dl">
+								<dt>克隆MAC</dt>
+								<dd><input class="inp_text" id="static_mac" type="text" value=""></dd>
+								</dl>
+							</dd>
+						</dl>
+						<dl class="ddl">
+							<dd><input class="inp_enter" id="static_submit" type="submit" onclick="javascript:setStatic();" value="确 认"></dd><br/>
+							<dd style="text-align:center" id="static_msg"></dd>
+						</dl>
+					</div>
+				</div>
+				
+				<div class="tbw" id="dhcpDiv">
+					<div class="tip_txt cl_blue">动态IP一般适用于内部网络，连上路由器后可直接上网。</div>
+					<div class="inp_box">
+						<dl class="dl sub_dl">
+							<dt id="set_3" class="sub_dt sbtn" rsp=".mac_copy"><span class="s1 cl_blue">高级</span><span class="s2 cl_silver">收起</span></dt>
+							<dd class="sub_dd">
+								<dl id="sub_set_3" class="mac_copy dl">
+								<dt>克隆MAC</dt>
+								<dd><input class="inp_text" id="dhcp_mac" type="text" value=""></dd>
+								</dl>
+							</dd>
+						</dl>
+						<dl class="ddl">
+							<dd><input class="inp_enter" id="dhcp_submit" type="submit" onclick="javascript:setDHCP();" value="确 认"></dd><br/>
+							<dd style="text-align:center" id="dhcp_msg"></dd>
+						</dl>
+					</div>
+				</div>
+				
+			</div>
+				
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+
+	<div class="main" id="noLineDiv" style="width:390px;margin:54px auto;display:none">
+		<div class="box height_same" id="noLineBoxDiv" style="margin:0;height:auto;">
+			<div class="header">
+					<div class="logo l"><img src="images/logo.gif"/></div>
+				</div>
+			
+			<div class="con con3">
+				 <img src="images/pic_connect_2.gif"/>
+			</div>
+			
+			<div style="text-align:center">网络不通，请检查网线连接</div><br/>
+				
+			<div class="clear"></div>
+		</div>
+
+</body>
+
+</html>
+<script type="text/javascript">
+	checkConfig();
+</script>

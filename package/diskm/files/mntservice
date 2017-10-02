@@ -1,0 +1,6 @@
+config dlan
+        option service           dlna
+        option path              /etc/rc.d/S99minidlna.init 
+config samba 
+        option service           samba
+        option path              /etc/rc.d/S99samba

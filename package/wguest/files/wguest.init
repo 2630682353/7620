@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+
+START=90
+kver=`ls /lib/modules`
+start() {
+	insmod /lib/modules/${kver}/wguest.ko
+}
+
+stop() {
+	rmmod /lib/modules/${kver}/wguest.ko
+}
+
+

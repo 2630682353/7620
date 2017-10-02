@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>触云智能路由器</title>
+<meta name="Keywords"  content="" />
+<meta name="Description" content="" />
+<link href="css/css.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/jLayout.js"></script>
+<script language="javascript" type="text/javascript" src="js/jcall.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+</head>
+<script>
+	var interval = 0;
+	var timeout = 0;
+	var timeoutCount = 30;
+	var isGet = false;
+
+	function getPPPOEAccount(){
+		$("#submit").attr("disabled",true);
+		$("#msg").html("正在获取...");
+		$("#submit").val("获取中...");
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_account&function=set",
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.error == 0){
+					$.ajax({
+					type: "POST",
+					url: actionUrl,
+					data: "fname=net&opt=wan_account&function=get",
+					dataType: "json",
+					success: function(data){
+						var jsonObject = data;
+						if(jsonObject.error == 0){
+							document.location = "getinfo_done.html?account="+jsonObject.account+"&passwd="+jsonObject.passwd;
+						}else{
+							interval = setInterval(function(){
+								if(timeout > timeoutCount - 1){
+									timeout = 0;
+									clearInterval(interval);
+									$("#msg").html("获取宽带账号/密码失败！");
+									$("#submit").attr("disabled",false);
+									$("#submit").val("重新获取");
+								}
+								if(!isGet){
+									getAccountTimer();
+									timeout++;
+								}
+							},3000);
+						}
+					}
+				});
+				}
+			}
+		});
+	}
+	
+
+	function getAccountTimer(){
+		$.ajax({
+			 type: "POST",
+			 url: actionUrl,
+			 data: "fname=net&opt=wan_account&function=get",
+			 dataType: "json",
+			 success: function(data){
+				var jsonObject = data;
+				if(jsonObject.error = 0){
+					isGet = true;
+					timeout = 0;
+				}
+			}
+		});
+	}
+
+</script>
+<body>
+	<div class="main" id="mainDiv" style="width:390px;margin:54px auto ;"><!-- 此处phone端需判断并修改 style="margin-top:0px;width:auto;" -->
+		<div class="box height_same" id="mainBoxDiv" style="margin:0;"><!-- 此处phone端需判断并修改 style="margin:6%;height:auto;" -->
+			<div class="header header_other">
+				<div class="back cl_blue"><a href="getinfo.html">返回</a></div>
+				<div class="ali_c">获取宽带账号密码</div>
+			</div>
+			
+			 
+				<div class="con con3">
+					<div><img src="images/pic_get_inormal.gif"/></div><!-- 此处不同状态引用不同的图片-->
+					<div style="margin:20px 0 60px 0;" id="msg">获取宽带账号密码</div><!-- 此处不同状态改变文字-->
+					<div class="inp_box">
+						<dl class="ddl">
+							<dd><input class="inp_enter" id="submit" type="submit" onclick="javascript:getPPPOEAccount();" value="开始获取"></dd><!-- 此处不同状态改变文字-->
+						</dl>
+					</div>
+				</div>
+			 
+				
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</body>
+
+</html>
+<script>
+if(browser.versions.mobile){
+	$("#mainDiv").css("margin-top", "0px");
+	$("#mainDiv").css("width", "auto");
+	$("#mainBoxDiv").css("margin", "6%");
+	$("#mainBoxDiv").css("height", "auto");
+}
+</script>

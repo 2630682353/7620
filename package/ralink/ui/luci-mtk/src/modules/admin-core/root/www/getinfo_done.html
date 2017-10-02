@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>触云智能路由器</title>
+<meta name="Keywords"  content="" />
+<meta name="Description" content="" />
+<link href="css/css.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/jLayout.js"></script>
+<script language="javascript" type="text/javascript" src="js/jcall.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+</head>
+<script>
+
+	var account = getQueryString("account");
+	var passwd = getQueryString("passwd");
+
+	function toNext(){
+		document.location = "diagram.html";
+	}
+</script>
+<body>
+	<div class="main" id="mainDiv" style="width:390px;margin:54px auto ;"><!-- 此处phone端需判断并修改 style="margin-top:0px;width:auto;" -->
+		<div class="box height_same" id="mainBoxDiv" style="margin:0;"><!-- 此处phone端需判断并修改 style="margin:6%;height:auto;" -->
+			<div class="header header_other">
+				<div class="ali_c">获取成功</div>
+			</div>
+				<div class="con con3">
+					<div><img src="images/pic_get_done.gif"/></div> 
+					<dl class="dl_text">
+						<dt>获取成功</dt>
+						<dd>恭喜您！路由器获取数据成功！</dd>
+					</dl>
+					<dl class="dl_text_2">
+						<dd>账号：<span id="account"></span></dd>
+						<dd>密码：<span id="passwd"></span></dd>
+					</dl>
+					 
+					<div class="inp_box">
+						<dl class="ddl">
+							<dd><input class="inp_enter" id="enter" type="submit" onclick="javascript:toNext();" value="下一步"></dd> 
+						</dl>
+					</div>
+				</div>
+			 
+				
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</body>
+
+</html>
+<script>
+if(browser.versions.mobile){
+	$("#mainDiv").css("margin-top", "0px");
+	$("#mainDiv").css("width", "auto");
+	$("#mainBoxDiv").css("margin", "6%");
+	$("#mainBoxDiv").css("height", "auto");
+}
+document.getElementById("account").innerHTML = account;
+document.getElementById("passwd").innerHTML = passwd;
+</script>

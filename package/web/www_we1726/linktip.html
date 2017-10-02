@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html ng-app="webapiApp" ng-controller="linkTipCtrl" ng-cloak>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>路由配置</title>
+
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+
+    <script src="js/angular.1.4.6.min.js"></script>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/webapiAngular.js"></script>
+
+</head>
+
+<body>
+
+
+
+<!-- 页头 header.html -->
+
+<div ng-include="'header.html'"></div>
+
+
+
+  <div class="mainWidth">
+
+    <div class="linktip text-center">
+
+        <img src="images/cloud.png">
+
+        <p class="text-center detect-p">哎呀，外网未连接，请插入WAN口网线。</p>
+
+        <a href="{{detectionHref}}" class="btn  btn-default ">重新检测</a>
+
+        <a href="{{setwifiHref}}" class="tg-a" style="margin: 10px 0 0 0px;display: block;">跳过</a>
+
+    </div>
+
+  </div>
+
+
+</body>
+
+
+
+</html>

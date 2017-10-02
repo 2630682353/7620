@@ -1,0 +1,82 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_cfg.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_cfg.c
+@@ -2016,10 +2016,10 @@ INT RTMP_COM_IoctlHandle(
+ #endif /* WDS_SUPPORT */
+ 			{
+ 				memcpy(&HtPhyMode, &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.HTPhyMode, sizeof(HTTRANSMIT_SETTING));
+-#ifdef MBSS_SUPPORT
++//#ifdef MBSS_SUPPORT
+ 				/* reset phy mode for MBSS */
+ 				MBSS_PHY_MODE_RESET(pObj->ioctl_if, HtPhyMode);
+-#endif /* MBSS_SUPPORT */
++//#endif /* MBSS_SUPPORT */
+ 			}
+ 
+ #ifdef DOT11_VHT_AC
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/ap_mbss.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/ap_mbss.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/ap_mbss.h
+@@ -33,7 +33,7 @@
+ 	So MBSS_PHY_MODE_RESET() can help us to adjust the correct mode &
+ 	maximum MCS for the BSS.
+ */
+-#define MBSS_PHY_MODE_RESET(__BssId, __HtPhyMode)				\
++/*#define MBSS_PHY_MODE_RESET(__BssId, __HtPhyMode)				\
+ 	{															\
+ 		UCHAR __PhyMode = pAd->ApCfg.MBSSID[__BssId].wdev.PhyMode;	\
+ 		if ((__PhyMode == WMODE_B) &&							\
+@@ -63,7 +63,7 @@
+                         __HtPhyMode.field.MCS = 9;                                                      \
+                }       \
+ 	}
+-
++*/
+ 
+ /* Public function list */
+ INT	Show_MbssInfo_Display_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp_comm.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp_comm.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp_comm.h
+@@ -376,5 +376,38 @@ typedef struct  _PACKET_INFO    {
+ 
+ #define RLT_MAC_BASE 0x01
+ 
++#define MBSS_PHY_MODE_RESET(__BssId, __HtPhyMode)                               \
++        {                                                                                                                       \
++                UCHAR __PhyMode = pAd->ApCfg.MBSSID[__BssId].wdev.PhyMode;      \
++                if ((__PhyMode == WMODE_B) &&                                                   \
++                        (__HtPhyMode.field.MODE != MODE_CCK))                           \
++                {                                                                                                               \
++                        __HtPhyMode.field.MODE = MODE_CCK;                                      \
++                        __HtPhyMode.field.MCS = 3;                                                      \
++                }                                                                                                               \
++                else if ((!WMODE_CAP_N(__PhyMode)) &&                                           \
++                                (__PhyMode != WMODE_B) &&                                               \
++                                (__HtPhyMode.field.MODE != MODE_OFDM))                  \
++                {                                                                                                               \
++                        __HtPhyMode.field.MODE = MODE_OFDM;                                     \
++                        __HtPhyMode.field.MCS = 7;                                                      \
++                }                                                                                                               \
++                else if ((__PhyMode != WMODE_B) &&                                              \
++                                (__PhyMode != WMODE_G) &&                                               \
++                                (__PhyMode != WMODE_A) &&                                               \
++                                (!WMODE_CAP_AC(__PhyMode)) &&   \
++                                (WMODE_CAP_N(__PhyMode)))                 \
++                {                                                                                                               \
++                        __HtPhyMode.field.MODE = MODE_HTMIX;                                    \
++                }                                       \
++                else if (WMODE_CAP_AC(__PhyMode))     \
++                {       \
++                        __HtPhyMode.field.MODE = MODE_VHT;                                      \
++                        __HtPhyMode.field.MCS = 9;                                                      \
++               }       \
++        }
++
++
++
+ #endif /* __RT_COMM_H__ */
+ 

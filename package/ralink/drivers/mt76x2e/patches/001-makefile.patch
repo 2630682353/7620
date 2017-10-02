@@ -1,0 +1,90 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi_ap/Makefile
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi_ap/Makefile
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi_ap/Makefile
+@@ -1,7 +1,6 @@
+-EXTRA_CFLAGS = -Idrivers/net/wireless/rlt_wifi/include \
+-		-Idrivers/net/wireless/rlt_wifi/ate/include
++EXTRA_CFLAGS = -I$(src)/../rlt_wifi/include -I$(src)/../rlt_wifi/ate/include
+ 
+-DRV_NAME = rlt_wifi
++DRV_NAME = mt76x2e
+ RT_WIFI_DIR = ../rlt_wifi
+ 
+ ########################################################
+@@ -29,6 +28,7 @@ cmm_objs := $(RT_WIFI_DIR)/common/crypt_
+             $(RT_WIFI_DIR)/common/cmm_profile.o\
+             $(RT_WIFI_DIR)/common/cmm_asic.o\
+             $(RT_WIFI_DIR)/common/cmm_cmd.o\
++            $(RT_WIFI_DIR)/common/sys_log.o\
+             $(RT_WIFI_DIR)/common/rtmp_timer.o\
+             $(RT_WIFI_DIR)/common/rt_channel.o\
+             $(RT_WIFI_DIR)/common/rt_os_util.o\
+@@ -109,6 +109,11 @@ ifeq ($(CONFIG_WSC_INCLUDED),y)
+         EXTRA_CFLAGS += -DWSC_V2_SUPPORT
+         spec_objs += $(RT_WIFI_DIR)/common/wsc_v2.o
+     endif
++
++    ifeq ($(CONFIG_WSC_NFC_SUPPORT),y)
++        EXTRA_CFLAGS += -DWSC_NFC_SUPPORT
++        spec_objs += $(RT_WIFI_DIR)/common/nfc.o
++    endif
+ endif
+ 
+ # VHT
+@@ -538,7 +543,7 @@ endif
+ #
+ # Root 
+ #
+-obj-$(CONFIG_RLT_AP_SUPPORT) += $(DRV_NAME).o
++obj-m += $(DRV_NAME).o
+ 
+ $(DRV_NAME)-objs += $(cmm_objs) $(asic_objs) $(chip_objs) $(rate_objs)\
+                     $(spec_objs) $(func_objs) $(ap_objs) $(os_objs)
+@@ -569,7 +574,7 @@ EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -D
+ EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT -DSCAN_SUPPORT -DAP_SCAN_SUPPORT -DUAPSD_SUPPORT
+ EXTRA_CFLAGS += -DDOT11_N_SUPPORT -DSTATS_COUNT_SUPPORT -DIAPP_SUPPORT -DDOT1X_SUPPORT
+ #EXTRA_CFLAGS += -DRALINK_ATE -DRALINK_QA -DCONFIG_RT2880_ATE_CMD_NEW
+-EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE
++EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE -DSYSTEM_LOG_SUPPORT
+ 
+ #provide busy time statistics for every TBTT */
+ #EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_STATS 
+@@ -615,3 +620,37 @@ endif
+ #endif
+ 
+ 
++EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD=$(CONFIG_RT_FIRST_CARD)
++EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD=$(CONFIG_RT_SECOND_CARD)
++
++EXTRA_CFLAGS += -DCONFIG_RT_FIRST_IF_RF_OFFSET=$(CONFIG_RT_FIRST_IF_RF_OFFSET)
++EXTRA_CFLAGS += -DCONFIG_RT_SECOND_IF_RF_OFFSET=$(CONFIG_RT_SECOND_IF_RF_OFFSET)
++
++ifeq ($(CONFIG_FIRST_IF_EEPROM_PROM),y)
++EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD_EEPROM="\"prom\""
++else
++ifeq ($(CONFIG_FIRST_IF_EEPROM_EFUSE),y)
++EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD_EEPROM="\"efuse\""
++else
++ifeq ($(CONFIG_FIRST_IF_EEPROM_FLASH),y)
++EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD_EEPROM="\"flash\""
++endif
++endif
++endif
++
++ifeq ($(CONFIG_SECOND_IF_EEPROM_PROM),y)
++EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD_EEPROM="\"prom\""
++else
++ifeq ($(CONFIG_SECOND_IF_EEPROM_EFUSE),y)
++EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD_EEPROM="\"efuse\""
++else
++ifeq ($(CONFIG_SECOND_IF_EEPROM_FLASH),y)
++EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD_EEPROM="\"flash\""
++endif
++endif
++endif
++
++ifeq ($(CONFIG_DISABLE_EDCCA),y)
++EXTRA_CFLAGS += -DCONFIG_DISABLE_EDCCA
++endif
++

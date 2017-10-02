@@ -1,0 +1,13 @@
+使用说明：
+1.mount.hotplug文件替换package/system/fstools/files/mount.hotplug
+2.done 文件替换package/base-files/files/etc/init.d/done
+3.samba.init文件替换package/network/services/samba36/files/samba.init
+4.增加diskm包
+
+注意事项：
+diskm包：
+para.mount： 此文件是挂载参数配置文件
+service.action：挂载、卸载磁盘后需要重启的程序配置
+disktag：挂载目录名称相关(/tmp/mnt是默认的根挂载目录)
+
+如果不是使用商业版驱动，免费驱动可能挂载不成功，修改挂载参数配置文件进行调试

@@ -1,0 +1,74 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_data.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_data.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_data.c
+@@ -5465,7 +5465,11 @@ NDIS_STATUS APInsertPsQueue(
+ 	else
+ #endif /* UAPSD_SUPPORT */
+ 	{
+-		if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
++        #if 0 //ps patch
++        if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
++        #else
++        if ((pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE) || (pAd->TxSwQueue[QueIdx].Number >= (pAd->TxSwQMaxLen+MAX_PACKETS_IN_PS_QUEUE)))
++        #endif
+ 		{
+ 			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);			
+ 			return NDIS_STATUS_FAILURE;			
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/ps.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/ps.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/ps.c
+@@ -248,6 +248,15 @@ VOID RtmpHandleRxPsPoll(RTMP_ADAPTER *pA
+ 			while(pMacEntry->PsQueue.Head)
+ 			{
+ 				pQEntry = RemoveHeadQueue(&pMacEntry->PsQueue);
++#if 1 //ps patch
++                if (pAd->TxSwQueue[QID_AC_BE].Number >= pAd->TxSwQMaxLen)
++                {
++                    PNDIS_PACKET pPacket;
++                    pPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
++                    RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
++                    continue;
++                }
++#endif
+ 				InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QID_AC_BE], pQEntry);
+ 			}
+ 		}
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/uapsd.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/uapsd.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/uapsd.c
+@@ -474,10 +474,14 @@ VOID UAPSD_PacketEnqueue(
+ 
+ 	pQueUapsd = &(pEntry->UAPSDQueue[IdAc]);
+ 
+-	if (pQueUapsd->Number >= MAX_PACKETS_IN_UAPSD_QUEUE)
+-    	{
+-	        /* too much queued pkts, free (discard) the tx packet */
+-	        DBGPRINT(RT_DEBUG_TRACE,
++#if 0 //ps patch
++    if (pQueUapsd->Number >= MAX_PACKETS_IN_UAPSD_QUEUE)
++#else
++    if ((pQueUapsd->Number >= MAX_PACKETS_IN_UAPSD_QUEUE) || (pAd->TxSwQueue[IdAc].Number >= (pAd->TxSwQMaxLen+MAX_PACKETS_IN_UAPSD_QUEUE)))
++#endif
++    {
++	    /* too much queued pkts, free (discard) the tx packet */
++	    DBGPRINT(RT_DEBUG_TRACE,
+                  ("uapsd> many(%ld) WCID(%d) AC(%d)\n",
+ 				pQueUapsd->Number,
+ 				RTMP_GET_PACKET_WCID(pPacket),
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mgmt/mgmt_entrytb.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/mgmt/mgmt_entrytb.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/mgmt/mgmt_entrytb.c
+@@ -417,6 +423,9 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
+ 	/* add this MAC entry into HASH table */
+ 	if (pEntry)
+ 	{
++        #if 1 //add initial
++        pEntry->pNext=NULL;
++        #endif
+ 
+ 		HashIdx = MAC_ADDR_HASH_INDEX(pAddr);
+ 		if (pAd->MacTab.Hash[HashIdx] == NULL)

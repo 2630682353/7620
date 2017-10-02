@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html ng-app="webapiApp" ng-controller="wifiCtrl" ng-cloak>
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title>路由配置</title>
+
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+
+        <script src="js/angular.1.4.6.min.js"></script>
+
+        <script src="js/jquery.min.js"></script>
+
+        <script src="js/common.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+        <script src="js/webapiAngular.js"></script>
+
+        <script src="firstSet/firstSettingAngular.js"></script>
+        <script>
+                    if ($.cookie('lstatus') != 'true') {
+                        $.cookie('lstatus', false, {path: '/'});
+                        document.location = 'http://' + document.domain + "/login.html";
+                    }
+        </script>
+    </head>
+
+    <body>
+
+
+
+        <!-- 页头 header.html -->
+
+        <div ng-include="'header.html'"></div>
+
+
+
+        <div class="mainWidth">
+
+            <div class="process wifiprocess">
+
+                <div class="normal step1">第一步</div>
+
+                <div class="active step2">第二步</div>
+
+                <div class="desc">简单两步，完成配置</div>
+
+            </div>
+
+            <div class="proform">
+
+                <table cellpadding="0" cellspacing="0">
+
+                    <tbody>
+
+                        <tr>
+
+                            <td></td>
+
+                            <td>
+
+                                <div class="setwifitit">
+
+                                    <h2>请输入WIFI名称和密码</h2>
+
+
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>wifi名称：</td>
+
+                            <td>
+
+                                <div class="loginborder">
+
+                                    <input type="text" id="wifiName" class="float-l" ng-model="ssid">
+
+                                    <span id="deltext" class="float-r" ng-click="clearWifiName()"></span></div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>wifi密码：</td>
+
+                            <td>
+
+                                <div class="loginborder">
+
+                                    <span  id="wifipwdbox" class="float-l ">
+
+                                        <input type="password" name="password" ng-hide="pwdShow" ng-model="wifiPwd" placeholder="允许不设置密码">
+
+                                        <input type="text" name="password" ng-show="pwdShow" ng-model="wifiPwd" placeholder="允许不设置密码">
+
+                                    </span>
+
+                                    <span id="showpwd" class="float-r"><a href="javascript:;" ng-click="showPwd()"></a></span>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr ng-show="showErr"><td><p class="errMsg" ng-bind="errMsg"></p></td></tr>
+
+                        <tr>
+
+                            <td></td>
+
+                            <td><input type="submit" id="wifiSubBtn" ng-click="toggleSubmit()" value="&nbsp;&nbsp;&nbsp;完成&nbsp;&nbsp;&nbsp;"
+
+                                       class="btn btn-default submitbtn"></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+
+
+            </div>
+
+            <div ng-include="'loading.html'"></div>
+            <div class="routerHidden tipModelHidden">
+                <div class="routerHideCon">
+                    <div ng-include="'tipModel.html'"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+
+
+
+</html>

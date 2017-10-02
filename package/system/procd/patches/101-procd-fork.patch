@@ -1,0 +1,23 @@
+Index: procd-2013-10-09/rcS.c
+===================================================================
+--- procd-2013-10-09.orig/rcS.c
++++ procd-2013-10-09/rcS.c
+@@ -71,10 +71,14 @@ static void q_initd_run(struct runqueue 
+ 		ERROR("Failed to create pipe\n");
+ 		return;
+ 	}
+-
+-	pid = fork();
+-	if (pid < 0)
+-		return;
++FORK_ERR:
++	pid = vfork();
++    if(pid<0)
++    {
++        DEBUG(0, "in pid %d, vfork failed! %s\n", getpid(), strerror(errno));
++        //return;
++        goto FORK_ERR;
++    }
+ 
+ 	if (pid) {
+ 		close(pipefd[1]);

@@ -1,0 +1,45 @@
+Index: mt7610e_wifi_v3006_dpa_20130613/ate/common/rt_ate.c
+===================================================================
+--- mt7610e_wifi_v3006_dpa_20130613.orig/ate/common/rt_ate.c
++++ mt7610e_wifi_v3006_dpa_20130613/ate/common/rt_ate.c
+@@ -2073,6 +2073,13 @@ static NDIS_STATUS TXFRAME(
+ 	/* Start Tx, Rx DMA. */
+ 	RtmpDmaEnable(pAd, 1);
+ 
++#ifdef MT76x0
++	if (IS_MT76x0(pAd))
++	{
++		RtmpOsMsDelay(200);
++	}
++#endif /* MT76x0 */
++
+ 	/* Enable Tx */
+ 	ATE_MAC_TX_ENABLE(pAd, MAC_SYS_CTRL, &MacData);
+ #endif /* RTMP_MAC_PCI */
+@@ -2226,6 +2233,13 @@ static NDIS_STATUS RXFRAME(
+ 	ATE_MAC_TX_DISABLE(pAd, MAC_SYS_CTRL, &MacData); /* MTK */
+ //	ATE_MAC_TX_ENABLE(pAd, MAC_SYS_CTRL, &MacData); /* MTK */
+ 
++#ifdef MT76x0
++	if (IS_MT76x0(pAd))
++	{
++		RtmpOsMsDelay(100);
++	}
++#endif /* MT76x0 */
++
+ 	/* Enable Rx of MAC block. */
+ 	ATE_MAC_RX_ENABLE(pAd, MAC_SYS_CTRL, &MacData);
+ 
+@@ -2396,6 +2410,12 @@ static NDIS_STATUS	ATECmdHandler(
+ 		if (bNeedTxRx == TRUE)
+ 		{
+ 		Status = TXFRAME(pAd);
++#ifdef MT76x0
++		if (IS_MT76x0(pAd))
++		{
++			ATEAsicSwitchChannel(pAd);
++		}
++#endif /* MT76x0 */
+ 	}
+ 	}
+ 	else if (!strcmp(arg, "RXAPPLY")) 

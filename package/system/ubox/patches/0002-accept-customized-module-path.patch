@@ -1,0 +1,30 @@
+Index: ubox-2013-10-27/kmodloader.c
+===================================================================
+--- ubox-2013-10-27.orig/kmodloader.c
++++ ubox-2013-10-27/kmodloader.c
+@@ -489,7 +489,7 @@ static int print_usage(char *arg)
+ 
+ static int main_insmod(int argc, char **argv)
+ {
+-	char *name, *cur, *options;
++	char *name, *cur, *options, *abspath;
+ 	int i, ret, len;
+ 
+ 	if (argc < 2)
+@@ -526,7 +526,15 @@ static int main_insmod(int argc, char **
+ 		cur += sprintf(cur, "%s", argv[i]);
+ 	}
+ 
+-	ret = insert_module(get_module_path(name), options);
++	if(argv[1][0] == '/' ) // path starts with '/'
++	{
++		abspath = argv[1];
++		printf("absolute module path: %s\n", abspath);
++	}
++	else
++		abspath = get_module_path(name);
++
++	ret = insert_module(abspath, options);
+ 	free(options);
+ 
+ 	if (ret)

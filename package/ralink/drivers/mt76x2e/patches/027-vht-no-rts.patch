@@ -1,0 +1,42 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_asic.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_asic.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_asic.c
+@@ -462,7 +462,36 @@ VOID AsicUpdateProtect(
+ 					}
+ 				}
+ #endif /* DOT11_VHT_AC */			
+-#endif
++#endif /* 0 */
++
++#ifdef DOT11_VHT_AC
++#ifdef RT65xx
++				if (IS_RT65XX(pAd))
++				{
++					// Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
++					PROT_CFG_STRUC vht_port_cfg;
++
++					RTMP_IO_READ32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
++					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
++					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
++					vht_port_cfg.field.ProtectRate = protect_rate;
++					RTMP_IO_WRITE32(pAd, TX_PROT_CFG6, vht_port_cfg.word);
++
++					RTMP_IO_READ32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
++					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
++					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
++					vht_port_cfg.field.ProtectRate = protect_rate;
++					RTMP_IO_WRITE32(pAd, TX_PROT_CFG7, vht_port_cfg.word);
++
++					RTMP_IO_READ32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
++					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
++					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
++					vht_port_cfg.field.ProtectRate = protect_rate;
++					RTMP_IO_WRITE32(pAd, TX_PROT_CFG8, vht_port_cfg.word);
++				}
++#endif /* RT65xx */
++#endif /* DOT11_VHT_AC */
++
+ 				Protect[REG_IDX_MM20] = ProtCfg.word; 	/*0x01754004;*/
+ 				Protect[REG_IDX_MM40] = ProtCfg4.word; /*0x03f54084;*/
+ 				Protect[REG_IDX_GF20] = ProtCfg.word; 	/*0x01754004;*/

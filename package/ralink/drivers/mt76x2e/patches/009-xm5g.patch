@@ -1,0 +1,36 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/mt76x2.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/mt76x2.c
+@@ -60,7 +60,7 @@ static RTMP_REG_PAIR mt76x2_mac_cr_table
+ 	{TX_PWR_CFG_8, 0x3A},
+ 	{TX_PWR_CFG_9, 0x3A},
+ 	{MT7662_EFUSE_CTRL, 0xD000},
+-	{PER_PORT_PAUSE_ENABLE_CONTROL1, 0x0},
++	{PER_PORT_PAUSE_ENABLE_CONTROL1, 0xA},
+ #ifdef TXBF_SUPPORT
+ 	{TX_TXBF_CFG_0,		0x4004FC21},	/* Force MCS4 for sounding response*/
+ 	{TX_TXBF_CFG_1,		0xFE23727F},	
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/rt65xx.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/chips/rt65xx.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/chips/rt65xx.c
+@@ -314,6 +314,18 @@ void MT76xx_PciMlmeRadioOn(RTMP_ADAPTER 
+ 		mac_val |= 2;
+ 		RTMP_IO_WRITE32(pAd, TXOP_HLDR_ET, mac_val);
+        }
++    else
++    {
++        UINT32 mac_val = 0;
++
++        RTMP_IO_READ32(pAd, TXOP_CTRL_CFG, &mac_val);
++        mac_val &= ~(1 << 20);
++        RTMP_IO_WRITE32(pAd, TXOP_CTRL_CFG, mac_val);
++
++        RTMP_IO_READ32(pAd, TXOP_HLDR_ET, &mac_val);
++        mac_val &= ~2;
++        RTMP_IO_WRITE32(pAd, TXOP_HLDR_ET, mac_val);
++    }
+ 
+ 	/* Restore RTS retry count */
+ 	RTMP_IO_WRITE32(pAd, 0x1344, pAd->rts_tx_retry_num);		

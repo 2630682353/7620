@@ -1,0 +1,10 @@
+CPU:80
+MEM:90
+PROC:mu,0,2500
+PROC:ali_cloud,0,55000
+PROC:dnsmasq,0,2000
+PROC:cloud_client,0,2500
+PROC:ioos,0,2500
+PROC:lighttpd,0,5000
+CONNECT:1500
+WIFINUM:15

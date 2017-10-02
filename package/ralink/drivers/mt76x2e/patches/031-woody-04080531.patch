@@ -1,0 +1,65 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_apcli_inf.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/ap/ap_apcli_inf.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/ap/ap_apcli_inf.c
+@@ -83,6 +83,7 @@ VOID RT28xx_ApCli_Init(VOID *pAd, PNET_D
+ 	netDevOpHook.stop = ApCli_VirtualIF_Close;
+ 	netDevOpHook.xmit = rt28xx_send_packets;
+ 	netDevOpHook.ioctl = rt28xx_ioctl;
++	netDevOpHook.get_wstats = rt28xx_get_wireless_stats;
+ 	netDevOpHook.iw_handler = (struct iw_handler_def *) &rt28xx_ap_iw_handler_def;
+ 	RTMP_AP_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_APC_INIT,
+ 						0, &netDevOpHook, 0);
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_cfg.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/common/cmm_cfg.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_cfg.c
+@@ -1857,6 +1857,7 @@ INT RTMP_COM_IoctlHandle(
+ 		case CMD_RTPRIV_IOCTL_INF_IW_STATUS_GET:
+ 		/* get wireless statistics */
+ 		{
++			DBGPRINT(RT_DEBUG_TRACE, ("-->CMD_RTPRIV_IOCTL_INF_IW_STATUS_GET\n"));
+ 			UCHAR CurOpMode = OPMODE_AP;
+ #ifdef CONFIG_AP_SUPPORT 
+ 			PMAC_TABLE_ENTRY pMacEntry = NULL;
+@@ -1913,17 +1914,18 @@ INT RTMP_COM_IoctlHandle(
+ 			if (CurOpMode == OPMODE_AP)
+ 			{
+ 				//pStats->level = ConvertToRssi(pAd, pAd->CommonCfg.TxPowerShow, RSSI_0);
+-#if 0
+ 				if (pMacEntry != NULL)
++				{
+ 					pStats->level =
+ 						RTMPMaxRssi(pAd, pMacEntry->RssiSample.AvgRssi0,
+ 										pMacEntry->RssiSample.AvgRssi1,
+ 										pMacEntry->RssiSample.AvgRssi2);
+-#endif
+-				pStats->level = RTMPMaxRssi(pAd, pAd->ApCfg.RssiSample.AvgRssi0,
++				} else {
++					if ((pStats->priv_flags != INT_APCLI))
++						pStats->level =RTMPMaxRssi(pAd, pAd->ApCfg.RssiSample.AvgRssi0,
+ 											pAd->ApCfg.RssiSample.AvgRssi1,
+ 											pAd->ApCfg.RssiSample.AvgRssi2);
+-
++				}
+ 			}
+ #endif /* CONFIG_AP_SUPPORT */
+ 
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103.orig/rlt_wifi/include/rtmp.h
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/include/rtmp.h
+@@ -1863,10 +1863,11 @@ typedef struct _COMMON_CONFIG {
+ #ifdef WSC_INCLUDED
+ 	/* WSC hardware push button function 0811 */
+ 	UINT8 WscHdrPshBtnCheckCount;
+-	UCHAR LatestWSCMacAddr[MAC_ADDR_LEN];
+ #endif /* WSC_INCLUDED */
+ 
+-
++#ifdef WSC_AP_SUPPORT
++	UCHAR LatestWSCMacAddr[MAC_ADDR_LEN];
++#endif
+ 	NDIS_SPIN_LOCK MeasureReqTabLock;
+ 	PMEASURE_REQ_TAB pMeasureReqTab;
+ 

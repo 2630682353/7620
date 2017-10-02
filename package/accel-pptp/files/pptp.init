@@ -1,0 +1,9 @@
+#!/bin/sh /etc/rc.common
+SERVICE_USE_PID=1
+START=80
+
+start() {
+	kver=`ls /lib/modules`
+	insmod /lib/modules/$kver/pptp.ko
+	ln -s /usr/sbin/pppd /usr/sbin/pppd-pptp
+}

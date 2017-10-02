@@ -1,0 +1,46 @@
+#!/bin/sh
+#PLUGIN_ROOT=/tmp/cloudPluginRoot
+AP_TYPE=gude_mt7620n
+TEMP_DIR=/tmp
+url=$1
+
+cd $TEMP_DIR
+if [ "s$url" == "s" ] ; then
+  url=http://cloud.winasdaq.com/download?ipk_file=cloudplugin\&ap_type=$AP_TYPE
+fi
+file=$TEMP_DIR/cloudPlugin.tar.gz
+rm -fr $file
+TIMEOUT=
+wget -h 2>&1 | grep '\-T SEC' >/dev/null 2>/dev/null && TIMEOUT="-T 600"
+if [ "s$AP_TYPE" = swayos_mt7621 ] ; then
+  until wget $TIMEOUT -O $file -q $url  && [ -r $file ] && gunzip -c $file | tar xOf - ./data.tar.gz | gunzip -c - | tar xf - >/dev/null 2>/dev/null ; do
+    echo "Cannot download $url or file is corrupted, retry ..."
+    rm -fr $file
+    sleep 120
+  done
+else
+  until wget $TIMEOUT -O $file -q $url  && [ -r $file ] && tar xzOf $file ./data.tar.gz  | tar xzOf - >/dev/null 2>/dev/null ; do
+    echo "Cannot download $url or file is corrupted, retry ..."
+    rm -fr $file
+    sleep 120
+  done
+fi
+
+if [ "s$PLUGIN_ROOT" != "s" ] && [ -r $PLUGIN_ROOT ] ; then
+  $PLUGIN_ROOT/etc/init.d/cloudPlugin.sh stop
+  rm -fr $PLUGIN_ROOT
+fi
+
+if [ "s$PLUGIN_ROOT" != "s" ] ; then
+  mkdir -p $PLUGIN_ROOT
+  cd $PLUGIN_ROOT
+fi
+if [ -r $file ] ; then
+  if [ "s$AP_TYPE" = swayos_mt7621 ] ; then
+    gunzip -c $file | tar xOf - ./data.tar.gz | gunzip -c - | tar xf -
+  else
+    tar xzOf $file ./data.tar.gz | tar xzf -
+  fi
+  $PLUGIN_ROOT/etc/init.d/cloudPlugin.sh start
+fi
+

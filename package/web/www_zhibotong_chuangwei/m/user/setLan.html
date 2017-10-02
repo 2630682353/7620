@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>LAN口设置-路由器设置</title>
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/m_router.css">
+        <script type="text/javascript" src="../../js/jquery.js"></script>
+        <script type="text/javascript" src="../../js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="../../js/layer.m/layer.m.js"></script>
+        <script type="text/javascript" src="../../js/jquery.md5.js"></script>
+        <script type="text/javascript" src="../../js/common.js"></script>
+        <script type="text/javascript" src="../../js/config.js"></script>
+        <script type="text/javascript" src="../../js/router.js"></script>        
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+    </head>
+
+    <body>
+        <style>
+            .layermbtn span:first-child{ background-color:#056b9c;}
+        </style>
+        <div class="wrap">
+            <div class="top"><a href="index.html" class="goback"><i></i></a>LAN口设置</div>	
+            <div class="sub">
+                <div class="sub-box" style="display:block;">           
+                    <p>DHCP服务为所有连接到智能路由器的设备自动分配IP地址。</p>
+                    <ul class="list">
+                        <li>
+                            <span class="sp-l">IP地址</span>
+                            <span class="sp-r">
+                                <label for="lan_ip">请输入您的IP地址</label>
+                                <input type="text" name="ip_addr" class="inpt" id="lan_ip" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">子网掩码</span>
+                            <span class="sp-r">
+                                <label for="lan_mask">请输入您的子网掩码</label>
+                                <input type="text" name="subnet" class="inpt" id="lan_mask" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">起始IP地址</span>
+                            <span class="sp-r">
+                                <label for="lan_ip_start">请输入您的起始IP地址</label>
+                                <input type="text" name="wg" class="inpt" id="lan_ip_start" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">终止IP地址</span>
+                            <span class="sp-r">
+                                <label for="lan_ip_end">请输入您的终止IP地址</label>
+                                <input type="text" name="dns" class="inpt" id="lan_ip_end" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">DNS(首选)</span>
+                            <span class="sp-r">
+                                <label for="lan_dns1">请输入您的DNS</label>
+                                <input type="text" name="dns" class="inpt" id="lan_dns1" autocomplete="off">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="sp-l">DNS(备用)</span>
+                            <span class="sp-r">
+                                <label for="lan_dns2">请输入您的DNS</label>
+                                <input type="text" name="dns" class="inpt" id="lan_dns2" autocomplete="off">
+                            </span>
+                        </li>   
+                        <li>
+                            <span class="sp-l">租约(小时)</span>
+                            <span class="sp-r">
+                                <label for="lan_time">请输入租约时间（默认为1小时）</label>
+                                <input type="text" name="time" class="inpt" id="lan_time" autocomplete="off">
+                            </span>
+                        </li>                                        
+                        <li>
+                            <span class="sp-l">DHCP</span>
+                            <span class="sp-r">
+                                <a href="javascript:;" id="dhcp_onoff" class="swichBtn" style="float:left;margin-left:1rem;"></a>
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="btn-box"><input type="hidden" id="lanIpMark"><input type="button" class="btn" id="lan_btn" value="确 认"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+</html>
+<script>
+    getLanDHCP();
+</script>
+
+

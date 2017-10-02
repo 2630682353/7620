@@ -1,0 +1,21 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+
+START=99
+
+start() {
+	/bin/xinsight &
+	cloud_exchange d XinsightMain
+}
+
+stop() {
+	killall -KILL xinsight
+	cloud_exchange z XinsightMain
+}
+
+restart() {
+	stop
+	start
+}

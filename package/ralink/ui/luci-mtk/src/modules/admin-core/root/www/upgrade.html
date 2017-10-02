@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>克隆MAC地址</title>
+<meta name="Keywords"  content="" />
+<meta name="Description" content="" />
+<link href="css/css.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+	function uploadFile(){
+		document.getElementById("_submit").disabled = true;
+		document.getElementById("_submit").value = "上传中...";
+		document.getElementById("form1").action = "/upload.csp?uploadpath=/tmp/ioos/test.txt";
+		document.getElementById("form1").submit();
+	}
+</script>
+<body>
+	<div class="main" style="width:390px;margin:54px auto ;">
+		<div class="box height_same" style="margin:0;">
+			<div class="header header_other">
+				<div class="ali_c">触云智能路由器升级</div>
+			</div>
+		 
+				<div class="con con2">
+					<div class="inp_box">
+					<form name="form1" id="form1" enctype="multipart/form-data" method="post" action="" target="hiddenFrame">
+						<dl class="dl">
+							<dd><input class="" name="file" id="file" type="file" value=""></dd>
+						</dl>
+						<dl class="ddl" style="margin-bottom:74px;">
+							<dd><input class="inp_enter" name="_submit" id="_submit" type="submit" value="确认上传" onclick="javascript:uploadFile();"></dd>
+						</dl>
+						 </form>
+					</div>
+					 
+				</div>
+			 
+				
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</body>
+</html>
+<iframe name="hiddenFrame" id="hiddenFrame" width="0" height="0"/>

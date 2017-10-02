@@ -1,0 +1,15 @@
+#!/bin/sh /etc/rc.common
+
+SERVICE_USE_PID=1
+
+START=90
+kver=`ls /lib/modules`
+start() {
+	jsprocess -id cy -net br-lan&
+        insmod /lib/modules/${kver}/js.ko
+}
+
+stop() {
+        rmmod /lib/modules/${kver}/js.ko
+}
+

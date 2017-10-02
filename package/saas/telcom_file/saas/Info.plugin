@@ -1,0 +1,17 @@
+Name:gw_saas
+Version:1.0.0
+InstallSize:2000000
+Type:app
+Right:root
+Visibility:yes
+Architecture:mips
+KernelVersion:3.4.11
+EntryFile:gw_saas
+Cpu:0
+VirtualRam:0
+Socket:0
+AllowUninstall:yes
+AllowStop:yes
+PreInstall:1
+Provides:wiair
+Description:collect gateway imformations and send to clould. 

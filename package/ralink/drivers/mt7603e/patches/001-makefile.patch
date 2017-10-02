@@ -1,0 +1,40 @@
+Index: mt7603e_wifi_4.0.0.5_20140511/mt_wifi_ap/Makefile
+===================================================================
+--- mt7603e_wifi_4.0.0.5_20140511.orig/mt_wifi_ap/Makefile
++++ mt7603e_wifi_4.0.0.5_20140511/mt_wifi_ap/Makefile
+@@ -1,5 +1,5 @@
+-EXTRA_CFLAGS = -Idrivers/net/wireless/mt_wifi/include \
+-		-Idrivers/net/wireless/mt_wifi/ate/include
++EXTRA_CFLAGS = -I$(src)/../mt_wifi/include \
++		-I$(src)/../mt_wifi/ate/include
+ 
+ WIFI_HEAD_GEN  = $(shell make -C drivers/net/wireless/mt_wifi RT28xx_MODE=AP CHIPSET=mt7603e EE_TYPE=$(CONFIG_MT_PA_LNA) sdk_build_tools >/dev/null)
+ 
+@@ -111,7 +111,8 @@ endif
+ 
+ # WSC
+ ifeq ($(CONFIG_MT_WSC_INCLUDED),y)
+-    EXTRA_CFLAGS += -DWSC_INCLUDED -DWSC_SINGLE_TRIGGER
++    EXTRA_CFLAGS += -DWSC_INCLUDED
++#                 -DWSC_SINGLE_TRIGGER
+ 
+     ifneq ($(CONFIG_MT_AP_SUPPORT),)
+         EXTRA_CFLAGS += -DWSC_AP_SUPPORT
+@@ -131,6 +132,8 @@ ifeq ($(CONFIG_MT_WSC_INCLUDED),y)
+         EXTRA_CFLAGS += -DWSC_V2_SUPPORT
+         spec_objs += $(MT_WIFI_DIR)/common/wsc_v2.o
+     endif
++	EXTRA_CFLAGS += -DWSC_NFC_SUPPORT
++        spec_objs += $(MT_WIFI_DIR)/common/nfc.o
+ endif
+ 
+ # VHT
+@@ -630,7 +633,7 @@ endif
+ #
+ # Root 
+ #
+-obj-$(CONFIG_MT_AP_SUPPORT) += $(DRV_NAME).o
++obj-m += $(DRV_NAME).o
+ 
+ $(DRV_NAME)-objs += $(ap_objs) $(cmm_objs) $(asic_objs) $(chip_objs) $(rate_objs)\
+                     $(spec_objs) $(func_objs) $(os_objs)

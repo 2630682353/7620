@@ -1,0 +1,51 @@
+<div class="routerSetMac" ng-controller="addMacCtrl"> <!-- MAC控制开始 -->
+
+    <div class="routerSetTit">
+
+        <a href="javascript:;" class="routerClose" onclick="closeSetDialog()"><img src="images/routerClose.png" ></a>
+
+        <span>无线MAC地址访问控制</span>&nbsp;&nbsp;
+
+    </div>
+
+    <div class="macSecoll">
+        <div class="wifiSet stateTop">
+
+            <form>
+
+                <div class="macdiv">
+                    <span>开关&nbsp;&nbsp;</span>
+                    <div class="switch demo3">
+                        <input type="checkbox" ng-checked="enalbeFirewall" ng-click="setEnableFirewall()">
+                        <label><i></i></label>
+                    </div>
+                </div>
+
+                <div class="macdiv">
+                    <span class="SetWifiName">限制类型：</span>
+                    <label><input type="radio" name="sendRange" checked="checked" id="sendRange5">&nbsp;允许以下MAC地址访问</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--<label><input type="radio" name="sendRange" id="sendRange6" onclick="range()" >&nbsp;禁止以下MAC地址访问</label>-->
+                </div>
+                <ul class="macdiv" id="macUl" ng-show='enalbeFirewall'>
+                    <li ng-repeat="mac in addMacs">
+                        <input type="text" class="macName" placeholder="请输入MAC地址" ng-blur="checkMac($index)" ng-model="mac.mac">
+                        <!--<input type="text" class="macBz" placeholder="添加备注">-->
+                        &nbsp;&nbsp;<button class="btn btn-default" ng-click="delMac($index)">删除</button>
+                    </li>
+                </ul>
+                <div>
+                    <button class="btn btn-default" id="addMac" ng-click="toggleAddMac()"  ng-show='enalbeFirewall'>+ 增加MAC地址</button>
+                </div><br/>
+                <!--<p>当前使用设备MAC地址：</p>-->
+
+                <div class="SetWifiSub">
+
+                    <input type="submit" class="btn btn-default" id="changePwd" value="保存" ng-click="toggleSubmit()">
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div> <!-- 结束 -->

@@ -1,0 +1,37 @@
+led灯测试，不用返回
+  factory_check led on/off
+set_gpio_led  NLK_ACTION_ADD / NLK_ACTION_DEL
+
+按键检测 返回pass fail
+  factory_check key
+  while  2s /proc/intreg
+
+USB U盘测试， 返回pass fail
+  factory_check usb
+/proc/mounts  /dev/sd 或 /dev/mmc
+
+MAC地址读取，成功：xx-xx-xx-xx-xx-xx 失败：无
+  factory_check read_mac
+/dev/mtdblock3
+读：0x04-0x9   0x28-0x2D  0x2E-0x33
+
+
+MAC地址写入  格式xx-xx-xx-xx-xx-xx
+/dev/mtdblock3
+   factory_check write_mac xx-xx-xx-xx-xx-xx
+写：0x04-0x9   0x28-0x2D  0x2E-0x33
+
+
+软件版本读取 成功：软件版本字符串 失败：无
+  factory_check ver
+/etc/firmware   CURVER
+
+软件日期 成功：软件版本字符串 失败：无
+  factory_check date
+/etc/firmware   DATE
+
+复位 成功：pass 失败：fail
+factory_check reset
+set_hw_id(0);
+set_flashid("");
+system("mtd erase rootfs_data");

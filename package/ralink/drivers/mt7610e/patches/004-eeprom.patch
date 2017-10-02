@@ -1,0 +1,18 @@
+Index: mt7610e_wifi_v3006_dpa_20130613/include/chip/mt76x0.h
+===================================================================
+--- mt7610e_wifi_v3006_dpa_20130613.orig/include/chip/mt76x0.h
++++ mt7610e_wifi_v3006_dpa_20130613/include/chip/mt76x0.h
+@@ -41,9 +41,11 @@ struct _RTMP_ADAPTER;
+ #ifdef RTMP_MAC_PCI
+ 
+ #if defined(CONFIG_RT_SECOND_CARD) && CONFIG_RT_SECOND_CARD == 7610
+-#define EEPROM_DEFAULT_FILE_PATH     "/etc_ro/Wireless/iNIC/MT7610E-V10-20130102-FEM.bin"
++// #define EEPROM_DEFAULT_FILE_PATH     "/etc_ro/Wireless/iNIC/MT7610E-V10-20130102-FEM.bin"
++#define EEPROM_DEFAULT_FILE_PATH     "/etc/Wireless/mt7610/mt7610.eeprom.bin"
+ #else
+-#define EEPROM_DEFAULT_FILE_PATH     "/etc_ro/Wireless/RT2860/MT7610E-V10-20130102-FEM.bin"
++// #define EEPROM_DEFAULT_FILE_PATH     "/etc_ro/Wireless/RT2860/MT7610E-V10-20130102-FEM.bin"
++#define EEPROM_DEFAULT_FILE_PATH     "/etc/Wireless/mt7610/mt7610.eeprom.bin"
+ #endif
+ 
+ #endif /* RTMP_MAC_PCI */

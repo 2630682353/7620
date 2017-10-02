@@ -1,0 +1,10 @@
+config auth 'admin'
+    option user 'admin'
+    option pwd '/'
+    option enable '1'
+config auth 'guest'
+    option user 'guest'
+    option pwd '/Share'
+    option enable '0'
+
+

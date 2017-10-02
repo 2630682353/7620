@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>Wiair Wireless Router</title>
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/router.css">
+        <script type="text/javascript" src="../js/jquery.js"></script> 
+        <script type="text/javascript" src="../js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="../js/layer/layer.js"></script>
+        <script type="text/javascript" src="../js/jquery.md5.js"></script>
+        <script>
+            var timeStr = Date.parse(new Date());
+            document.write('<scr' + 'ipt src="../js/common.js?v=' + timeStr + '"></scr' + 'ipt>');
+            document.write('<scr' + 'ipt src="../js/config.js?v=' + timeStr + '"></scr' + 'ipt>');
+            document.write('<scr' + 'ipt src="../js/router.js?v=' + timeStr + '"></scr' + 'ipt>');
+
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="top">
+            <div class="wrap">
+                <a href="http://www.wiair.com/" target="_blank"><div class="logo"></div></a>
+            </div>	
+        </div>
+        <div class="wrap">
+            <div class="userWrap">
+                <div class="menu">
+                    <a data-id="m_1" href="javascript:;" class="selected"><i class="i-1"></i>Internet Connection</a>
+                    <a data-id="m_2" href="javascript:;"><i class="i-2"></i>Internet</a>
+                    <a data-id="m_5" href="javascript:;"><i class="i-5"></i>LAN Setup</a>
+                    <a data-id="m_3" href="javascript:;"><i class="i-3"></i>Wireless</a>
+                    <a data-id="m_4" id="setClient" href="javascript:;"><i class="i-4"></i>Bandwidth Control</a>
+                    <a data-id="m_6" href="javascript:;"><i class="i-6"></i>Port Forwarding</a>                    
+                    <a data-id="m_7" href="javascript:;"><i class="i-7"></i>Administration</a>
+                </div>
+                <div class="r-box">
+                    <!-- 路由器状态 -->
+                    <div class="sub" id="m_1_box" style="display:block">
+                        <div class="panel">
+                            <h2>Internet Connection Status</h2>
+                            <div class="bd-box">
+                                <!-- 连接成功 -->
+                                <div class="state-img"></div>
+                                <div class="state-txt">
+                                    <span class="s1">Devices</span>
+                                    <span class="s2">Router</span>
+                                    <span class="s3">Internet</span>
+                                </div>
+                                <div class="state-desc" id="netStatus">...</div>
+                                <!-- 连接成功 end-->
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h2>Attached Devices and Real-time Statistics</h2>
+                            <div class="bd-box">
+                                <a href="javascript:;" class="data2">
+                                    <span class="sp-t blue" id="count_devices">...</span>
+                                    <span class="sp-b"><i class="ico-1"></i>Attached Devices</span>
+                                </a>
+                                <a href="javascript:;" class="data2">
+                                    <span class="sp-t pansy" id="curSpeed">...</span>
+                                    <span class="sp-b"><i class="ico-2"></i>Download Speed</span>
+                                </a>
+                                <a href="javascript:;" class="data2">
+                                    <span class="sp-t pink" id="up_speed">...</span>
+                                    <span class="sp-b"><i class="ico-3"></i>Upload Speed</span>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="panel">
+                            <h2>System Info</h2>
+                            <div class="bd-box">
+                                <table width="100%" cellpadding="0" cellspacing="0" class="sys_tb">
+                                    <tr>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Connection Type</span>
+                                                <span class="blue" id="netType">...</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">WAN IP</span>
+                                                <span class="blue" id="wanIP">...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Connection Duration</span>
+                                                <span class="blue" id="ontime">...</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Subnet Mask</span>
+                                                <span class="blue" id="mask">...</span>
+                                            </div>
+                                        </td>                                    
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Wi-Fi</span>
+                                                <span class="blue" id="wifi_name">...</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Default Gateway</span>
+                                                <span class="blue" id="gw">...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">WAN MAC</span>
+                                                <span class="blue" id="macTy">...</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Preferred DNS</span>
+                                                <span class="blue" id="dns1">...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">LAN IP</span>
+                                                <span class="blue" id="lanIP">...</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Alternative DNS</span>
+                                                <span class="blue" id="dns2">...</span>
+                                            </div>
+                                        </td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Firmware Model</span>
+                                                <span class="blue" id="firmware_model">...</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="tblist">
+                                                <span class="tit">Firmware Version</span>
+                                                <span class="blue" id="version">...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel" id="showBusinessPic">
+                            <h2>Scan QR Code</h2>
+                            <div class="bd-box">
+                                <div class="ewm">
+                                    <div class="pic"><img id="businessPic" src="../images/erweima.png"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 路由器状态 end-->
+
+                    <!-- 网络设置-->
+                    <div class="sub" id="m_2_box">
+                        <div class="panel" id="netWorkSet">
+                            <h2>Internet</h2>
+                            <div class="bd-box">    
+                                <span class="nav_title">Connection Type</span>	
+                                <div class="nav" id="connectNav">
+                                    <a data-id="t_1" id="t_1" href="javascript:;">PPPoE</a>
+                                    <a data-id="t_2" id="t_2" href="javascript:;">Static IP</a>
+                                    <a data-id="t_3" id="t_3" href="javascript:;">Dynamic IP</a>
+                                    <a data-id="t_4" id="t_4" href="javascript:;">WISP</a>
+                                </div>
+                                <div>
+                                    <!-- 宽带拨号 -->
+                                    <div class="sub" id="t_1_box"> 
+                                        <div class="sub-box">                   
+                                            <p>Select PPPoE if your Internet connection asks for the user name and password.</p>
+                                            <ul class="list">
+                                                <li>
+                                                    <span class="sp-l">User Name</span>
+                                                    <span class="sp-r">
+                                                        <label for="acc">User Name from ISP</label>
+                                                        <input type="text" name="acc" class="inpt" id="acc" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span class="sp-l">Password</span>
+                                                    <span class="sp-r">
+                                                        <label for="pwd">Password from ISP</label>
+                                                        <input type="text" name="pwd" class="inpt" id="pwd" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li style="display: none">
+                                                    <span class="sp-l">Preferred DNS</span>
+                                                    <span class="sp-r">
+                                                        <label for="pp_dns">Please input a valid IP address.(Optional)</label>
+                                                        <input type="text" name="dns" class="inpt" id="pp_dns" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li style="display: none">
+                                                    <span class="sp-l">Alternative DNS</span>
+                                                    <span class="sp-r">
+                                                        <label for="pp_dns1">Please input a valid IP address.(Optional)</label>
+                                                        <input type="text" name="dns" class="inpt" id="pp_dns1" autocomplete="off">
+                                                    </span>
+                                                </li>                                                
+                                                <li style="display: none">
+                                                    <span class="sp-l">MTU</span>
+                                                    <span class="sp-r">
+                                                        <label for="pp_mtu">Please input a mtu.(Optional)</label>
+                                                        <input type="text" name="mtu" class="inpt" id="pp_mtu" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li style="display: none">
+                                                    <span class="sp-l">Clone MAC</span>
+                                                    <span style="margin-left: 6px;">
+                                                        <select name="mac" style="width: 115px;" class="userInpt index-inpt macChoose" id="macChoose1">
+                                                            <option value="1">Custom MAC</option>
+                                                            <option value="2">Host MAC</option>
+                                                            <option value="3" selected="selected">Raw MAC</option>
+                                                        </select>
+                                                        <em id="mac_box1" style="margin-left:6px;"></em>
+                                                    </span>
+                                                    <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter1" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                                </li>
+                                            </ul>
+                                            <div class="bot"><a class="fr setBtn" id="PpoeHightSet" href="javascript:;">Advanced</a></div>
+                                            <div class="btn-box"><input type="button" class="btn" id="btn_1" value="OK"></div>
+                                        </div>
+                                    </div>
+                                    <!-- 宽带拨号 end-->
+
+                                    <!-- 静态IP -->
+                                    <div class="sub" id="t_2_box">
+                                        <div class="sub-box">
+                                            <form name="form2" method="post" action="">
+                                                <p>Select Static IP if your Internet connection asks for static IP info.</p>
+                                                <ul class="list">
+                                                    <li>
+                                                        <span class="sp-l">IP Address</span>
+                                                        <span class="sp-r">
+                                                            <label for="static_ip">Please input a valid IP address.</label>
+                                                            <input type="text" name="ip_addr" class="inpt" id="static_ip" autocomplete="off">
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="sp-l">Subnet Mask</span>
+                                                        <span class="sp-r">
+                                                            <label for="static_mask">Please input a valid subnet mask</label>
+                                                            <input type="text" name="subnet" class="inpt" id="static_mask" autocomplete="off">
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="sp-l">Default Gateway</span>
+                                                        <span class="sp-r">
+                                                            <label for="static_gw">Please input a valid IP address.</label>
+                                                            <input type="text" name="wg" class="inpt" id="static_gw" autocomplete="off">
+                                                        </span>
+                                                    </li>
+                                                    <li style="display: none">
+                                                        <span class="sp-l">Preferred DNS</span>
+                                                        <span class="sp-r">
+                                                            <label for="static_dns">Please input a valid IP address.(Optional)</label>
+                                                            <input type="text" name="dns" class="inpt" id="static_dns" autocomplete="off">
+                                                        </span>
+                                                    </li>
+                                                    <li style="display: none">
+                                                        <span class="sp-l">Alternative DNS</span>
+                                                        <span class="sp-r">
+                                                            <label for="static_dns1">Please input a valid IP address.(Optional)</label>
+                                                            <input type="text" name="dns" class="inpt" id="static_dns1" autocomplete="off">
+                                                        </span>
+                                                    </li>
+                                                    <li style="display: none">
+                                                        <span class="sp-l">MTU</span>
+                                                        <span class="sp-r">
+                                                            <label for="static_mtu">Please input a mtu.(Optional)</label>
+                                                            <input type="text" name="mtu" class="inpt" id="static_mtu" autocomplete="off">
+                                                        </span>
+                                                    </li>
+                                                    <li style="display: none">
+                                                        <span class="sp-l">Clone MAC</span>
+                                                        <span style="margin-left: 6px;">
+                                                            <select name="mac" style="width: 115px;" class="userInpt index-inpt macChoose" id="macChoose2">
+                                                                <option value="1">Custom MAC</option>
+                                                                <option value="2">Host MAC</option>
+                                                                <option value="3" selected="selected">Ras MAC</option>
+                                                            </select>
+                                                            <em id="mac_box2" style="margin-left:6px;"></em>
+                                                        </span>
+                                                        <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter2" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                                    </li>
+                                                </ul>
+                                                <div class="bot"><a class="fr setBtn" id="StaticHightSet" href="javascript:;">Advanced</a></div>
+                                                <div class="btn-box"><input type="button" class="btn" id="btn_2" value="OK"></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- 静态IP end-->
+
+                                    <!-- 动态IP -->
+                                    <div class="sub" id="t_3_box">
+                                        <div class="sub-box">
+                                            <p>Select Dynamic IP if your Internet can be auto-connected with no account or static IP info set.</p>
+                                            <ul class="list">
+                                                <li style="display: none">
+                                                    <span class="sp-l">Preferred DNS</span>
+                                                    <span class="sp-r">
+                                                        <label for="dhcp_dns">Please input a valid IP address.(Optional)</label>
+                                                        <input type="text" name="dns" class="inpt" id="dhcp_dns" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li style="display: none">
+                                                    <span class="sp-l">Alternative DNS</span>
+                                                    <span class="sp-r">
+                                                        <label for="dhcp_dns1">Please input a valid IP address.(Optional)</label>
+                                                        <input type="text" name="dns" class="inpt" id="dhcp_dns1" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li style="display: none">
+                                                    <span class="sp-l">MTU</span>
+                                                    <span class="sp-r">
+                                                        <label for="dhcp_mtu">Please input a valid IP address.(Optional)</label>
+                                                        <input type="text" name="mtu" class="inpt" id="dhcp_mtu" autocomplete="off">
+                                                    </span>
+                                                </li>
+                                                <li style="display: none">
+                                                    <span class="sp-l">Clone MAC</span>
+                                                    <span style="margin-left: 6px;">
+                                                        <select name="mac" style="width: 115px;" class="userInpt index-inpt macChoose" id="macChoose3">
+                                                            <option value="1">Custom MAC</option>
+                                                            <option value="2">Host MAC</option>
+                                                            <option value="3" selected="selected">Ras MAC</option>
+                                                        </select>
+                                                        <em id="mac_box3" style="margin-left:6px;"></em>
+                                                    </span>
+                                                    <span class="mlsp macInpt"><input type="text" name="macAddr" id="macEnter3" style="width: 165px;" class="userInpt index-inpt" value=""></span>
+                                                </li>
+                                            </ul>
+                                            <div class="bot"><a class="fr setBtn" id="DhcpHightSet" href="javascript:;">Advanced</a></div>
+                                            <div class="btn-box"><input type="button" class="btn" id="btn_3" value="OK"></div>
+                                        </div>
+                                    </div>
+                                    <!-- 动态IP end-->
+
+                                    <!-- 无线中继 -->
+                                    <div class="sub" id="t_4_box">
+                                        <div class="sub-box newlist">
+                                            <ul class="list">
+                                                <li>
+                                                    <span class="sp-l">Wi-Fi Name</span>
+                                                    <span class="sp-r"><label class="noinpt" id="wf_name">CYWiFi</label></span>
+                                                </li>
+                                                <li>
+                                                    <span class="sp-l">Status</span>
+                                                    <span class="sp-r"><label class="noinpt" id="noinpt" style="color:#e4007f;">Disconnected</label></span>
+                                                </li>                                                
+                                                <li>
+                                                    <span class="sp-l">Select a Wi-Fi Network.</span>
+                                                    <span class="sp-r"><a href="javascript:;" onclick="getWifiList();" class="btn s-btn">refresh</a></span>
+                                                </li>                                            </ul>
+                                            <div class="bot wifi">
+                                                <a href="javascript:;" class="ssid_add">Hidden Wi-Fi</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="wifi-list">
+                                            <table width="100%" cellpadding="0" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <td width="143">Wi-Fi Name</td>
+                                                        <td width="170">MAC Address</td>
+                                                        <td width="40">Channel</td>
+                                                        <td width="230">Security Mode</td>
+                                                        <td>Signal Strength</td>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div class="getWifiList">
+                                                <table width="100%" cellpadding="0" cellspacing="0">
+                                                    <tbody id="getWifiList">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="btn-box">
+                                                <!--                                                <input type="hidden" id="security">-->
+                                                <!--                                                <input type="hidden" id="channel">-->
+                                                <!--                                                <input type="button" class="btn" id="btn_4" value="连 接">-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 无线中继 end-->   
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 网络设置 end-->
+
+                    <!-- Lan口设置 -->
+                    <div class="sub" id="m_5_box">
+                        <div class="panel">
+                            <div class="bd-box">
+                                <div class="sub-box">
+                                    <p>LAN Setup</p>
+                                    <ul class="list">
+                                        <li>
+                                            <span class="sp-l">LAN IP</span>
+                                            <span class="sp-r">
+                                                <label for="lan_ip">Please input a valid IP address.</label>
+                                                <input type="text" name="ip_addr" class="inpt" id="lan_ip" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">Subnet Mask</span>
+                                            <span class="sp-r">
+                                                <label for="lan_mask">Please input a valid subnet mask</label>
+                                                <input type="text" name="subnet" class="inpt" id="lan_mask" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">Start IP</span>
+                                            <span class="sp-r">
+                                                <label for="lan_ip_start">Please input a valid IP address.</label>
+                                                <input type="text" name="wg" class="inpt" id="lan_ip_start" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">End IP</span>
+                                            <span class="sp-r">
+                                                <label for="lan_ip_end">Please input a valid IP address.</label>
+                                                <input type="text" name="dns" class="inpt" id="lan_ip_end" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">DHCP</span>
+                                            <span class="sp-r">
+                                                <div class="tbDiv"><i id="dhcp_onoff" class="switch3 open3"></i></div>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <div class="btn-box"><input type="hidden" id="lanIpMark"><input type="button" class="btn" id="lan_btn" value="OK"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Lan口设置end -->
+
+                    <!-- 无线设置-->
+                    <div class="sub" id="m_3_box">
+                        <div class="panel">
+                            <div class="bd-box nopd">
+                                <div class="nav" id="swichNav">
+                                    <span class="nav_tit">Wi-Fi ON/OFF</span>
+                                    <a href="javascript:;" id="wifi_on">ON</a>
+                                    <a href="javascript:;" id="wifi_off">OFF</a>
+                                </div>
+                            </div>	
+                        </div>
+                        <div id="swichDiv">
+                            <div class="panel">
+                                <h2>Wi-Fi Name and Password</h2>
+                                <div class="bd-box newlist">
+                                    <ul class="list">
+                                        <li>
+                                            <span class="sp-l">Wi-Fi Name</span>
+                                            <span class="sp-r new-sp">
+                                                <label for="wf_nameset">Wi-Fi Name</label>
+                                                <input type="text" name="wf_name" class="inpt" id="wf_nameset" autocomplete="off">
+                                            </span>
+                                            <em><input type="checkbox" id="hidden_ssid" class="chk">Hide Network</em>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">Wi-Fi Password</span>
+                                            <span class="sp-r new-sp">
+                                                <label for="wf_pwdset">Wi-Fi Password</label>
+                                                <input type="text" name="wf_pwd" class="inpt" id="wf_pwdset" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">Channel</span>
+                                            <span>
+                                                <select id="wifiChannel" name="wifiChannel" class="userInpt">
+                                                    <option value="0">Auto</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                </select>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l">Band Width</span>
+                                            <span>
+                                                <select id="wifiBandwidth" name="wifiBandwidth" class="userInpt">
+                                                    <option value="0">20MHz</option>
+                                                    <option value="1">20/40MHz</option>
+                                                </select>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l"></span>
+                                            <span>
+                                                <input type="button" class="btn s-btn" id="wifi_set_confirm" value="OK">
+                                            </span>
+                                        </li>  
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel">
+                                <h2>Wi-Fi Signal Strength</h2>
+                                <div class="bd-box nopd">
+                                    <div class="nav wd">
+                                        <span class="nav_tit">Signal Strength</span>
+                                        <a href="javascript:;" id="rate_mode_1" hidefocus="true">Low</a>
+                                        <a href="javascript:;" id="rate_mode_2" hidefocus="true">Medium</a>
+                                        <a href="javascript:;" id="rate_mode_3" hidefocus="true">High</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel">
+                                <h2>Guest Model</h2>
+                                <div class="bd-box nopd">
+                                    <div class="nav wd">
+                                        <span class="nav_tit">Guest Model</span>
+                                        <a href="javascript:;" id="guest_on" hidefocus="true">ON</a>
+                                        <a href="javascript:;" id="guest_off" hidefocus="true">OFF</a>
+                                    </div>  
+                                    <div class="tips">Open guest mode can be authorized free password (open wireless internet name suffix Guest)</div>      
+                                    <div class="client-list" id="visit_mode_div">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <td width="400">Device Name</td>
+                                                    <td>ON/OFF</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="guestList">
+
+                                            </tbody>
+                                        </table>          
+                                    </div> 
+                                    <div class="btn-area"><a href="javascript:;" class="btn s-btn" id="reGuestList">refresh</a></div>
+                                </div>
+                            </div>
+
+                            <div class="panel">
+                                <h2>Wi-Fi Schedule</h2>
+                                <div class="bd-box nopd">
+                                    <div class="nav wd" id="wf_time_nav">
+                                        <span class="nav_tit">Wi-Fi Schedule</span>
+                                        <a href="javascript:;" hidefocus="true" id="wifiTimeOn">Enable</a>
+                                        <a href="javascript:;" hidefocus="true" id="wifiTimeOff">Disable</a>
+                                    </div>  
+                                    <div id="wf_time_div">
+                                        <div class="b-2">
+                                            <span class="nav_tit">Turn Wi-Fi off during</span>
+                                            <div class="rtDiv">
+                                                <select id="startHour" class="userInpt s-inpt">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                </select>
+                                                <span>:</span>
+                                                <select id="startMin" class="userInpt s-inpt">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                    <option value="24">24</option>
+                                                    <option value="25">25</option>
+                                                    <option value="26">26</option>
+                                                    <option value="27">27</option>
+                                                    <option value="28">28</option>
+                                                    <option value="29">29</option>
+                                                    <option value="30">30</option>
+                                                    <option value="31">31</option>
+                                                    <option value="32">32</option>
+                                                    <option value="33">33</option>
+                                                    <option value="34">34</option>
+                                                    <option value="35">35</option>
+                                                    <option value="36">36</option>
+                                                    <option value="37">37</option>
+                                                    <option value="38">38</option>
+                                                    <option value="39">39</option>
+                                                    <option value="40">40</option>
+                                                    <option value="41">41</option>
+                                                    <option value="42">42</option>
+                                                    <option value="43">43</option>
+                                                    <option value="44">44</option>
+                                                    <option value="45">45</option>
+                                                    <option value="46">46</option>
+                                                    <option value="47">47</option>
+                                                    <option value="48">48</option>
+                                                    <option value="49">49</option>
+                                                    <option value="50">50</option>
+                                                    <option value="51">51</option>
+                                                    <option value="52">52</option>
+                                                    <option value="53">53</option>
+                                                    <option value="54">54</option>
+                                                    <option value="55">55</option>
+                                                    <option value="56">56</option>
+                                                    <option value="57">57</option>
+                                                    <option value="58">58</option>
+                                                    <option value="59">59</option>
+                                                </select>
+                                                <span>~</span>
+                                                <select id="endHour" class="userInpt s-inpt">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                </select>
+                                                <span>:</span>
+                                                <select id="endMin" class="userInpt s-inpt">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                    <option value="24">24</option>
+                                                    <option value="25">25</option>
+                                                    <option value="26">26</option>
+                                                    <option value="27">27</option>
+                                                    <option value="28">28</option>
+                                                    <option value="29">29</option>
+                                                    <option value="30">30</option>
+                                                    <option value="31">31</option>
+                                                    <option value="32">32</option>
+                                                    <option value="33">33</option>
+                                                    <option value="34">34</option>
+                                                    <option value="35">35</option>
+                                                    <option value="36">36</option>
+                                                    <option value="37">37</option>
+                                                    <option value="38">38</option>
+                                                    <option value="39">39</option>
+                                                    <option value="40">40</option>
+                                                    <option value="41">41</option>
+                                                    <option value="42">42</option>
+                                                    <option value="43">43</option>
+                                                    <option value="44">44</option>
+                                                    <option value="45">45</option>
+                                                    <option value="46">46</option>
+                                                    <option value="47">47</option>
+                                                    <option value="48">48</option>
+                                                    <option value="49">49</option>
+                                                    <option value="50">50</option>
+                                                    <option value="51">51</option>
+                                                    <option value="52">52</option>
+                                                    <option value="53">53</option>
+                                                    <option value="54">54</option>
+                                                    <option value="55">55</option>
+                                                    <option value="56">56</option>
+                                                    <option value="57">57</option>
+                                                    <option value="58">58</option>
+                                                    <option value="59">59</option>
+                                                </select>
+                                            </div>
+                                        </div> 
+                                        <div class="b-2">
+                                            <span class="nav_tit">Repeat</span>
+                                            <div class="rtDiv" id="week_checked">
+                                                <label class="checkbox-inline" for="day0" id="all">
+                                                    <input type="checkbox" id="day0" class="chk" name="dayAll" value="1">Everyday</label>
+                                                <label class="checkbox-inline" for="day7">
+                                                    <input type="checkbox" id="day7" class="chk" name="day" value="1">Sun</label>
+                                                <label class="checkbox-inline" for="day1">
+                                                    <input type="checkbox" id="day1" class="chk" name="day" value="1">Mon</label>
+                                                <label class="checkbox-inline" for="day2">
+                                                    <input type="checkbox" id="day2" class="chk" name="day" value="1">Tue</label>
+                                                <label class="checkbox-inline" for="day3">
+                                                    <input type="checkbox" id="day3" class="chk" name="day" value="1">Wed</label>
+                                                <label class="checkbox-inline" for="day4">
+                                                    <input type="checkbox" id="day4" class="chk" name="day" value="1">Thu</label>
+                                                <label class="checkbox-inline" for="day5">
+                                                    <input type="checkbox" id="day5" class="chk" name="day" value="1">Fri</label>
+                                                <label class="checkbox-inline" for="day6">
+                                                    <input type="checkbox" id="day6" class="chk" name="day" value="1">Sat</label>
+                                            </div>
+                                        </div>
+                                        <div class="b-2">
+                                            <span class="nav_tit"></span>
+                                            <div class="rtDiv" style="padding-left: 40%;">
+                                                <input type="button" class="btn s-btn" id="wifiTimeConfirm" value="OK">
+                                            </div>
+                                        </div>
+                                    </div>                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 无线设置 end-->
+
+                    <!-- 终端控制-->
+                    <div class="sub" id="m_4_box">
+                        <div class="panel">
+                            <h2>Attached Devices（<span id="terminal_count">...</span>）</h2>
+                            <div class="bd-box">
+                                <div class="wifi-list auto_0">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <td>Device Name</td>
+                                                <td width="60">&nbsp;</td>
+                                                <td>Download Speed</td>
+                                                <td>Upload Speed</td>
+                                                <td>Download Limit（KB）</td>
+                                                <td>Upload Limit（KB）</td>
+                                                <td>Internet Access</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="devices">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 终端控制 end-->
+
+                    <!-- 端口映射-->
+                    <div class="sub" id="m_6_box">
+                        <div class="panel">
+                            <h2>Port Forwarding</h2>
+                            <div class="bd-box">
+                                <div class="b-2" style="width:658px;">
+                                    Device Choice:
+                                    <select id="client_list" class="userInpt">
+                                    </select>
+                                </div> 
+                                <div class="wifi-list">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <td>External Port</td>
+                                                <td>Internal Port</td>
+                                                <td>Protocol</td>
+                                                <td>Action</td>
+                                                <td>Add/Del</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="userInpt md-inpt" id="dk_out"></td>
+                                                <td><input type="text" class="userInpt md-inpt" id="dk_inner"></td>
+                                                <td>
+                                                    <select id="protocol" class="userInpt md-inpt" style="width: 65%">
+                                                        <option value="3">TCP/UDP</option>
+                                                        <option value="1">TCP</option>
+                                                        <option value="2">UDP</option>  
+                                                    </select>
+                                                </td>    
+                                                <td><div class='tbDiv'><i id="nat_enable" class='switch2 open2'></i></div></td>
+                                                <td id="add_nat"><div class="editBtn add"></div></td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody id="host_nat">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 端口映射 end-->
+
+                    <!-- 路由器管理-->
+                    <div class="sub" id="m_7_box">
+                        <div class="panel">
+                            <h2>Login Password</h2>
+                            <div class="bd-box newlist">
+                                <ul class="list">
+                                    <li>
+                                        <span class="sp-l">Old Password</span>
+                                        <span class="sp-r new-sp">
+                                            <label for="oldpwd">Old Password (Default admin)</label>
+                                            <input type="password" name="oldpwd" class="inpt" id="oldpwd" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">New Password</span>
+                                        <span class="sp-r new-sp">
+                                            <label for="userpwd">New Password</label>
+                                            <input type="password" name="userpwd" class="inpt" id="userpwd" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l">Repeat New Password</span>
+                                        <span class="sp-r new-sp">
+                                            <label for="userpwd2">Repeat New Password</label>
+                                            <input type="password" name="userpwd2" class="inpt" id="userpwd2" autocomplete="off">
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="sp-l"></span>
+                                        <span>
+                                            <input type="button" class="btn s-btn" id="user_confirm" value="OK">
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h2>Router Light</h2>
+                            <div class="bd-box nopd">
+                                <div class="nav wd">
+                                    <span class="nav_tit">Router Light</span>
+                                    <a href="javascript:;" hidefocus="true" id="led_on">ON</a>
+                                    <a href="javascript:;" hidefocus="true" id="led_off">OFF</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h2>Device Management</h2>
+                            <div class="bd-box">
+                                <div class="b-2">
+                                    <span class="nav_tit mt10">Reboot Router</span>
+                                    <div class="rtDiv"><input type="button" class="btn d-btn" id="restart" value="Reboot"></div>
+                                </div>
+
+                                <div class="b-2">
+                                    <span class="nav_tit mt10">Reset to Factory Defaults</span>
+                                    <div class="rtDiv"><input type="button" class="btn d-btn" id="reback" value="Reset"></div>
+                                </div>
+
+                                <div class="b-2">
+                                    <span class="nav_tit mt10">Online Upgrade</span>
+                                    <div class="rtDiv"><input type="button" class="btn d-btn" value="Check" id="update_1"><em id="checkMsg" class="update_tips"></em></div>
+                                    <div><em id="getMsg" style="display: none"></em></div>
+                                </div>
+
+                                <div class="b-2">
+                                    <span class="nav_tit mt10">Firmware Upgrade</span>
+                                    <div class="upload-box">
+                                        <form name="form1" id="form1" enctype="multipart/form-data" method="post" action="" target="hiddenFrame">                    
+                                            <div class="upload">
+                                                <div class="line"> 
+                                                    <span class="span"><input name="" type="text" id="viewfile" onmouseout="document.getElementById('file').style.display = 'none';" class="inputstyle" /> </span> 
+                                                    <label for="unload" onmouseover="document.getElementById('file').style.display = 'block';" class="file1">Browse</label> 
+                                                    <input class="file"onchange="document.getElementById('viewfile').value = this.value;
+                                                            this.style.display = 'none';" name="file" id="file" type="file" value="" />
+                                                    <input class="btn upload-btn" name="_submit" id="_submit" type="submit" value="Submit" onclick="javascript:uploadFile();">
+                                                </div> 
+                                            </div>           
+                                            <div style="margin-left: 10%"><em id="msg"></em></div>
+                                            <div name="progressBar" id="progressBar" style="display:none"></div>
+                                        </form>
+                                        <iframe name="hiddenFrame" id="hiddenFrame" width="0" height="0"></iframe>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 路由器管理 end-->
+
+                    <!-- 抢票助手 -->
+                    <div class="sub" id="m_9_box">
+                        <div class="panel">
+                            <h2>抢票助手</h2>
+                            <div class="bd-box">
+                                <dl class="aide_info">
+                                    <dt><img src="../images/xw.png"></dt>
+                                    <dd class="name">汛网（12306抢票专版）</dd>
+                                    <dd>还在为12306抢票头痛吗？听说，即使用了抢票软件也抢不到票？汛网产品智能优化技术，在链路质量、服务器性能、传输协议、到达路径等多个关键环节为您深度优化抢票网络，动态更新链路质量参数，持续保证抢票网络的最优状态，进而从根本上提升抢票成功率!差之毫厘，缪以千里。“汛网”助您在“春运抢票大战”中，运筹帷幄，决胜千里！</dd>
+                                </dl>
+
+                                <div class="state">
+                                    <span class="fl">运行状态：<em class="blue lanStatus"></em></span>
+                                    <span class="fr"><a href="javascript:;" class="btn aide-btn qticket"></a><a href="javascript:;" class="btn aide-btn qticket2">刷新</a></span>
+                                </div>
+
+                                <div class="result">
+                                    <p class="lstatus lano">恭喜！已帮您切到最优链路！打败<em id="parcent"></em>的抢票用户</p>
+                                    <p class="lstatus lano">为您完成 <em id="probing_times"></em>次探测服务</p>
+                                </div>
+
+                                <div class="visit-list">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <td>访问域名</td>
+                                                <td>访问IP</td>
+                                                <td>响应速度</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ldomain">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 抢票助手 end-->
+
+                    <!-- 星际互联 -->
+                    <div class="sub" id="m_8_box">
+                        <div class="panel">
+                            <h2>星际互联 国际加速</h2>
+                            <!-- 启动vpn -->
+                            <div id="hvpnp" style="display:none;" class="bd-box">
+                                <div class="vpn-tit">
+                                    <div class="fl">
+                                        <span class="acc_ico2"></span>
+                                        <span>帐号: <em class="vaccount"></em></span>
+                                    </div>
+                                    <a href="javascript:;" class="fr rlshow">登出&gt;&gt;</a>
+                                </div>
+                                <div id="hvpnlist">
+                                </div>
+                            </div>
+                            <!-- 启动vpn end-->
+
+                            <!-- 支付方式 -->
+                            <div class="bd-box mgat" id="packageshow" style="display:none;">
+                                <div class="vpn-tit">
+                                    <div class="fl"><span><img src="../images/account.png"></span><span>帐号: <em class="vaccount"></em></span></div>
+                                    <a href="javascript:;" class="fr rlshow">登出&gt;&gt;</a>
+                                </div>
+                                <div class="tc-box pay" style="">
+                                    <div class="pay-box">
+                                        <div class="vpn-tit2"><span class="tc-ico"></span>续费方式：</div>
+                                        <div class="tc-name-box">
+                                            <a href="javascript:;" data-id="xf_1" class="xf-name selected">线上支付</a>
+                                            <a href="javascript:;" data-id="xf_2" class="xf-name">激活码</a>
+                                        </div>
+                                    </div>	
+                                </div>
+                                <div id="xf_1_box" class="xf-name-box">
+                                    <div class="tc-box pay">
+                                        <div class="pay-box">
+                                            <div class="vpn-tit2"><span class="tc-ico"></span>选择套餐：</div>
+                                            <div class="tc-name-box" id="vpnshowlist"></div>
+                                        </div>
+                                        <div class="pay-box">
+                                            <div class="vpn-tit2 pacakage_date"></div>
+                                            <div class="tc-txt"></div>
+                                            <div class="pay-box">
+                                                <div class="vpn-tit2"><span class="tc-ico"></span>支付方式：</div>
+                                                <ul>
+                                                    <li><label for="wx"><input type="radio" name="paymethod" id="wx" value="2" checked="" class="rdo"><span class="pay-ico wx"></span>微信支付</label></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="pay-box">
+                                                <div class="vpn-tit2"><span class="tc-ico"></span>价格：<strong class="red"><span id="orderpice"></span>元</strong></div>
+                                                <p class="bz">备注：自购买日起生效</p>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="" id="vagainbuy">
+                                        <div class="vpn-btn"><a href="javascript:;" class="btn" id="confirm_buy">确认购买</a></div>
+                                    </div>
+                                </div>
+                                <div id="xf_2_box" class="xf-name-box hide">
+                                    <div class="tc-box pay">
+                                        <div class="pay-box">
+                                            <div class="vpn-tit2"><span class="tc-ico"></span>输入激活码：</div>
+                                            <div class="tc-name-box">
+                                                激活码：<input type="text" class="jh-inpt" id="activation" placeholder="请输入您的激活码">
+                                                <input type="button" class="btn jh-btn" id="code_pay" value="确认">
+                                            </div>
+                                            <div class="jh-state"></div>
+                                        </div>
+
+                                    </div>	
+                                </div>
+                            </div>
+                            <!-- 支付方式 end-->
+
+                            <!-- VPN登录 -->
+                            <div class="tc-box pay" id="vpn_login" style="display: none;margin-top: 30px; ">
+                                <div class="con">
+                                    <h4 class="vpn-name2">星际互联<span class="font16">beta</span></h4>
+                                    <div class="vpn-desc2">国内首家具有合法VPN牌照授权的OS，稳定高速访问全球网络，不掉线。<br>一个账号，多台设备使用，兼容多平台智能分流国内国外数据流量，节省流量。</div>
+                                    <div class="login-bg"></div>
+                                    <ul class="list vpn-list">
+                                        <li>
+                                            <span class="sp-l acc_ico"></span>
+                                            <span class="sp-r">
+                                                <label for="phone_login" style="display: block;">请输入手机号</label>
+                                                <input type="text" name="phone_login" class="inpt" id="phone_login" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l pwd_ico"></span>
+                                            <span class="sp-r">
+                                                <label for="pass_login" style="display: block;">请输入密码</label>
+                                                <input type="text" name="pass_login" class="inpt" id="pass_login" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li class="nobd"><a href="#" id="rpshow" style="float:right;text-decoration:underline;">忘记密码?</a></li>
+                                    </ul>
+                                    <div class="box vpn-box">
+                                        <a href="javascript:;" class="btn layer-btn" id="vpn_login_confirm">登录</a>
+                                        <a href="javascript:;" class="btn layer-btn" id="vpn_register">注册</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- VPN登录 end-->
+
+                            <!-- VPN密码重置 -->
+                            <div class="wifiConnectLayer" id="vpn_repass">
+                                <div class="bg"></div>
+                                <div class="con">
+                                    <div class="closebtn" id="close_btn">x</div>
+                                    <p>密码重置</p>
+                                    <ul class="list vpn-list">
+                                        <li>
+                                            <span class="sp-l acc_ico"></span>
+                                            <span class="sp-r">
+                                                <label for="phone_rlogin">请输入手机号</label>
+                                                <input type="text" name="phone_login" class="inpt" id="phone_rlogin" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l pwd_ico"></span>
+                                            <span class="sp-r">
+                                                <label for="pass_rlogin">请输入密码</label>
+                                                <input type="text" name="pass_login" class="inpt" id="pass_rlogin" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="sp-l pwd_ico"></span>
+                                            <span class="sp-r">
+                                                <label for="pass_rlogin2">请输入密码</label>
+                                                <input type="text" name="pass_login" class="inpt" id="pass_rlogin2" autocomplete="off">
+                                            </span>
+                                        </li>
+                                        <li class="nobd">
+                                            <div class="code-box">
+                                                <label for="vali_recode">请输入验证码</label>
+                                                <input type="text" name="vali_code" class="inpt" id="vali_recode" autocomplete="off">
+                                                <input type="button" class="code-btn repcode" id="regetValicode" value="获取验证码">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="box">
+                                        <a href="javascript:;" class="btn layer-btn" id="vpn_recode_confirm">重置</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- VPN密码重置 end-->
+                        </div>
+                    </div>
+                    <!-- 星际互联 end-->
+
+                    <!-- 购物比价 -->
+                    <div class="sub" id="m_10_box">
+                        <div class="panel">
+                            <h2>比价助手</h2>
+                            <div class="bd-box">
+                                <dl class="aide_info">
+                                    <!--                                    <dt><img src="../images/xw.png"></dt>-->
+                                    <!--                                    <dd class="name">汛网（12306抢票专版）</dd>-->
+                                    <dd>逛京东、一号店等网站时，可以自动同款比价、展示180天历史价格走势、推荐相关优惠券和促销活动消息，商品降价后还可以获得降价提醒通知。电脑、手机、平板都支持比价！</dd>
+                                </dl>
+                                <div class="nav" style="width: 28%">
+                                    <a href="javascript:;" hidefocus="true" id="buy_on">开启</a>
+                                    <a href="javascript:;" hidefocus="true" id="buy_off">关闭</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 抢票助手 end-->
+
+                    <!-- 系统日志 -->
+                    <div class="sub" id="m_11_box">
+                        <div class="panel">
+                            <h2>日志信息</h2>
+                            <div class="bd-box pl">
+                                <div class="systb">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <td width="300">日期时间</td>
+                                                <td class="nobd">信息内容</td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="systb scrollBox">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tbody id="log_list">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="page">
+                                    <div class="fl">
+                                        共 <span id="count_log"></span> 条记录
+                                    </div>
+                                    <div class="fr">
+                                        <a href="javascript:;" class="btn log-btn" id="getlog">刷新</a> 
+                                    </div>
+                                    <div class="fr" style="margin-right: 1%">
+                                        <a href="javascript:;" class="btn log-btn" id="exportlog">导出</a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 系统日志 end -->
+
+                    <!-- 添加隐藏ssid -->
+                    <div class="wifiConnectLayer" id="ssid_connect">
+                        <div class="bg"></div>
+                        <div class="con">
+                            <p>Hidden Wi-Fi</p>
+                            <ul class="list">
+                                <li>
+                                    <span class="sp-l">Wi-Fi Name</span>
+                                    <span class="sp-r">
+                                        <label for="ssid">Wi-Fi Name</label>
+                                        <input type="text" name="ssid" class="inpt" id="ssid" autocomplete="off">
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="sp-l">Security Mode</span>
+                                    <span class="sp-r">
+                                        <select id="check_wpa" class="check_channel">
+                                            <option value="1" selected="selected">None</option>
+                                            <option value="WPAPSK">WPA PSK</option>
+                                            <option value="WPA2PSK">WPA2 PSK</option>      
+                                            <option value="WPAPSKWPA2PSK">WPA/WPA2 PSK</option>
+                                        </select>
+                                    </span>                    
+                                </li>
+                                <li>
+                                    <span class="sp-l">Channel</span>
+                                    <span class="sp-r">
+                                        <select id="check_channel" class="check_channel">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                            <option>11</option>
+                                            <option>12</option>
+                                            <option>13</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li id="pwd_li" class="hide">
+                                    <span class="sp-l">Wi-Fi Password</span>
+                                    <span class="sp-r">
+                                        <label for="ssid_pwd">Wi-Fi Password</label>
+                                        <input type="text" name="ssid_pwd" class="inpt" id="ssid_pwd" autocomplete="off">
+                                    </span>
+                                </li>
+                            </ul>
+                            <div class="box">
+                                <a href="javascript:;" class="btn layer-btn cannel">Cancel</a>
+                                <a href="javascript:;" class="btn layer-btn" id="ssid_confirm">OK</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 添加隐藏ssid end-->
+                    <!-- 上传更新固件 -->
+                    <div class="wifiConnectLayer" id="uploadLay">
+                        <div class="bg"></div>
+                        <div class="con">
+                            <p>Firmware DownLoad</p>
+                            <div id="progressBar_do">
+                                <div id="progressBar_Track"></div>
+                            </div>
+                            <p id="progressBarTxt"></p>
+                            <p>DownLoad...,Waiting</p>
+                        </div>
+                    </div>
+                    <!-- 上传更新固件 end-->
+                    <input type="hidden" id="main_mac">
+                    <input type="hidden" id="mac_inpt">
+                </div>
+            </div>
+        </div>
+        <!-- 无线中继 -->
+        <div class="wifiConnectLayer" id="wifi_zj">
+            <div class="bg"></div>
+            <div class="con">
+                <p id="cyname"></p>
+                <ul class="list" id="have_pwd">
+                    <li>
+                        <span class="sp-l">Wi-Fi Password</span>
+                        <span class="sp-r">
+                            <label for="wf_pwd">Wi-Fi Password</label>
+                            <input type="text" name="wf_pwd" class="inpt" id="wf_pwd" autocomplete="off">
+                        </span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <input type="hidden" id="channel">
+                    <input type="hidden" id="data_sec">
+                    <a href="javascript:;" class="btn s-btn" id="wifi_zj_confirm">OK</a>
+                    <a href="javascript:;" class="btn s-btn cannel">Cancel</a>
+                </div>
+            </div>
+        </div>
+        <!-- 无线中继 end-->
+
+
+        <!-- VPN支付 -->
+        <div class="wifiConnectLayer" id="vpn_to_pay">
+            <div class="bg"></div>
+            <div class="con">
+                <p><a id="pay_status" style="cursor: pointer">扫描二维码支付完成后请点击确认</a></p>
+            </div>
+        </div>
+        <!-- VPN支付 end-->
+
+        <!-- VPN确认支付 -->
+        <div class="wifiConnectLayer" id="confirm_to_pay">
+            <div class="bg"></div>
+            <div class="con">
+                <div class="closebtn" id="close_btn">x</div>
+                <p>支付信息</p>
+                <ul class="list vpn-list">
+                    <li>
+                        <span class="sp-l" style="width: 29%">套餐名称：</span>
+                        <span class="sp-r payInfo" id="packageName"></span>
+                    </li>
+                    <li>
+                        <span class="sp-l" style="width: 29%">支付方式：</span>
+                        <span class="sp-r payInfo" id="payMehtod"></span>
+                    </li>
+                    <li>
+                        <span class="sp-l" style="width: 29%">支付金额：</span>
+                        <span class="sp-r payInfo">￥<em id="payMoney"></em></span>
+                    </li>
+                </ul>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn" id="toPay" target="_blank">确认支付</a>
+                </div>
+            </div>
+        </div>
+        <!-- VPN确认支付 end-->
+
+        <!-- VPN注册 -->
+        <div class="wifiConnectLayer" id="vpn_reg">
+            <div class="bg"></div>
+            <div class="con">
+                <div class="closebtn" id="close_btn">x</div>
+                <p>注册</p>
+                <ul class="list vpn-list">
+                    <li>
+                        <span class="sp-l acc_ico"></span>
+                        <span class="sp-r">
+                            <label for="phone_num">请输入手机号</label>
+                            <input type="text" name="phone_num" class="inpt" id="phone_num" autocomplete="off">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="sp-l pwd_ico"></span>
+                        <span class="sp-r">
+                            <label for="vpnpass">请输入密码</label>
+                            <input type="text" name="vpnpass" class="inpt" id="vpnpass" autocomplete="off">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="sp-l pwd_ico"></span>
+                        <span class="sp-r">
+                            <label for="vpnpass2">请输入密码</label>
+                            <input type="text" name="vpnpass2" class="inpt" id="vpnpass2" autocomplete="off">
+                        </span>
+                    </li>
+                    <li class="nobd">
+                        <div class="code-box">
+                            <label for="vali_code">请输入验证码</label>
+                            <input type="text" name="vali_code" class="inpt" id="vali_code" autocomplete="off">
+                            <input type="button" class="code-btn repcode" id="getValicode" value="获取验证码">
+                        </div>
+                    </li>
+                    <li class="nobd">
+                        <div style="text-align: left;">
+                            <label for="user_message"><a class="xy" href="http://vpn.hbdata.cc:8090/vpn/d/la" target="_blank">用户许可协议</a><a class="xy" href="http://vpn.hbdata.cc:8090/vpn/d/sa" target="_blank">星际互联服务条款</a></label>
+                            <input type="checkbox" checked="checked" id="user_message" class="fl" style="margin-top:3px;">
+                        </div>
+                    </li>
+                </ul>
+                <div class="box">
+                    <a href="javascript:;" class="btn layer-btn" id="vpn_confirm">提交</a>
+                </div>
+            </div>
+        </div>
+        <!-- VPN注册 end-->
+
+    </body>
+</html>
+<script>
+    init();
+</script>

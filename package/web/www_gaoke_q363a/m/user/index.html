@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>路由器设置</title>
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/m_router.css">
+        <script type="text/javascript" src="../../js/jquery.js"></script>
+        <script type="text/javascript" src="../../js/jquery.cookie.js"></script> 
+        <script type="text/javascript" src="../../js/layer.m/layer.m.js"></script>
+        <script type="text/javascript" src="../../js/jquery.md5.js"></script>
+        <script type="text/javascript" src="../../js/common.js"></script>
+        <script type="text/javascript" src="../../js/config.js"></script>        
+        <script>
+            if ($.cookie('lstatus') != 'true') {
+                $.cookie('lstatus', false, {path: '/'});
+                document.location = 'http://' + document.domain + "/index.html?tt=" + new Date().getTime();
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="wrap">
+            <div class="user-top">
+                <dl class="t-name">
+                    <dt><img src="../../images/m/user-icon.png"></dt>
+                    <dd id="wifi_name"></dd>
+                    <dd class="sm">总宽带:<em id="totalSpeed"></em></dd>
+                </dl>
+                <ul class="t-state">
+                    <li><a href="client.html">
+                            <div><span id="count_devices"></span></div>
+                            <span class="sm">终端在线</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div><span id="curSpeed"></span> <span class="icon"><img src="../../images/m/down-icon.png"></span></div>
+                        <span class="sm">下载速度 <em id="downspeedType"></em></span>
+                    </li>
+                    <li>
+                        <div><span id="up_speed"></span> <span class="icon"><img src="../../images/m/up-icon.png"></span></div>
+                        <span class="sm">上传速度 <em id="upspeedType"></em></span>
+                    </li>
+                </ul>
+            </div>	
+            <div class="index-box">
+                <h1>功能应用</h1>
+                <ul class="menu">
+                    <!--        	<li><a href="vpn.html"><span class="md-icon"><img src="../../images/m/vpn-icon.png"></span>星际互联</a></li>-->
+                    <!--            <li><a href="ticket.html"><span class="md-icon"><img src="../../images/m/ticket-icon.png"></span>抢票助手</a></li>-->
+                    <li><a href="shop.html"><span class="md-icon"><img src="../../images/m/shop-icon.png"></span>购物比价</a></li>
+                </ul>
+            </div>
+            <div class="index-box">
+                <h1>基本设置</h1>
+                <ul class="menu base-set">
+                    <li><a href="setNet.html"><span class="md-icon"><img src="../../images/m/i-1.png"></span>网络设置</a></li>
+                    <li><a href="setWifi.html"><span class="md-icon"><img src="../../images/m/i-2.png"></span>无线设置</a></li>
+                    <li><a href="portMap.html"><span class="md-icon"><img src="../../images/m/i-3.png"></span>端口映射</a></li>
+                    <li><a href="setLan.html"><span class="md-icon"><img src="../../images/m/i-4.png"></span>LAN口设置</a></li>
+                    <li><a href="client.html"><span class="md-icon"><img src="../../images/m/i-5.png"></span>终端控制</a></li>
+                    <li><a href="log.html"><span class="md-icon"><img src="../../images/m/i-6.png"></span>系统日志</a></li>
+                    <li><a href="manage.html"><span class="md-icon"><img src="../../images/m/i-7.png"></span>路由器设置</a></li>
+                </ul>
+            </div>
+            <div class="index-box">
+                <h1>系统信息</h1>
+                <ul class="sys-info">
+                    <li>
+                        <span class="tit">连接类型</span>
+                        <span class="blue" id="netType"></span>
+                    </li>
+                    <li>
+                        <span class="tit">WAN IP</span>
+                        <span class="blue" id="wanIP"></span>
+                    </li>
+                    <li>
+                        <span class="tit">运行时间</span>
+                        <span class="blue" id="ontime"></span>
+                    </li>
+                    <!--                    <li>
+                                            <span class="tit">无线加密</span>
+                                            <span class="blue" id="wifi_ap"></span>
+                                        </li>-->
+                    <li>
+                        <span class="tit">无线名称</span>
+                        <span class="blue" id="wifi_name2"></span>
+                    </li>
+                    <li>
+                        <span class="tit">子网掩码</span>
+                        <span class="blue" id="mask"></span>
+                    </li>
+                    <li>
+                        <span class="tit">WAN MAC</span>
+                        <span class="blue" id="macTy"></span>
+                    </li>
+                    <li>
+                        <span class="tit">默认网关</span>
+                        <span class="blue" id="gw"></span>
+                    </li>
+                    <li>
+                        <span class="tit">LAN IP</span>
+                        <span class="blue" id="lanIP"></span>
+                    </li>
+                    <li>
+                        <span class="tit">固件版本</span>
+                        <span class="blue" id="version"></span>
+                    </li>
+                    <li>
+                        <span class="tit">首选DNS</span>
+                        <span class="blue" id="dns1"></span>
+                    </li>
+
+                    <li>
+                        <span class="tit">备用DNS</span>
+                        <span class="blue" id="dns2"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+    init();
+</script>
+

@@ -1,0 +1,12 @@
+Index: mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data.c
+===================================================================
+--- mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data.c
++++ mt7612e_mt7602e_LinuxAP_3.0.2.9_iPA_20140103/rlt_wifi/common/cmm_data.c
+@@ -1205,6 +1205,7 @@ BOOLEAN RTMP_FillTxBlkInfo(RTMP_ADAPTER 
+ 		{
+ 			TX_BLK_SET_FLAG(pTxBlk, fTX_bMoreData);
+ 		}
++		pTxBlk->pMbss = &pAd->ApCfg.MBSSID[pTxBlk->apidx];
+ 	}
+ 	else
+ 	{

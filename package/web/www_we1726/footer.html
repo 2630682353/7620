@@ -1,0 +1,54 @@
+<!-- <!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<title></title>
+
+    <script src="js/angular.1.4.6.min.js"></script>
+
+    <script src="js/jquery.min.js"></script>
+
+    <script src="js/common.js"></script>
+
+    <script src="js/webapiAngular.js"></script>
+
+</head>
+
+<body> -->
+
+	<footer class="footer" ng-controller="footerCtrl">
+
+		<div class="mainWidth">
+
+			<div class="footerMain">
+
+				<img src="images/ewm.jpg" class="ewm">
+
+				<ul>
+
+					<li><span class="devName" >路由器名称：乐家路由宝</span></li>
+
+					<li><span class="devName">型号：{{$root.systeminfo.devid}}</span></li>
+
+					<li><span class="devDesc">系统版本：
+                        <span class="devDesc">{{$root.systeminfo.sw_version}}</span>&nbsp;&nbsp;&nbsp;MAC地址：
+                        <span class="devDesc">{{$root.systeminfo.mac_eth01}}</span></span></li>
+
+					<li><span class="devDesc">更多产品信息请关注乐家路由宝微信公众号 </span></li>
+
+					<li><span class="devDesc">©2016 方正宽带网络服务有限公司</span></li>
+
+				</ul>
+
+			</div>	
+
+		</div>
+	</footer>
+
+<!-- </body>
+
+</html> -->

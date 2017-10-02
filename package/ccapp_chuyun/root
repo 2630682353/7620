@@ -1,0 +1,2 @@
+2-58/6 * * * * lua /etc/app_conf/ccapp/src/ccapp_domain_speedup.lua log > /dev/null &
+*/1 * * * * sh /etc/app_conf/ccapp/src/ftp_log.sh &

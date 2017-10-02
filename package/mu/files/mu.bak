@@ -1,0 +1,35 @@
+#!/bin/sh /etc/rc.common
+. /lib/functions.sh
+. /lib/network/switch.sh
+SERVICE_USE_PID=1
+START=90
+config6855Esw LLLLW
+
+start() {
+	ifconfig eth0 up
+	ifconfig lo up
+
+	vconfig add eth0 1
+	vconfig add eth0 2
+	brctl addbr br-lan
+
+	ifconfig eth0.1 up
+	ifconfig eth0.2 up
+	
+	ifconfig vir1 up
+	ip addr add 1.127.127.253/30 dev vir1
+	mknod /dev/http_mmap c 255 0
+
+	brctl addif br-lan eth0.1
+	ifconfig br-lan up
+	new=`cat /sys/class/net/eth0/address|tr a-z A-Z`
+	old=`uci get network.lan.macaddr`
+	if [ $new != $old ]; then
+		lan_mac=$new;
+		wan_mac=$(macaddr_add "$lan_mac" 1)
+		uci set network.lan.macaddr=$lan_mac
+		uci set network.wan.macaddr=$wan_mac
+		uci commit
+	fi
+	mu
+}

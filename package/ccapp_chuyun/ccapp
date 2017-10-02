@@ -1,0 +1,71 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2009-2012 OpenWrt.org
+
+START=99
+
+start() {
+	[ -d /tmp/dnsmasq.d ] || {
+		mkdir /tmp/dnsmasq.d
+	}
+	rm -rf /tmp/ccapp/dnsprefer > /dev/null 2>&1
+
+	[ -f /etc/app_conf/ccapp/src/add_iptables.sh ] && \
+		sh /etc/app_conf/ccapp/src/add_iptables.sh &
+
+	sed -i '/conf-dir=\/tmp\/dnsmasq.d/d' /etc/dnsmasq.conf
+	echo "conf-dir=/tmp/dnsmasq.d" >>/etc/dnsmasq.conf
+	killall dnsmasq
+
+	#copy from script
+	pid=`ps | grep -v grep | grep "pdnsd" | awk '{print $1}'`
+	if [ ! -n "$pid" ]; then
+		echo "start pdnsd"
+		/usr/sbin/pdnsd -c /etc/app_conf/ccapp/conf/pdnsd_ccapp.conf --daemon
+	fi
+    
+	local nginx_pid=`ps|grep nginx|grep -v grep|awk '{print $1}'|tr -d "\n"`
+	[ -d /var/log/nginx ] || {
+		mkdir /var/log/nginx
+	}
+	[ -f /var/log/nginx/error.log ] || {
+		touch /var/log/nginx/error.log
+	}
+	[ -d /var/lib/ ] || {
+		mkdir /var/lib/
+	}
+	[ -d /var/lib/nginx ] || {
+		mkdir /var/lib/nginx/
+	}
+	if [ -z "$nginx_pid" ]; then
+		nginx
+		echo "start nginx"
+	else
+	    nginx -s reload
+		echo "reload nginx..."
+	fi
+
+	ln -s /etc/app_conf/root /etc/crontabs/root
+	/etc/init.d/cron restart
+	touch /tmp/lanxun_status
+}
+
+
+stop()
+{
+	rm -rf /tmp/dnsmasq.d
+	rm /tmp/lanxun_status
+	rm /etc/crontabs/root
+	/etc/init.d/cron restart
+
+	killall pdnsd
+	killall nginx
+	sed -i '/conf-dir=\/tmp\/dnsmasq.d/d' /etc/dnsmasq.conf
+	killall dnsmasq
+	kill $(ps | grep check_ccapp_crontab | grep -v grep | awk '{printf $1" "}')
+}
+
+restart()
+{	
+	stop
+	start
+}
