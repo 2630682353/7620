@@ -1,0 +1,9 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+#[ -f /usr/bin/btnd ] && /usr/bin/btnd wps 2 &
+#[ -f /usr/bin/btnd ] && /usr/bin/btnd reset 1 &
+#RESET_FLAG=`cat /etc/firmware | grep RESET | cut -b  7-`
+#[ -f /usr/bin/watchdog ] && /usr/bin/watchdog $RESET_FLAG &
+
+exit 0
+

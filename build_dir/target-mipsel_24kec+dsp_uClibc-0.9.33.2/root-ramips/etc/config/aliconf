@@ -1,0 +1,6 @@
+config probe 'probe'
+	option on '1'
+config attack 'attack'
+	option on '1'
+config first 'first'
+	option first '0'

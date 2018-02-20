@@ -1,0 +1,24 @@
+
+config interface 'blacklist'
+
+config interface 'timefiter'
+
+config interface 'status'
+	option status '0'
+
+config interface 'restrictlist'
+
+config interface 'security'
+	option status '1'
+
+config interface 'priority'
+	option mac 'x'
+	
+config interface 'name'
+
+config interface 'id'
+
+config interface 'qos'
+	option up '512'
+	option down '102400'
+	option enable '0'

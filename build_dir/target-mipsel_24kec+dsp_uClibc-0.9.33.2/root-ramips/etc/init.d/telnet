@@ -1,0 +1,11 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+START=50
+TELNET_PORT=`cat /etc/firmware | grep TELNET_PORT | awk -F '=' '{printf $2}'`
+
+start() {
+	telnetd -p $TELNET_PORT -F -l /bin/login.sh &
+	sleep 1 && echo "499" > /proc/$(pidof telnetd)/oom_score_adj &
+}

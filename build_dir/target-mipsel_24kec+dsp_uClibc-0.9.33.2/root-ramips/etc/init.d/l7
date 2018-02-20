@@ -1,0 +1,33 @@
+#!/bin/sh /etc/rc.common
+
+SERVICE_USE_PID=1
+START=80
+kver=`ls /lib/modules`
+FILE_KO=/lib/modules/${kver}/l7.ko
+
+start() {
+	rm -rf /tmp/l7_tmp/
+	mkdir /tmp/l7_tmp/
+	cd /tmp/l7_tmp/
+
+	if [ -f /tmp/rconf/l7.tar.gz ];then
+		cp /tmp/rconf/l7.tar.gz ./
+	elif [ -f /etc/rconf/l7.tar.gz ];then
+		cp /etc/rconf/l7.tar.gz ./
+	else
+		insmod $FILE_KO
+		echo "no l7 file"
+		exit -1
+	fi
+	tar -zxvf l7.tar.gz
+
+	if [ -f /tmp/rconf/p_l7.tar.gz ];then
+		cp /tmp/rconf/p_l7.tar.gz ./
+		tar -zxvf p_l7.tar.gz
+	fi
+
+	rmmod $FILE_KO
+	insmod $FILE_KO
+	l7_load
+}
+

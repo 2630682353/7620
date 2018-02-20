@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#/sbin/block hotplug
+if [ $ACTION == "add" ]; then
+        echo "/usr/sbin/disktriger 4 $MAJOR $DEVNAME" >>/tmp/disk.info
+        /usr/sbin/disktriger 4 $MAJOR $DEVNAME
+elif [ $ACTION == "remove" ]; then
+        echo "/usr/sbin/disktriger 5 $MAJOR $DEVNAME" >>/tmp/disk.info
+        /usr/sbin/disktriger 5 $MAJOR $DEVNAME
+else
+	echo "Unhandle EVENT $ACTION" >> /tmp/disk.info
+fi
+
+line=`wc -l /tmp/disk.info | cut -d " " -f1`
+if [ $line -gt 200 ]; then
+	rm /tmp/disk.info
+	echo "Memory Releas" >> /tmp/disk.info
+fi

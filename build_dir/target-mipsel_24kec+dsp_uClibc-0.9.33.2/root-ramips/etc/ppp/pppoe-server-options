@@ -1,0 +1,5 @@
+auth
+require-pap
+pppd_type 1
+lcp-echo-interval 6
+lcp-echo-failure 5
